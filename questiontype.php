@@ -18,7 +18,7 @@
  * Question type class for the short answer question type.
  *
  * @package    qtype
- * @subpackage varnumeric
+ * @subpackage varnumericunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -37,14 +37,14 @@ require_once($CFG->dirroot . '/question/type/varnumericset/questiontypebase.php'
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_varnumeric extends qtype_varnumeric_base {
+class qtype_varnumericunit extends qtype_varnumeric_base {
 
     public function recalculate_every_time() {
         return true;
     }
 
     public function db_table_prefix() {
-        return 'qtype_varnumeric';
+        return 'qtype_varnumericunit';
     }
 
     public function save_question_options($form) {

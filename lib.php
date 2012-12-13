@@ -19,7 +19,7 @@
  *
  * @since      2.0
  * @package    qtype
- * @subpackage varnumeric
+ * @subpackage varnumericunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,10 +29,10 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Checks file access for varnumeric questions.
+ * Checks file access for varnumericunit questions.
  */
-function qtype_varnumeric_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function qtype_varnumericunit_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
     global $DB, $CFG;
     require_once($CFG->libdir . '/questionlib.php');
-    question_pluginfile($course, $context, 'qtype_varnumeric', $filearea, $args, $forcedownload, $options);
+    question_pluginfile($course, $context, 'qtype_varnumericunit', $filearea, $args, $forcedownload, $options);
 }
