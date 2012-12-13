@@ -1,11 +1,11 @@
-.que.varnumericunit .answer {
+.que.varnumunit .answer {
     padding: 0.3em;
     width: auto;
     display: inline;
 }
-.que.varnumericunit span.answerwrap {
+.que.varnumunit span.answerwrap {
     display : inline-block;
 }
-.que.varnumericunit .answer input {
+.que.varnumunit .answer input {
     width: 99%;
 }

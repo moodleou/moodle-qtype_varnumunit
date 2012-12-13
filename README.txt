@@ -13,14 +13,14 @@ This question type requires the varnumericset question type to be installed. See
 To install using git for a 2.3+ Moodle installation, type this command in the root of your Moodle
 install :
 
-    git clone git://github.com/moodleou/moodle-qtype_varnumericunit.git question/type/varnumericunit
+    git clone git://github.com/moodleou/moodle-qtype_varnumunit.git question/type/varnumunit
 
 
-Then add question/type/varnumericunit to your git ignore.
+Then add question/type/varnumunit to your git ignore.
 
 Alternatively, download the zip from
-    Moodle 2.3+ - https://github.com/moodleou/moodle-qtype_varnumericunit/zipball/master
-unzip it into the question/type folder, and then rename the new folder to varnumericunit.
+    Moodle 2.3+ - https://github.com/moodleou/moodle-qtype_varnumunit/zipball/master
+unzip it into the question/type folder, and then rename the new folder to varnumunit.
 
 You may want to install Tim's stripped down tinymce editor that only allows the
 use of superscript and subscript see

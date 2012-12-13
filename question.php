@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * varnumericunit question definition class.
+ * varnumunit question definition class.
  *
  * @package    qtype
- * @subpackage varnumericunit
+ * @subpackage varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,12 +30,12 @@ require_once($CFG->dirroot . '/question/type/varnumericset/questionbase.php');
 
 
 /**
- * Represents a varnumericunit question.
+ * Represents a varnumunit question.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_varnumericunit_question extends qtype_varnumeric_question_base {
+class qtype_varnumunit_question extends qtype_varnumeric_question_base {
 
     public function get_num_variants() {
         return 1000000;

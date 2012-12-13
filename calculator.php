@@ -21,11 +21,11 @@ require_once($CFG->dirroot . '/question/type/varnumericset/calculatorbase.php');
  * Class for evaluating variants for varnumeric set with units question type.
  *
  * @package    qtype
- * @subpackage varnumericunit
+ * @subpackage varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_varnumericunit_calculator extends qtype_varnumeric_calculator_base {
+class qtype_varnumunit_calculator extends qtype_varnumeric_calculator_base {
 
     public function get_num_variants_in_form() {
         return 1;

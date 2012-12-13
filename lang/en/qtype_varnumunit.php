@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qtype_varnumericunit', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qtype_varnumunit', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package    qtype
- * @subpackage varnumericunit
+ * @subpackage varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +29,7 @@ $string['pluginname_help'] = 'In response to a question the respondent types a n
 Numbers used in the question and used to calculate the answer are calculated on the fly from mathematical expressions or predefined variables.
 
 All expressions are calculated on the fly and values from random functions are different for all users. For a question with set values for a number of question \'variants\', with expressions precalculated and with random values the same for each user see the \'Variable numeric set\' question type.';
-$string['pluginname_link'] = 'question/type/varnumericunit';
+$string['pluginname_link'] = 'question/type/varnumunit';
 $string['pluginnameadding'] = 'Adding a Variable numeric question';
 $string['pluginnameediting'] = 'Editing a Variable numeric question';
 $string['pluginnamesummary'] = 'Allows a numeric response, expressions are evaluated on the fly and the evaluated expression is compared to the student response';
