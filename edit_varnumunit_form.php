@@ -53,11 +53,13 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
     protected function get_per_unit_fields($mform, $label, $gradeoptions) {
         $repeated = array();
         $repeated[] = $mform->createElement('header', 'unithdr', $label);
-        $repeated[] = $mform->createElement('textarea', 'unit', get_string('answer', 'question'),
+        $repeated[] = $mform->createElement('textarea', 'units', get_string('answer', 'question'),
             array('rows' => '2', 'cols' => '60', 'class' => 'textareamonospace'));
-        $repeated[] = $mform->createElement('select', 'unitfraction',
+        $repeated[] = $mform->createElement('selectyesno', 'removespace', get_string('removespace', 'qtype_varnumunit'));
+        $repeated[] = $mform->createElement('selectyesno', 'replacedash', get_string('replacedash', 'qtype_varnumunit'));
+        $repeated[] = $mform->createElement('select', 'unitsfraction',
             get_string('grade'), $gradeoptions);
-        $repeated[] = $mform->createElement('editor', 'unitfeedback',
+        $repeated[] = $mform->createElement('editor', 'unitsfeedback',
             get_string('feedback', 'question'),
             array('rows' => 5), $this->editoroptions);
         return $repeated;
@@ -90,8 +92,10 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         }
 
         $repeatedoptions = array();
-        $repeatedoptions['unit']['type'] = PARAM_RAW;
-        $repeatedoptions['unitfraction']['default'] = 0;
+        $repeatedoptions['unit']['type'] = PARAM_RAW_TRIMMED;
+        $repeatedoptions['unitsfraction']['default'] = 0;
+        $repeatedoptions['removespace']['default'] = 1;
+        $repeatedoptions['replacedash']['default'] = 1;
 
         $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions,
             'noanswers', 'addanswers', $addoptions,
@@ -117,5 +121,63 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $this->add_per_unit_fields($mform, get_string('unitno', 'qtype_varnumunit', '{no}'),
                                                                     question_bank::fraction_options(), 2, 1);
         $this->add_other_unit_fields($mform);
+    }
+
+    protected function definition() {
+        parent::definition();
+        $mform = $this->_form;
+        question_bank::fraction_options();
+        $mform->insertElementBefore(
+            $mform->createElement('select',
+                                    'unitfraction',
+                                    get_string('unitweighting', 'qtype_varnumunit'),
+                                    $this->grade_weighting()),
+            'generalfeedback'
+        );
+    }
+
+    protected static function grade_weighting() {
+        // define basic array of grades. This list comprises all fractions of the form:
+        // a. p/q for q <= 6, 0 <= p <= q
+        // b. p/10 for 0 <= p <= 10
+        // c. 1/q for 1 <= q <= 10
+        // d. 1/20
+        $rawfractions = array(
+            0.9000000,
+            0.8333333,
+            0.8000000,
+            0.7500000,
+            0.7000000,
+            0.6666667,
+            0.6000000,
+            0.5000000,
+            0.4000000,
+            0.3333333,
+            0.3000000,
+            0.2500000,
+            0.2000000,
+            0.1666667,
+            0.1428571,
+            0.1250000,
+            0.1111111,
+            0.1000000,
+            0.0500000,
+        );
+
+        // Put the None option at the top.
+        $fractionoptions = array(
+            '0.0' => get_string('nogradeforunit', 'qtype_varnumunit'),
+            '1.0' => get_string('allgradeforunit', 'qtype_varnumunit'),
+        );
+
+
+        // The the positive grades in descending order.
+        foreach ($rawfractions as $fraction) {
+            $a = new stdClass();
+            $a->unit = (100 * $fraction) . '%';
+            $a->num = (100 * (1 - $fraction)). '%';
+            $fractionoptions["$fraction"] = get_string('percentgradefornumandunit', 'qtype_varnumunit', $a);
+        }
+        return $fractionoptions;
     }
 }

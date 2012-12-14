@@ -22,7 +22,11 @@
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+$string['allgradeforunit'] = 'All of grade is for units.        No grade for the numerical part of the question.';
 $string['anyotherunit'] = 'Any other unit';
+$string['nogradeforunit'] = 'No grade for units.         All of grade is for the numerical part of the question.';
+$string['percentgradefornumandunit'] = '{$a->unit} of grade is for units. {$a->num} of grade is for the numerical part of the
+question.';
 $string['pluginname'] = 'Variable numeric set with units';
 $string['pluginname_help'] = 'In response to a question the respondent types a number and appropriate units.
 
@@ -36,8 +40,12 @@ $string['pluginnameadding'] = 'Adding a Variable numeric set question with units
 $string['pluginnameediting'] = 'Editing a Variable numeric set question with units';
 $string['pluginnamesummary'] = 'Allows a numeric response with units, question can have several \'variants\',
 expressions are pre evaluated for each question variant';
+$string['removespace'] = 'Remove spaces';
+$string['replacedash'] = 'Replace dashes';
 $string['unitno'] = 'Unit {$a}';
+$string['unitweighting'] = 'Proportion of Grade for Units';
 $string['value'] = 'Value';
 $string['value_help'] = 'Enter values for \'Predefined variables\' here or you will see calculated values displayed here for a \'Calculated variable\'.
 
 Be aware that for a calculated value the value you see will be different for each user.';
+
