@@ -22,7 +22,7 @@
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+$string['anyotherunit'] = 'Any other unit';
 $string['pluginname'] = 'Variable numeric set with units';
 $string['pluginname_help'] = 'In response to a question the respondent types a number and appropriate units.
 
@@ -36,6 +36,7 @@ $string['pluginnameadding'] = 'Adding a Variable numeric set question with units
 $string['pluginnameediting'] = 'Editing a Variable numeric set question with units';
 $string['pluginnamesummary'] = 'Allows a numeric response with units, question can have several \'variants\',
 expressions are pre evaluated for each question variant';
+$string['unitno'] = 'Unit {$a}';
 $string['value'] = 'Value';
 $string['value_help'] = 'Enter values for \'Predefined variables\' here or you will see calculated values displayed here for a \'Calculated variable\'.
 
