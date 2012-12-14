@@ -39,13 +39,5 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
     public function qtype() {
         return 'varnumunit';
     }
-    protected function add_value_form_fields($mform, $repeated, $repeatedoptions) {
-        $repeated[] = $mform->createElement('text', "variant0",
-                get_string('value', 'qtype_varnumunit'), array('size' => 40));
-        $repeatedoptions["variant0"]['disabledif'] = array('vartype', 'eq', 0);
-        $repeatedoptions["variant0"]['helpbutton'] = array('value', 'qtype_varnumunit');
-        $mform->setType("variant0", PARAM_RAW_TRIMMED);
-        return array($repeated, $repeatedoptions);
-    }
 
 }
