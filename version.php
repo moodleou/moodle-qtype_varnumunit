@@ -33,5 +33,6 @@ $plugin->maturity  = MATURITY_ALPHA;
 $plugin->release   = '0.5 for Moodle 2.3+';
 
 $plugin->dependencies = array(
-    'qtype_varnumericset' => 2012081600
+    'qtype_varnumericset' => 2012121300,
+    'qtype_pmatch'        => 2012062300
 );
