@@ -65,6 +65,72 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         return $repeated;
     }
 
+    protected function data_preprocessing($question) {
+        $question = parent::data_preprocessing($question);
+        return $this->data_preprocessing_units($question);
+    }
+
+    /**
+     * Perform the necessary preprocessing for the unit fields.
+     * @param object $question the data being passed to the form.
+     * @return object $question the modified data.
+     */
+    protected function data_preprocessing_units($question) {
+        if (empty($question->options)) {
+            return $question;
+        }
+
+        $question->units = array();
+        $question->unitsfraction = array();
+        $question->removespace = array();
+        $question->replacedash = array();
+
+        $key = 0;
+        foreach ($question->options->units as $unit) {
+            if ($unit->unit != '*') {
+                $question->units[$key] = $unit->unit;
+                $question->removespace[$key] = $unit->removespace;
+                $question->replacedash[$key] = $unit->replacedash;
+                $question->unitsfraction[$key] = $unit->fraction;
+
+                $question->unitsfeedback[$key] = $this->unit_feedback_html_element_preprocess('unitsfeedback['.$key.']',
+                                                                                $unit->id,
+                                                                                $unit->feedback,
+                                                                                $unit->feedbackformat);
+            } else {
+                $question->otherunitfeedback = $this->unit_feedback_html_element_preprocess('otherunitfeedback['.$key.']',
+                                                                                $unit->id,
+                                                                                $unit->feedback,
+                                                                                $unit->feedbackformat);
+
+            }
+
+            $key++;
+
+        }
+
+        return $question;
+    }
+
+    protected function unit_feedback_html_element_preprocess($draftitemidkey, $unitid, $feedback, $feedbackformat) {
+        // Feedback field and attached files.
+        $formelementdata = array();
+        $draftitemid = file_get_submitted_draft_itemid($draftitemidkey);
+        $formelementdata['text'] = file_prepare_draft_area(
+            $draftitemid,
+            $this->context->id,
+            $this->db_table_prefix(),
+            'unitsfeedback',
+            (!empty($unitid) ? (int) $unitid : null),
+            $this->fileoptions,
+            $feedback
+        );
+        $formelementdata['itemid'] = $draftitemid;
+        $formelementdata['format'] = $feedbackformat;
+        return $formelementdata;
+
+    }
+
     /**
      * Add a set of form fields, obtained from get_per_answer_fields, to the form,
      * one for each existing answer, with some blanks for some new ones.
@@ -78,10 +144,17 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
      */
     protected function add_per_unit_fields(&$mform, $label, $gradeoptions,
                                              $minoptions = QUESTION_NUMANS_START, $addoptions = QUESTION_NUMANS_ADD) {
+        global $DB;
         $repeated = $this->get_per_unit_fields($mform, $label, $gradeoptions);
 
         if (isset($this->question->options)) {
             $countanswers = count($this->question->options->units);
+            foreach ($this->question->options->units as $unit) {
+                if ($unit->unit == '*') {
+                    $countanswers--;
+                    break;
+                }
+            }
         } else {
             $countanswers = 0;
         }

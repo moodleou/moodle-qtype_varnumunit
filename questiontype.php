@@ -156,7 +156,8 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $unitobj->removespace = $removespace;
         $unitobj->replacedash = $replacedash;
         $unitobj->fraction = $fraction;
-        $unitobj->feedback = $this->import_or_save_files($feedback, $context, $this->db_table_prefix(), 'unitsfeedback', $unit->id);
+        $unitobj->feedback =
+                        $this->import_or_save_files($feedback, $context, $this->db_table_prefix(), 'unitsfeedback', $unitobj->id);
         $unitobj->feedbackformat = $feedback['format'];
         $DB->update_record($table, $unitobj);
     }
@@ -170,4 +171,11 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $this->save_units($form);
         return null;
     }
+
+    public function get_question_options($question) {
+        global $DB;
+        parent::get_question_options($question);
+        $question->options->units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id));
+    }
 }
+
