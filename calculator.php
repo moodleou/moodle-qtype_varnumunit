@@ -27,14 +27,4 @@ require_once($CFG->dirroot . '/question/type/varnumericset/calculatorbase.php');
  */
 class qtype_varnumunit_calculator extends qtype_varnumeric_calculator_base {
 
-    public function get_num_variants_in_form() {
-        return 1;
-    }
-
-    protected function get_defined_variant($varno, $variantno) {
-        //whatever the variant no we always use the first
-        //defined variant.
-        $variantno = 0;
-        return parent::get_defined_variant($varno, $variantno);
-    }
 }
