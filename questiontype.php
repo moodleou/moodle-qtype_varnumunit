@@ -55,8 +55,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         global $DB;
         $context = $formdata->context;
         $table = $this->db_table_prefix().'_units';
-        $oldunits = $DB->get_records_menu($table, array('questionid' => $formdata->id),
-        'id ASC', 'id, unit');
+        $oldunits = $DB->get_records_menu($table, array('questionid' => $formdata->id), 'id ASC', 'id, unit');
         if (empty($oldunits)) {
             $oldunits = array();
         }
@@ -74,48 +73,72 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             if (html_is_blank($formdata->unitsfeedback[$i]['text'])) {
                 $formdata->unitsfeedback[$i]['text'] = '';
             }
+            $this->save_unit($table,
+                            $context,
+                            $formdata->id,
+                            $oldunits,
+                            $formdata->units[$i],
+                            $formdata->unitsfeedback[$i],
+                            $formdata->unitsfraction[$i],
+                            !empty($formdata->removespace[$i]),
+                            !empty($formdata->replacedash[$i]));
 
-            // Update an existing unit if possible.
-            $unitid = array_search($formdata->units[$i], $oldunits);
-            if ($unitid === false) {
-                $unit = new stdClass();
-                $unit->questionid = $formdata->id;
-                $unit->unit = '';
-                $unit->feedback = '';
-                $unit->id = $DB->insert_record($table, $unit);
-            } else {
-                unset($oldunits[$unitid]);
-                $unit = new stdClass();
-                $unit->questionid = $formdata->id;
-                $unit->unit = '';
-                $unit->feedback = '';
-                $unit->id = $unitid;
-            }
-
-            $unit->unit = $formdata->units[$i];
-            $unit->removespace = !empty($formdata->removespace[$i]);
-            $unit->replacedash = !empty($formdata->replacedash[$i]);
-            $unit->fraction = $formdata->unitsfraction[$i];
-            $unit->feedback = $this->import_or_save_files($formdata->unitsfeedback[$i], $context,
-                                                            $this->db_table_prefix(), 'unit', $unit->id);
-            $unit->feedbackformat = $formdata->unitsfeedback[$i]['format'];
-            $DB->update_record($table, $unit);
         }
 
+        if (!html_is_blank($formdata->otherunitfeedback['text'])) {
+            $this->save_unit($table,
+                            $context,
+                            $formdata->id,
+                            $oldunits,
+                            '*',
+                            $formdata->otherunitfeedback,
+                            0,
+                            false,
+                            false);
+        }
         // Delete any remaining old units.
         $fs = get_file_storage();
-        foreach ($oldunits as $oldunit) {
-            $fs->delete_area_files($context->id, $this->db_table_prefix(), 'unit', $oldunit->id);
-            $DB->delete_records($table, array('id' => $oldunit->id));
+        foreach ($oldunits as $oldunitid => $oldunit) {
+            $fs->delete_area_files($context->id, $this->db_table_prefix(), 'unitsfeedback', $oldunitid);
+            $DB->delete_records($table, array('id' => $oldunitid));
         }
+    }
+
+    public function save_unit($table, $context, $questionid, &$oldunits, $unit, $feedback, $fraction, $removespace, $replacedash) {
+        global $DB;
+        // Update an existing unit if possible.
+        $unitid = array_search($unit, $oldunits);
+        if ($unitid === false) {
+            $unit = new stdClass();
+            $unit->questionid = $questionid;
+            $unit->unit = '';
+            $unit->feedback = '';
+            $unit->id = $DB->insert_record($table, $unit);
+        } else {
+            unset($oldunits[$unitid]);
+            $unit = new stdClass();
+            $unit->questionid = $questionid;
+            $unit->unit = '';
+            $unit->feedback = '';
+            $unit->id = $unitid;
+        }
+
+        $unit->unit = $unit;
+        $unit->removespace = $removespace;
+        $unit->replacedash = $replacedash;
+        $unit->fraction = $fraction;
+        $unit->feedback = $this->import_or_save_files($feedback, $context, $this->db_table_prefix(), 'unitsfeedback', $unit->id);
+        $unit->feedbackformat = $feedback['format'];
+        $DB->update_record($table, $unit);
     }
 
     public function save_question_options($form) {
         $parentresult = parent::save_question_options($form);
         if ($parentresult !== null) {
-            // Parent function returns null if all is OK
+            // Parent function returns null if all is OK.
             return $parentresult;
         }
         $this->save_units($form);
+        return null;
     }
 }
