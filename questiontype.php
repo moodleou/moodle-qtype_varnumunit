@@ -138,27 +138,27 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         // Update an existing unit if possible.
         $unitid = array_search($unit, $oldunits);
         if ($unitid === false) {
-            $unit = new stdClass();
-            $unit->questionid = $questionid;
-            $unit->unit = '';
-            $unit->feedback = '';
-            $unit->id = $DB->insert_record($table, $unit);
+            $unitobj = new stdClass();
+            $unitobj->questionid = $questionid;
+            $unitobj->unit = '';
+            $unitobj->feedback = '';
+            $unitobj->id = $DB->insert_record($table, $unitobj);
         } else {
             unset($oldunits[$unitid]);
-            $unit = new stdClass();
-            $unit->questionid = $questionid;
-            $unit->unit = '';
-            $unit->feedback = '';
-            $unit->id = $unitid;
+            $unitobj = new stdClass();
+            $unitobj->questionid = $questionid;
+            $unitobj->unit = '';
+            $unitobj->feedback = '';
+            $unitobj->id = $unitid;
         }
 
-        $unit->unit = $unit;
-        $unit->removespace = $removespace;
-        $unit->replacedash = $replacedash;
-        $unit->fraction = $fraction;
-        $unit->feedback = $this->import_or_save_files($feedback, $context, $this->db_table_prefix(), 'unitsfeedback', $unit->id);
-        $unit->feedbackformat = $feedback['format'];
-        $DB->update_record($table, $unit);
+        $unitobj->unit = $unit;
+        $unitobj->removespace = $removespace;
+        $unitobj->replacedash = $replacedash;
+        $unitobj->fraction = $fraction;
+        $unitobj->feedback = $this->import_or_save_files($feedback, $context, $this->db_table_prefix(), 'unitsfeedback', $unit->id);
+        $unitobj->feedbackformat = $feedback['format'];
+        $DB->update_record($table, $unitobj);
     }
 
     public function save_question_options($form) {
