@@ -51,6 +51,35 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return array($this->db_table_prefix(), 'randomseed', 'requirescinotation', 'unitfraction');
     }
 
+    protected function delete_files_in_units($questionid, $contextid) {
+        global $DB;
+        $fs = get_file_storage();
+
+        $tablename = $this->db_table_prefix().'_units';
+        $unitids = $DB->get_records_menu($tablename, array('questionid' => $questionid), 'id', 'id,1');
+        foreach ($unitids as $unitid => $notused) {
+            $fs->delete_area_files($contextid, $this->db_table_prefix(), 'unitsfeedback', $unitid);
+        }
+    }
+
+    protected function move_files_in_units($questionid, $oldcontextid, $newcontextid) {
+        global $DB;
+        $fs = get_file_storage();
+        $tablename = $this->db_table_prefix().'_units';
+        $unitids = $DB->get_records_menu($tablename, array('questionid' => $questionid), 'id', 'id,1');
+        foreach ($unitids as $unitid => $notused) {
+            $fs->move_area_files_to_new_context($oldcontextid,
+                $newcontextid, $this->db_table_prefix(), 'unitsfeedback', $unitid);
+        }
+    }
+
+    public function delete_question($questionid, $contextid) {
+        global $DB;
+        $tablename = $this->db_table_prefix().'_units';
+        $DB->delete_records($tablename, array('questionid' => $questionid));
+        parent::delete_question($questionid, $contextid);
+    }
+
     public function save_units($formdata) {
         global $DB;
         $context = $formdata->context;
