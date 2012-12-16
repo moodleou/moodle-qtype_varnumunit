@@ -46,6 +46,8 @@ $string['pluginnamesummary'] = 'Allows a numeric response with units, question c
 expressions are pre evaluated for each question variant';
 $string['removespace'] = 'Remove spaces';
 $string['replacedash'] = 'Replace dashes';
+$string['summarise_response'] = 'Number : "{$a->numeric}", Unit : "{$a->unit}"';
+
 $string['unitmustbegiven'] = 'You have supplied a grade and / or feedback here but not specified an expression to match units with.
 Enter an expression or reset the grade to zero and remove feedback.';
 $string['unitno'] = 'Unit {$a}';

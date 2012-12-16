@@ -79,8 +79,8 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         if ($unit->unit == '*') {
             return true;
         }
-        list(, $postorprefix) = self::normalize_number_format($response['answer'], $this->requirescinotation);
-        $unitpartofresonse = $this->clean_unit($postorprefix[1], $unit);
+        list(, $unitpartofresonse) = $this->split_response_into_num_unit($response['answer']);
+        $unitpartofresonse = $this->clean_unit($unitpartofresonse, $unit);
         return self::compare_string_with_pmatch_expression($unitpartofresonse, $unit->unit, $this->pmatch_options());
     }
 
@@ -102,5 +102,20 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         $overallgrade =  ((1- $unitfraction) * $gradenumerical) + (($unitfraction) * $gradeunit);
         return array($overallgrade,
             question_state::graded_state_for_fraction($overallgrade));
+    }
+
+    public function summarise_response(array $response) {
+        if (isset($response['answer'])) {
+            $a = new stdClass();
+            list($a->numeric, $a->unit) = $this->split_response_into_num_unit($response['answer']);
+            return get_string('summarise_response', 'qtype_varnumunit', $a);
+        } else {
+            return null;
+        }
+    }
+
+    protected function split_response_into_num_unit($response) {
+        list($numeric, $postorprefix) = self::normalize_number_format($response, $this->requirescinotation);
+        return array($numeric, $postorprefix[1]);
     }
 }
