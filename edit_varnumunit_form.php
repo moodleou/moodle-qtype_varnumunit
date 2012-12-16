@@ -27,6 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/varnumericset/edit_varnumericset_form_base.php');
+require_once($CFG->dirroot.'/question/type/pmatch/pmatchlib.php');
 
 /**
  * variable numeric question editing form definition.
@@ -252,5 +253,37 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             $fractionoptions["$fraction"] = get_string('percentgradefornumandunit', 'qtype_varnumunit', $a);
         }
         return $fractionoptions;
+    }
+
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        $units = $data['units'];
+        $unitcount = 0;
+        $maxgrade = false;
+        foreach ($units as $key => $unit) {
+            $trimmedunit = trim($unit);
+            if ($trimmedunit !== '') {
+                $expression = new pmatch_expression($trimmedunit);
+                if (!$expression->is_valid()) {
+                    $errors["units[$key]"] = $expression->get_parse_error();
+                }
+                $unitcount++;
+                if ($data['unitsfraction'][$key] == 1) {
+                    $maxgrade = true;
+                }
+            } else if ($data['unitsfraction'][$key] != 0 ||
+                !html_is_blank($data['unitsfeedback'][$key]['text'])) {
+                $errors["units[$key]"] = get_string('unitmustbegiven', 'qtype_varnumunit');
+                $unitcount++;
+            }
+        }
+        if ($unitcount === 0) {
+            $errors['units[0]'] = get_string('notenoughunits', 'qtype_varnumunit');
+        }
+        if ($maxgrade === false) {
+            $errors['unitsfraction[0]'] = get_string('unitsfractionsnomax', 'qtype_varnumunit');
+        }
+
+        return $errors;
     }
 }

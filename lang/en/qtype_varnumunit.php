@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qtype_varnumunit', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qtype_varnumunit', language 'en', branch 'MOODLE_23_STABLE'
  *
  * @package    qtype
  * @subpackage varnumunit
@@ -25,6 +25,8 @@
 $string['allgradeforunit'] = 'All of grade is for units.        No grade for the numerical part of the question.';
 $string['anyotherunit'] = 'Any other unit';
 $string['nogradeforunit'] = 'No grade for units.         All of grade is for the numerical part of the question.';
+$string['notenoughunits'] = 'You have not entered any expressions to match units. You must enter at least one expression to match
+ units';
 $string['percentgradefornumandunit'] = '{$a->unit} of grade is for units. {$a->num} of grade is for the numerical part of the
 question.';
 $string['pluginname'] = 'Variable numeric set with units';
@@ -32,7 +34,8 @@ $string['pluginname_help'] = 'In response to a question the respondent types a n
 
 This question is similar to the \'Variable numeric set\' question type but it accepts, grades and gives feedback for units too.
 
-Numbers used in the question and used to calculate the answer are chosen from predefined sets which can be precalculated from mathematical expressions.
+Numbers used in the question and used to calculate the answer are chosen from predefined sets which can be precalculated from
+mathematical expressions.
 
 All expressions are calculated at the time of question creation and values from random functions are the same for all users.';
 $string['pluginname_link'] = 'question/type/varnumunit';
@@ -42,10 +45,13 @@ $string['pluginnamesummary'] = 'Allows a numeric response with units, question c
 expressions are pre evaluated for each question variant';
 $string['removespace'] = 'Remove spaces';
 $string['replacedash'] = 'Replace dashes';
+$string['unitmustbegiven'] = 'You have supplied a grade and / or feedback here but not specified an expression to match units with.
+Enter an expression or reset the grade to zero and remove feedback.';
 $string['unitno'] = 'Unit {$a}';
+$string['unitsfractionsnomax'] = 'One of the units should have a score of 100% so it is possible to get full marks for the unit
+part of the question.';
 $string['unitweighting'] = 'Proportion of Grade for Units';
 $string['value'] = 'Value';
-$string['value_help'] = 'Enter values for \'Predefined variables\' here or you will see calculated values displayed here for a \'Calculated variable\'.
-
-Be aware that for a calculated value the value you see will be different for each user.';
+$string['value_help'] = 'Enter values for \'Predefined variables\' here or you will see calculated values displayed here for a
+\'Calculated variable\'.';
 
