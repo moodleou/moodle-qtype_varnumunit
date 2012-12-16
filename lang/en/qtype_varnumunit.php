@@ -27,6 +27,7 @@ $string['anyotherunit'] = 'Any other unit';
 $string['nogradeforunit'] = 'No grade for units.         All of grade is for the numerical part of the question.';
 $string['notenoughunits'] = 'You have not entered any expressions to match units. You must enter at least one expression to match
  units';
+$string['notvalidnumberprepostfound'] = 'There should be no string prefixing your answer.';
 $string['percentgradefornumandunit'] = '{$a->unit} of grade is for units. {$a->num} of grade is for the numerical part of the
 question.';
 $string['pluginname'] = 'Variable numeric set with units';

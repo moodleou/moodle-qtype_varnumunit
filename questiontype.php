@@ -173,8 +173,12 @@ class qtype_varnumunit extends qtype_varnumeric_base {
     }
 
     public function get_question_options($question) {
-        global $DB;
         parent::get_question_options($question);
+        $this->load_units($question);
+    }
+
+    public function load_units($question) {
+        global $DB;
         $question->options->units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id));
     }
 }
