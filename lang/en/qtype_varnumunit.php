@@ -24,6 +24,7 @@
  */
 $string['allgradeforunit'] = 'All of grade is for units.        No grade for the numerical part of the question.';
 $string['anyotherunit'] = 'Any other unit';
+$string['correctansweris'] = 'The correct numerical part of the question is: {$a}.';
 $string['nogradeforunit'] = 'No grade for units.         All of grade is for the numerical part of the question.';
 $string['notenoughunits'] = 'You have not entered any expressions to match units. You must enter at least one expression to match
  units';

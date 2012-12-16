@@ -36,4 +36,30 @@ require_once($CFG->dirroot . '/question/type/varnumericset/rendererbase.php');
  */
 class qtype_varnumunit_renderer extends qtype_varnumeric_renderer_base {
 
+
+    public function specific_feedback(question_attempt $qa) {
+        $parentfeedback = parent::specific_feedback($qa);
+
+        $question = $qa->get_question();
+
+        $unit = $question->get_matching_unit(array('answer' => $qa->get_last_qt_var('answer')));
+        if (!$unit || !$unit->feedback) {
+            return $parentfeedback.'';
+        }
+
+        return $parentfeedback . $question->format_text($unit->feedback, $unit->feedbackformat,
+            $qa, 'question', 'answerfeedback', $unit->id);
+    }
+
+    public function correct_response(question_attempt $qa) {
+        $question = $qa->get_question();
+
+        $answer = $question->get_correct_answer();
+        if (!$answer) {
+            return '';
+        }
+
+        return get_string('correctansweris', 'qtype_varnumunit', $answer->answer);
+    }
+
 }

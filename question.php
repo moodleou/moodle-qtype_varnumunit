@@ -37,6 +37,10 @@ require_once($CFG->dirroot.'/question/type/pmatch/pmatchlib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_varnumunit_question extends qtype_varnumeric_question_base {
+
+    /** @var $unitfraction float fraction of grade for this question that is for the correct unit. */
+    public $unitfraction;
+
     protected function get_pre_post_validation_error($postorprefix) {
         if (!empty($string) && !empty($postorprefix[0])) {
             return get_string('notvalidnumberprepostfound', 'qtype_varnumunit');
@@ -44,7 +48,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
             return '';
         }
     }
-    protected function get_matching_unit($response) {
+    public function get_matching_unit($response) {
         foreach ($this->get_units() as $uid => $unit) {
             if ($this->check_for_unit_in_response($response, $unit)) {
                 return $unit;
@@ -117,5 +121,9 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     protected function split_response_into_num_and_unit($response) {
         list($numeric, $postorprefix) = self::normalize_number_format($response, $this->requirescinotation);
         return array($numeric, $postorprefix[1]);
+    }
+
+    protected function feedback_for_post_prefix_parts($postorprefix) {
+        return '';
     }
 }
