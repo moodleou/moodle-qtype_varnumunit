@@ -95,17 +95,29 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     public function grade_response(array $response) {
-        list($gradenumerical, ) = parent::grade_response($response);
+        $gradenumerical = $this->grade_numeric_part_of_response($response);
+        $gradeunit = $this->grade_unit_part_of_response($response);
+        $overallgrade = $this->weight_grades_for_num_and_unit_part($gradenumerical, $gradeunit);
+        return array($overallgrade, question_state::graded_state_for_fraction($overallgrade));
+    }
+
+    protected function weight_grades_for_num_and_unit_part($gradenumerical, $gradeunit) {
+        $unitfraction = $this->unitfraction;
+        return ((1 - $unitfraction) * $gradenumerical) + (($unitfraction) * $gradeunit);
+    }
+
+    protected function grade_unit_part_of_response($response) {
         $unit = $this->get_matching_unit($response);
         if (!is_null($unit)) {
-            $gradeunit = $unit->fraction;
+            return $unit->fraction;;
         } else {
-            $gradeunit = 0;
+            return 0;
         }
-        $unitfraction = $this->unitfraction;
-        $overallgrade =  ((1- $unitfraction) * $gradenumerical) + (($unitfraction) * $gradeunit);
-        return array($overallgrade,
-            question_state::graded_state_for_fraction($overallgrade));
+    }
+
+    protected function grade_numeric_part_of_response($response) {
+        list($gradenumerical, ) = parent::grade_response($response);
+        return $gradenumerical;
     }
 
     public function summarise_response(array $response) {
@@ -126,4 +138,35 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     protected function feedback_for_post_prefix_parts($postorprefix) {
         return '';
     }
+
+    public function compute_final_grade($responses, $totaltries) {
+        $fractions = array();
+        foreach (array('unitpart', 'numericpart') as $part) {
+            $matchsince = -1;
+            $lastid = 0;
+            foreach ($responses as $i => $response) {
+                switch ($part) {
+                    case 'unitpart' :
+                        $match = $this->get_matching_unit($response);
+                        break;
+                    case 'numericpart' :
+                        $match = $this->get_matching_answer($response);
+                        break;
+                }
+                if ($match !== null && $lastid !== $match->id) {
+                    $matchsince = $i;
+                    $lastid = $match->id;
+                }
+
+            }
+            if ($match !== null) {
+                $totalpenalty =  $matchsince * $this->penalty;
+                $fractions[$part] = max(0, $match->fraction - $totalpenalty);
+            } else {
+                $fractions[$part] = 0;
+            }
+        }
+        return $this->weight_grades_for_num_and_unit_part($fractions['numericpart'], $fractions['unitpart']);
+    }
+
 }
