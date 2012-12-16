@@ -46,7 +46,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
     protected function get_matching_unit($response) {
         foreach ($this->get_units() as $uid => $unit) {
-            if ($this->compare_response_with_unit($response, $unit)) {
+            if ($this->check_for_unit_in_response($response, $unit)) {
                 return $unit;
             }
         }
@@ -61,7 +61,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return $this->options->units;
     }
 
-    protected function clean_unit($unitpartofresponse, $unit) {
+    protected function remove_unwanted_chars_from_unit($unitpartofresponse, $unit) {
         if ($unit->removespace) {
             $unitpartofresponse = preg_replace('!\s!u', '', $unitpartofresponse);
         }
@@ -75,16 +75,16 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return null;
     }
 
-    public function compare_response_with_unit(array $response, $unit) {
+    public function check_for_unit_in_response(array $response, $unit) {
         if ($unit->unit == '*') {
             return true;
         }
-        list(, $unitpartofresonse) = $this->split_response_into_num_unit($response['answer']);
-        $unitpartofresonse = $this->clean_unit($unitpartofresonse, $unit);
-        return self::compare_string_with_pmatch_expression($unitpartofresonse, $unit->unit, $this->pmatch_options());
+        list(, $unitpartofresonse) = $this->split_response_into_num_and_unit($response['answer']);
+        $unitpartofresonse = $this->remove_unwanted_chars_from_unit($unitpartofresonse, $unit);
+        return self::check_for_match_for_unit_pmatch_expression($unitpartofresonse, $unit->unit, $this->pmatch_options());
     }
 
-    public static function compare_string_with_pmatch_expression($string, $expression, $options) {
+    public static function check_for_match_for_unit_pmatch_expression($string, $expression, $options) {
         $string = new pmatch_parsed_string($string, $options);
         $expression = new pmatch_expression($expression, $options);
         return $expression->matches($string);
@@ -107,14 +107,14 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     public function summarise_response(array $response) {
         if (isset($response['answer'])) {
             $a = new stdClass();
-            list($a->numeric, $a->unit) = $this->split_response_into_num_unit($response['answer']);
+            list($a->numeric, $a->unit) = $this->split_response_into_num_and_unit($response['answer']);
             return get_string('summarise_response', 'qtype_varnumunit', $a);
         } else {
             return null;
         }
     }
 
-    protected function split_response_into_num_unit($response) {
+    protected function split_response_into_num_and_unit($response) {
         list($numeric, $postorprefix) = self::normalize_number_format($response, $this->requirescinotation);
         return array($numeric, $postorprefix[1]);
     }
