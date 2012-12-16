@@ -165,7 +165,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         }
 
         $repeatedoptions = array();
-        $repeatedoptions['unit']['type'] = PARAM_RAW_TRIMMED;
+        $repeatedoptions['units']['type'] = PARAM_RAW_TRIMMED;
         $repeatedoptions['unitsfraction']['default'] = 0;
         $repeatedoptions['removespace']['default'] = 1;
         $repeatedoptions['replacedash']['default'] = 1;
