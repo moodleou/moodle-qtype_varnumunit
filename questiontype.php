@@ -181,5 +181,23 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         global $DB;
         $question->options->units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id));
     }
+
+    public function get_possible_responses($questiondata) {
+        $parentresponses = parent::get_possible_responses($questiondata);
+        $numericresponses = $parentresponses[$questiondata->id];
+
+        $matchall = false;
+        foreach ($questiondata->options->units as $unitid => $unit) {
+            if ('*' === $unit->unit) {
+                $matchall = true;
+            }
+            $responses[$unitid] = new question_possible_response($unit->unit, $unit->fraction);
+        }
+        if (!$matchall) {
+            $responses[null] = question_possible_response::no_response();
+        }
+        return array("unitpart" => $responses,
+                     "numericpart" => $numericresponses);
+    }
 }
 

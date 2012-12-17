@@ -168,5 +168,30 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         }
         return $this->weight_grades_for_num_and_unit_part($fractions['numericpart'], $fractions['unitpart']);
     }
+    public function classify_response(array $response) {
+        if (empty($response['answer'])) {
+            return array($this->id => question_classified_response::no_response());
+        }
 
+        list ($numpart, $unitpart) = $this->split_response_into_num_and_unit($response['answer']);
+        $calculatorname = $this->qtype->calculator_name();
+        $numresponsehtmlized = $calculatorname::htmlize_exponent($numpart);
+
+        $ans = $this->get_matching_answer($response);
+        if ($ans === null) {
+            $numericclassifiedresponse = question_classified_response::no_response();
+        } else {
+            $numericclassifiedresponse = new question_classified_response($ans->id, $numresponsehtmlized, $ans->fraction);
+        }
+
+        $unit = $this->get_matching_unit($response);
+        if ($unit === null) {
+            $unitclassifiedresponse = question_classified_response::no_response();
+        } else {
+            $unitclassifiedresponse = new question_classified_response($unit->id, $unitpart, $unit->fraction);
+        }
+
+        return array("unitpart" => $unitclassifiedresponse,
+                     "numericpart" => $numericclassifiedresponse);
+    }
 }
