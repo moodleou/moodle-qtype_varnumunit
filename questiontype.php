@@ -209,5 +209,86 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return 0;
     }
 
+    // IMPORT/EXPORT FUNCTIONS.
+
+    /*
+     * Imports question from the Moodle XML format
+     *
+     * Imports question using information from extra_question_fields function
+     * If some of you fields contains id's you'll need to reimplement this
+     */
+    public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
+        $qo = parent::import_from_xml($data, $question, $format, $extra);
+        if (!$qo) {
+            return false;
+        }
+
+        if (isset($data['#']['unit'])) {
+            $units = $data['#']['unit'];
+            $unitno = 0;
+            foreach ($units as $unit) {
+                $unitname = $format->getpath($unit, array('#', 'units', 0, '#'), '', true);
+                if ('*' !== $unitname) {
+                    $qo->units[$unitno] = $unitname;
+                    $qo->unitsfeedback[$unitno] = $this->import_html($format, $unit['#']['unitsfeedback'][0],
+                        $qo->questiontextformat);
+                    $qo->removespace[$unitno] = $format->getpath($unit, array('#', 'removespace', 0, '#'), false);
+                    $qo->replacedash[$unitno] = $format->getpath($unit, array('#', 'replacedash', 0, '#'), false);
+                    $qo->unitsfraction[$unitno] = $format->getpath($unit, array('#', 'unitsfraction', 0, '#'), 0, true);
+                    $unitno++;
+                } else {
+                    $qo->otherunitfeedback = $this->import_html($format, $unit['#']['unitsfeedback'][0], $qo->questiontextformat);
+                }
+            }
+            if (!isset($qo->otherunitfeedback)) {
+                $qo->otherunitfeedback = array();
+            }
+        }
+        return $qo;
+    }
+
+    protected function import_html(qformat_xml $format, $data, $defaultformat) {
+        $text = array();
+        $text['text'] = $format->getpath($data, array('#', 'text', 0, '#'), '', true);
+        $text['format'] = $format->trans_format($format->getpath($data, array('@', 'format'),
+                                                $format->get_format($defaultformat)));
+        $text['files'] = $format->import_files($format->getpath($data, array('#', 'file'), array(), false));
+
+        return $text;
+    }
+
+    public function export_to_xml($question, qformat_xml $format, $extra=null) {
+        $expout = parent::export_to_xml($question, $format, $extra);
+        $units = $question->options->units;
+        foreach ($units as $unit) {
+            $expout .= "    <unit>\n";
+            $fields = array('units'=> 'unit',
+                            'unitsfraction' => 'fraction',
+                            'removespace'=>'removespace',
+                            'replacedash' =>'replacedash');
+            foreach ($fields as $xmlfield => $dbfield) {
+                $exportedvalue = $format->xml_escape($unit->$dbfield);
+                $expout .= "      <$xmlfield>{$exportedvalue}</$xmlfield>\n";
+            }
+            $expout .= $this->export_html($format, 'qtype_varnumunit', 'unitsfeedback', $question->contextid,
+                                            $unit, 'feedback', 'unitsfeedback');
+
+            $expout .= "    </unit>\n";
+        }
+        return $expout;
+    }
+
+    public function export_html($format, $component, $filearea, $contextid, $rec, $dbfield, $xmlfield) {
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($contextid, $component, $filearea, $rec->id);
+        $formatfield = $dbfield.'format';
+
+        $output = '';
+        $output .= "    <{$xmlfield} {$format->format($rec->$formatfield)}>\n";
+        $output .= '      '.$format->writetext($rec->$dbfield);
+        $output .= $format->write_files($files);
+        $output .= "    </{$xmlfield}>\n";
+        return $output;
+    }
 }
 
