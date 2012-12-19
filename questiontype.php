@@ -199,5 +199,15 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return array("unitpart" => $responses,
                      "numericpart" => $numericresponses);
     }
+
+    public function get_random_guess_score($questiondata) {
+        foreach ($questiondata->options->answers as $aid => $answer) {
+            if ('*' == trim($answer->answer)) {
+                return (1 - $questiondata->options->unitfraction) * $answer->fraction;
+            }
+        }
+        return 0;
+    }
+
 }
 
