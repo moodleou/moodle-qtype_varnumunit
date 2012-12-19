@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/question/type/varnumericset/backup/moodle2/backup_qtype_varnumericset_plugin.class.php');
+
 
 /**
  * Provides the information to backup varnumunit questions
@@ -56,9 +58,11 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         $this->add_question_qtype_varnumunit_vars($pluginwrapper);
 
+        $this->add_question_qtype_varnumunit_units($pluginwrapper);
+
         // Now create the qtype own structures
         $varnumunit = new backup_nested_element('varnumunit', array('id'), array(
-            'randomseed', 'recalculateeverytime', 'requirescinotation'));
+            'randomseed', 'recalculateeverytime', 'requirescinotation', 'unitfraction'));
 
         // Now the own qtype tree
         $pluginwrapper->add_child($varnumunit);
@@ -139,5 +143,34 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
                 ORDER BY id',
                 array('question' => backup::VAR_PARENTID));
         // don't need to annotate ids nor files
+    }
+
+    protected function add_question_qtype_varnumunit_units($element) {
+        // Check $element is one nested_backup_element.
+        if (! $element instanceof backup_nested_element) {
+            throw new backup_step_exception('qtype_varnumunit_units_bad_parent_element', $element);
+        }
+
+        // Define the elements.
+        $units = new backup_nested_element('units');
+        $unit = new backup_nested_element('unit', array('id'),
+            array('unit', 'removespace', 'replacedash', 'fraction', 'feedback', 'feedbackformat'));
+
+        // Build the tree.
+        $element->add_child($units);
+        $units->add_child($unit);
+
+        // Set source to populate the data.
+        $unit->set_source_table('qtype_varnumunit_units', array('questionid' => backup::VAR_PARENTID));
+    }
+
+    /**
+     * Returns one array with filearea => mappingname elements for the qtype
+     *
+     * Used by {@link get_components_and_fileareas} to know about all the qtype
+     * files to be processed both in backup and restore.
+     */
+    public static function get_qtype_fileareas() {
+        return array('unitsfeedback' => 'qtype_varnumunit_unit');
     }
 }

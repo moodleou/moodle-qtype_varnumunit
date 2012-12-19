@@ -47,7 +47,8 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
         $elements = array('qtype_varnumunit' => '/varnumunit',
                             'qtype_varnumunit_answer' => '/varnumunit_answers/varnumunit_answer',
                             'qtype_varnumunit_var' => '/vars/var',
-                            'qtype_varnumunit_variant' => '/vars/var/variants/variant');
+                            'qtype_varnumunit_variant' => '/vars/var/variants/variant',
+                            'qtype_varnumunit_unit' => '/units/unit');
         foreach ($elements as $elename => $path) {
             $elepath = $this->get_pathfor($path);
             $paths[] = new restore_path_element($elename, $elepath);
@@ -119,6 +120,24 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
             $newitemid = $DB->insert_record('qtype_varnumunit_vars', $data);
             // Create mapping
             $this->set_mapping('qtype_varnumunit_var', $data->id, $newitemid);
+        }
+    }
+
+    public function process_qtype_varnumunit_unit($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        // Detect if the question is created
+        $oldquestionid   = $this->get_old_parentid('question');
+        $newquestionid   = $this->get_new_parentid('question');
+        $questioncreated = $this->get_mappingid('question_created', $oldquestionid) ? true : false;
+        if ($questioncreated) {
+            $data->questionid = $newquestionid;
+            // Insert record
+            $newitemid = $DB->insert_record('qtype_varnumunit_units', $data);
+            // Create mapping
+            $this->set_mapping('qtype_varnumunit_unit', $data->id, $newitemid);
         }
     }
 
