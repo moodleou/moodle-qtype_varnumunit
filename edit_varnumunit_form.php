@@ -98,16 +98,14 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
                                                                                 $unit->id,
                                                                                 $unit->feedback,
                                                                                 $unit->feedbackformat);
+                $key++;
             } else {
-                $question->otherunitfeedback = $this->unit_feedback_html_element_preprocess('otherunitfeedback['.$key.']',
+                $question->otherunitfeedback = $this->unit_feedback_html_element_preprocess('otherunitfeedback',
                                                                                 $unit->id,
                                                                                 $unit->feedback,
                                                                                 $unit->feedbackformat);
 
             }
-
-            $key++;
-
         }
 
         return $question;
