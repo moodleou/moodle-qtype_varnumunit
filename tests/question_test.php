@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
-require_once($CFG->dirroot . '/question/type/varnumeric/question.php');
+require_once($CFG->dirroot . '/question/type/varnumunit/question.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 

@@ -41,8 +41,8 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     /** @var $unitfraction float fraction of grade for this question that is for the correct unit. */
     public $unitfraction;
 
-    protected function get_pre_post_validation_error($postorprefix) {
-        if (!empty($string) && !empty($postorprefix[0])) {
+    protected function get_pre_post_validation_error($prefix, $postfix) {
+        if (!empty($prefix)) {
             return get_string('notvalidnumberprepostfound', 'qtype_varnumunit');
         } else {
             return '';
@@ -135,7 +135,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return array($numeric, $postorprefix[1]);
     }
 
-    protected function feedback_for_post_prefix_parts($postorprefix) {
+    protected function feedback_for_post_prefix_parts($prefix, $postfix) {
         return '';
     }
 
