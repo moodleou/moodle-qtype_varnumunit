@@ -57,33 +57,31 @@ class qtype_varnumunit_test extends basic_testcase {
         $q = new stdClass();
         $q->id = 1;
         $q->options = new stdClass();
-        $q->options->answers[1] = (object) array('answer' => 'frog', 'fraction' => 1);
+        $q->options->answers[1] = (object) array('answer' => '1.5', 'fraction' => 1);
         $q->options->answers[2] = (object) array('answer' => '*', 'fraction' => 0.1);
+        $q->options->unitfraction = 0.25;
+        $q->options->units[1] = (object) array('unit' => 'match(frogs)', 'fraction' => 1);
+        $q->options->units[2] = (object) array('unit' => '*', 'fraction' => 0.1);
 
         return $q;
     }
 
-    public function test_name() {
-        $this->assertEquals($this->qtype->name(), 'varnumunit');
-    }
-
-    public function test_can_analyse_responses() {
-        $this->assertTrue($this->qtype->can_analyse_responses());
-    }
-
     public function test_get_random_guess_score() {
         $q = $this->get_test_question_data();
-        $this->assertEquals(0.1, $this->qtype->get_random_guess_score($q));
+        $this->assertEquals(0.075, $this->qtype->get_random_guess_score($q));
     }
 
     public function test_get_possible_responses() {
         $q = $this->get_test_question_data();
 
         $this->assertEquals(array(
-            $q->id => array(
-                1 => new question_possible_response('frog', 1),
+            'unitpart' => array(
+                1 => new question_possible_response('match(frogs)', 1),
+                2 => new question_possible_response('*', 0.1)),
+            'numericpart' => array(
+                1 => new question_possible_response('1.5', 1),
                 2 => new question_possible_response('*', 0.1),
-                null => question_possible_response::no_response()),
+                null => question_possible_response::no_response())
         ), $this->qtype->get_possible_responses($q));
     }
 }
