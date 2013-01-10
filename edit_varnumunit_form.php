@@ -203,6 +203,8 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
                                     $this->grade_weighting()),
             'generalfeedback'
         );
+        $elrequirescinotation = $mform->getElement('requirescinotation');
+        $elrequirescinotation->setLabel(get_string('requirescinotation', 'qtype_varnumunit'));
     }
 
     protected static function grade_weighting() {
