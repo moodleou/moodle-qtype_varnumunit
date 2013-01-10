@@ -179,7 +179,23 @@ class qtype_varnumunit extends qtype_varnumeric_base {
 
     public function load_units($question) {
         global $DB;
-        $question->options->units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id));
+        $units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id));
+        if ($units) {
+            foreach ($units as $unitid => $unit) {
+                $question->options->units[$unitid] = new qtype_varnumunit_unit(
+                    $unit->id,
+                    $unit->unit,
+                    $unit->removespace,
+                    $unit->replacedash,
+                    $unit->fraction,
+                    $unit->feedback,
+                    $unit->feedbackformat);
+            }
+
+        } else {
+            $question->options->units = array();
+        }
+
     }
 
     public function get_possible_responses($questiondata) {
@@ -292,3 +308,34 @@ class qtype_varnumunit extends qtype_varnumeric_base {
     }
 }
 
+
+/**
+ * Class to represent a varnumunit question unit, loaded from the qtype_varnumunit_units table
+ * in the database.
+ *
+ * @copyright  2012 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class qtype_varnumunit_unit {
+
+    public $id;
+    /**
+     * @var string pmatch expression
+     */
+    public $unit;
+    public $removespace;
+    public $replacedash;
+    public $fraction;
+    public $feedback;
+    public $feedbackformat;
+
+    public function __construct($id, $unit, $removespace, $replacedash, $fraction, $feedback, $feedbackformat) {
+        $this->id = $id;
+        $this->unit = $unit;
+        $this->removespace = $removespace;
+        $this->replacedash = $replacedash;
+        $this->fraction = $fraction;
+        $this->feedback = $feedback;
+        $this->feedbackformat = $feedbackformat;
+    }
+}

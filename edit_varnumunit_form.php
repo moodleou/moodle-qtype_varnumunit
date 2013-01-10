@@ -87,7 +87,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $question->replacedash = array();
 
         $key = 0;
-        foreach ($question->options->units as $unit) {
+        foreach ($question->options->units as $unitid => $unit) {
             if ($unit->unit != '*') {
                 $question->units[$key] = $unit->unit;
                 $question->removespace[$key] = $unit->removespace;
@@ -95,13 +95,13 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
                 $question->unitsfraction[$key] = 0 + $unit->fraction;
 
                 $question->unitsfeedback[$key] = $this->unit_feedback_html_element_preprocess('unitsfeedback['.$key.']',
-                                                                                $unit->id,
+                                                                                $unitid,
                                                                                 $unit->feedback,
                                                                                 $unit->feedbackformat);
                 $key++;
             } else {
                 $question->otherunitfeedback = $this->unit_feedback_html_element_preprocess('otherunitfeedback',
-                                                                                $unit->id,
+                                                                                $unitid,
                                                                                 $unit->feedback,
                                                                                 $unit->feedbackformat);
 

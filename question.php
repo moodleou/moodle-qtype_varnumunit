@@ -65,7 +65,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return $this->options->units;
     }
 
-    protected function remove_unwanted_chars_from_unit($unitpartofresponse, $unit) {
+    protected function remove_unwanted_chars_from_unit($unitpartofresponse, qtype_varnumunit_unit $unit) {
         if ($unit->removespace) {
             $unitpartofresponse = preg_replace('!\s!u', '', $unitpartofresponse);
         }
@@ -79,7 +79,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return null;
     }
 
-    public function check_for_unit_in_response(array $response, $unit) {
+    public function check_for_unit_in_response(array $response, qtype_varnumunit_unit $unit) {
         if ($unit->unit == '*') {
             return true;
         }
@@ -109,7 +109,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     protected function grade_unit_part_of_response($response) {
         $unit = $this->get_matching_unit($response);
         if (!is_null($unit)) {
-            return $unit->fraction;;
+            return $unit->fraction;
         } else {
             return 0;
         }
