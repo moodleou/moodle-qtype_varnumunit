@@ -142,33 +142,29 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     public function compute_final_grade($responses, $totaltries) {
-        $fractions = array();
-        foreach (array('unitpart', 'numericpart') as $part) {
-            $matchsince = -1;
-            $lastid = 0;
+        $numericpartfraction = parent::compute_final_grade($responses, $totaltries);
+        $matchsince = -1;
+        $lastid = 0;
+
+        if (count($responses)) {
             foreach ($responses as $i => $response) {
-                switch ($part) {
-                    case 'unitpart' :
-                        $match = $this->get_matching_unit($response);
-                        break;
-                    case 'numericpart' :
-                        $match = $this->get_matching_answer($response);
-                        break;
-                }
+                $match = $this->get_matching_unit($response);
                 if ($match !== null && $lastid !== $match->id) {
                     $matchsince = $i;
                     $lastid = $match->id;
                 }
-
             }
-            if ($match !== null) {
-                $totalpenalty =  $matchsince * $this->penalty;
-                $fractions[$part] = max(0, $match->fraction - $totalpenalty);
-            } else {
-                $fractions[$part] = 0;
-            }
+        } else {
+            $match = null;
         }
-        return $this->weight_grades_for_num_and_unit_part($fractions['numericpart'], $fractions['unitpart']);
+
+        if ($match !== null) {
+            $totalpenalty =  $matchsince * $this->penalty;
+            $unitpartfraction = max(0, $match->fraction - $totalpenalty);
+        } else {
+            $unitpartfraction = 0;
+        }
+        return $this->weight_grades_for_num_and_unit_part($numericpartfraction, $unitpartfraction);
     }
     public function classify_response(array $response) {
         if (empty($response['answer'])) {
