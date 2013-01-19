@@ -142,7 +142,21 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     public function compute_final_grade($responses, $totaltries) {
-        $numericpartfraction = parent::compute_final_grade($responses, $totaltries);
+        //remove non numeric part of response to pass numeric part to parent class.
+        $numericresponses = array();
+        foreach ($responses as $responseno => $response) {
+            list($numericpartofresponse, ) = $this->split_response_into_num_and_unit($response['answer']);
+            $numericresponses[] = array('answer' => $numericpartofresponse);
+        }
+
+        $numerictotaltries = $totaltries;
+        while ((count($numericresponses) >= 2) &&
+                    $numericresponses[count($numericresponses) -1] === $numericresponses[count($numericresponses) -2]) {
+            array_pop($numericresponses);
+            $numerictotaltries--;
+        }
+
+        $numericpartfraction = parent::compute_final_grade($numericresponses, $numerictotaltries);
         $matchsince = -1;
         $lastid = 0;
 
