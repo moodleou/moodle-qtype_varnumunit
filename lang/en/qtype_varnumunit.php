@@ -22,15 +22,12 @@
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['allgradeforunit'] = 'All of grade is for units.        No grade for the numerical part of the question.';
 $string['anyotherunit'] = 'Any other unit';
 $string['correctansweris'] = 'The correct numerical part of the question is: {$a}.';
-$string['nogradeforunit'] = 'No grade for units.         All of grade is for the numerical part of the question.';
 $string['notenoughunits'] = 'You have not entered any expressions to match units. You must enter at least one expression to match
  units';
 $string['notvalidnumberprepostfound'] = 'There should be no string prefixing your answer.';
-$string['percentgradefornumandunit'] = '{$a->unit} of grade is for units. {$a->num} of grade is for the numerical part of the
-question.';
+$string['percentgradefornumandunit'] = 'Value : {$a->num}, Units : {$a->unit}';
 $string['pluginname'] = 'Variable numeric set with units';
 $string['pluginname_help'] = 'In response to a question the respondent types a number and appropriate units.
 
@@ -56,7 +53,7 @@ Enter an expression or reset the grade to zero and remove feedback.';
 $string['unitno'] = 'Unit {$a}';
 $string['unitsfractionsnomax'] = 'One of the units should have a score of 100% so it is possible to get full marks for the unit
 part of the question.';
-$string['unitweighting'] = 'Proportion of Grade for Units';
+$string['unitweighting'] = 'Relative weightings of answer parts';
 $string['value'] = 'Value';
 $string['value_help'] = 'Enter values for \'Predefined variables\' here or you will see calculated values displayed here for a
 \'Calculated variable\'.';

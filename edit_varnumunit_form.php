@@ -205,6 +205,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         );
         $elrequirescinotation = $mform->getElement('requirescinotation');
         $elrequirescinotation->setLabel(get_string('requirescinotation', 'qtype_varnumunit'));
+        $mform->setDefault('unitfraction', '0.1000000');
     }
 
     protected static function grade_weighting() {
@@ -214,6 +215,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         // c. 1/q for 1 <= q <= 10
         // d. 1/20
         $rawfractions = array(
+            1.0000000,
             0.9000000,
             0.8333333,
             0.8000000,
@@ -233,21 +235,17 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             0.1111111,
             0.1000000,
             0.0500000,
+
         );
 
-        // Put the None option at the top.
-        $fractionoptions = array(
-            '0.0' => get_string('nogradeforunit', 'qtype_varnumunit'),
-            '1.0' => get_string('allgradeforunit', 'qtype_varnumunit'),
-        );
+        $fractionoptions = array();
 
-
-        // The the positive grades in descending order.
         foreach ($rawfractions as $fraction) {
             $a = new stdClass();
-            $a->unit = (100 * $fraction) . '%';
-            $a->num = (100 * (1 - $fraction)). '%';
-            $fractionoptions["$fraction"] = get_string('percentgradefornumandunit', 'qtype_varnumunit', $a);
+            $unitfraction = (1 - $fraction);
+            $a->unit = (100 * $unitfraction) . '%';
+            $a->num = (100 * $fraction). '%';
+            $fractionoptions["$unitfraction"] = get_string('percentgradefornumandunit', 'qtype_varnumunit', $a);
         }
         return $fractionoptions;
     }
