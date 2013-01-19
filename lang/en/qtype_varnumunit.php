@@ -47,7 +47,7 @@ $string['pluginnamesummary'] = 'Allows a numeric response with units, question c
 expressions are pre evaluated for each question variant';
 $string['removespace'] = 'Remove spaces';
 $string['replacedash'] = 'Replace dashes';
-$string['requirescinotation'] = 'Require scientific notation and allow entry of units with superscripts';
+$string['requirescinotation'] = 'Require scientific notation and/or allow entry of units with superscripts';
 
 $string['summarise_response'] = 'Number : "{$a->numeric}", Unit : "{$a->unit}"';
 
