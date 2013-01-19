@@ -35,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 class qtype_varnumunit_test_helper extends question_test_helper {
     public function get_test_questions() {
-        return array('3_sig_figs_with_m_unit', '3_sig_figs_with_units_meters_per_second');
+        return array('3_sig_figs_with_m_unit', '3_sig_figs_with_units_meters_per_second', 'simple_1_m');
     }
 
     /**
@@ -170,6 +170,50 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                 '1',
                 '0.0000000',
                 '',
+                '1'));
+        $calculatorname = $vu->qtype->calculator_name();
+        $vu->calculator = new $calculatorname();
+        $vu->calculator->evaluate_variant(0);
+        return $vu;
+    }
+
+    /**
+     * @return qtype_varnumunit_question
+     */
+    public function make_varnumunit_question_simple_1_m() {
+        question_bank::load_question_definition_classes('varnumunit');
+        $vu = new qtype_varnumunit_question();
+        test_question_maker::initialise_a_question($vu);
+        $vu->name = 'test question 2';
+        $vu->questiontext = 'The correct answer is 1 m';
+        $vu->generalfeedback = 'General feedback, blah blah.';
+        $vu->penalty = '0.2000000';
+        $vu->randomseed = '';
+        $vu->requirescinotation = '0';
+        $vu->unitfraction = '0.1000000';
+        $vu->qtype = question_bank::get_qtype('varnumunit');
+        $vu->answers = array(1 => new qtype_varnumericset_answer('1', // id
+            '1',  // answer
+            '1',  // fraction
+            '<p>Your answer is correct.</p>', // feedback
+            'html', // feedbackformat
+            '0', // sigfigs
+            '', // error
+            '0.1000000', // syserrorpenalty
+            '0', // checknumerical
+            '0', // checkscinotation
+            '0', // checkpowerof10
+            '0')); // checkrounding);
+
+        $vu->options = new stdClass();
+        $vu->options->units = array(
+            1 => new qtype_varnumunit_unit(
+                '1',
+                'match(m)',
+                '1',
+                '1',
+                '1.0000000',
+                '<p>Good!</p>',
                 '1'));
         $calculatorname = $vu->qtype->calculator_name();
         $vu->calculator = new $calculatorname();

@@ -262,6 +262,77 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
             $this->quba->get_response_summary($this->slot));
     }
 
+    public function test_validation_and_interactive_with_simple_1_m_question() {
+
+        // Create a varnumunit question.
+        $q = test_question_maker::make_question('varnumunit', 'simple_1_m');
+        $q->hints = array(
+            new question_hint_with_parts(1, 'This is the first hint.', FORMAT_HTML, '0', '1'),
+            new question_hint_with_parts(2, 'This is the second hint.', FORMAT_HTML, '0', '1'),
+        );
+        $this->start_attempt_at_question($q, 'interactive', 100);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            $this->get_contains_marked_out_of_summary(),
+            $this->get_tries_remaining_expectation(3),
+            $this->get_contains_submit_button_expectation(true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_validation_error_expectation(),
+            $this->get_does_not_contain_try_again_button_expectation(),
+            $this->get_no_hint_visible_expectation());
+
+        // Submit with wrong unit.
+        $this->process_submission(array('-submit' => 1, 'answer' => '1 x'));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            $this->get_contains_marked_out_of_summary(),
+            $this->get_contains_submit_button_expectation(false),
+            $this->get_does_not_contain_validation_error_expectation(),
+            $this->get_contains_hint_expectation('This is the first hint.'));
+        $a = new stdClass();
+        $a->numeric = '1';
+        $a->unit = ' x';
+        $this->assertEquals(get_string('summarise_response', 'qtype_varnumunit', $a),
+            $this->quba->get_response_summary($this->slot));
+
+        // Do try again.
+        $this->process_submission(array('-tryagain' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            $this->get_contains_marked_out_of_summary(),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_contains_submit_button_expectation(true),
+            $this->get_does_not_contain_correctness_expectation(),
+            $this->get_does_not_contain_try_again_button_expectation(),
+            $this->get_no_hint_visible_expectation());
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+
+        // Now get it right.
+        $this->process_submission(array('-submit' => 1, 'answer' => '1m'));
+
+        $this->check_current_state(question_state::$gradedright);
+        $this->check_current_mark(98);
+        $this->check_current_output(
+            $this->get_contains_mark_summary(98),
+            $this->get_contains_submit_button_expectation(false),
+            $this->get_does_not_contain_validation_error_expectation(),
+            $this->get_no_hint_visible_expectation());
+        $a = new stdClass();
+        $a->numeric = '1';
+        $a->unit = 'm';
+        $this->assertEquals(get_string('summarise_response', 'qtype_varnumunit', $a),
+            $this->quba->get_response_summary($this->slot));
+    }
+
     public function test_deferred_feedback_with_wrong_unit_and_wrong_number() {
 
         // Create a varnumunit question.
