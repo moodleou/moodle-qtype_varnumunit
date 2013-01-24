@@ -203,9 +203,22 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
                                     $this->grade_weighting()),
             'generalfeedback'
         );
-        $elrequirescinotation = $mform->getElement('requirescinotation');
-        $elrequirescinotation->setLabel(get_string('requirescinotation', 'qtype_varnumunit'));
         $mform->setDefault('unitfraction', '0.1000000');
+
+        $mform->removeElement('requirescinotation');
+
+        $requirescinotationoptions = array(
+           qtype_varnumunit::SUPERSCRIPT_SCINOTATION_REQUIRED => get_string('superscriptscinotationrequired',  'qtype_varnumunit'),
+           qtype_varnumunit::SUPERSCRIPT_ALLOWED => get_string('superscriptallowed', 'qtype_varnumunit'),
+           qtype_varnumunit::SUPERSCRIPT_NONE => get_string('superscriptnone', 'qtype_varnumunit')
+        );
+
+        $requirescinotationel = $mform->createElement('select',
+                                                        'requirescinotation',
+                                                        get_string('superscripts', 'qtype_varnumunit'),
+                                                        $requirescinotationoptions);
+
+        $mform->insertElementBefore($requirescinotationel, 'answersinstruct');
     }
 
     protected static function grade_weighting() {

@@ -50,7 +50,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->generalfeedback = '<p>General feedback 12300.</p>';
         $vu->penalty = 0.3333333;
         $vu->randomseed = '';
-        $vu->requirescinotation = 0;
+        $vu->requirescinotation = false;
+        $vu->usesupeditor = false;
         $vu->unitfraction = '0.2500000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
 
@@ -117,7 +118,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->generalfeedback = 'General feedback, blah blah.';
         $vu->penalty = '0.2000000';
         $vu->randomseed = '';
-        $vu->requirescinotation = '1';
+        $vu->requirescinotation = true;
+        $vu->usesupeditor = true;
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
         $vu->answers = array(1 => new qtype_varnumericset_answer('1', // id
@@ -189,7 +191,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->generalfeedback = 'General feedback, blah blah.';
         $vu->penalty = '0.2000000';
         $vu->randomseed = '';
-        $vu->requirescinotation = '0';
+        $vu->requirescinotation = false;
+        $vu->usesupeditor = false;
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
         $vu->answers = array(1 => new qtype_varnumericset_answer('1', // id

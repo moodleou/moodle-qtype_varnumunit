@@ -44,10 +44,11 @@ $string['pluginnamesummary'] = 'Allows a numeric response with units, question c
 expressions are pre evaluated for each question variant';
 $string['removespace'] = 'Remove spaces';
 $string['replacedash'] = 'Replace dashes';
-$string['requirescinotation'] = 'Require scientific notation and/or allow entry of units with superscripts';
-
 $string['summarise_response'] = 'Number : "{$a->numeric}", Unit : "{$a->unit}"';
-
+$string['superscripts'] = 'In student response';
+$string['superscriptallowed'] = 'Allow, but not require, superscripts';
+$string['superscriptnone'] = 'No superscripts';
+$string['superscriptscinotationrequired'] = 'Require scientific notation';
 $string['unitmustbegiven'] = 'You have supplied a grade and / or feedback here but not specified an expression to match units with.
 Enter an expression or reset the grade to zero and remove feedback.';
 $string['unitno'] = 'Unit {$a}';

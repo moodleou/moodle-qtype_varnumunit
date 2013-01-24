@@ -39,6 +39,17 @@ require_once($CFG->dirroot . '/question/type/varnumericset/questiontypebase.php'
  */
 class qtype_varnumunit extends qtype_varnumeric_base {
 
+    const SUPERSCRIPT_SCINOTATION_REQUIRED = 2;
+    const SUPERSCRIPT_ALLOWED = 1;
+    const SUPERSCRIPT_NONE = 0;
+
+    protected function initialise_question_instance(question_definition $question, $questiondata) {
+        parent::initialise_question_instance($question, $questiondata);
+        $question->requirescinotation = ($questiondata->options->requirescinotation ==  self::SUPERSCRIPT_SCINOTATION_REQUIRED);
+        $question->usesupeditor = $questiondata->options->requirescinotation ==  self::SUPERSCRIPT_SCINOTATION_REQUIRED ||
+                        $questiondata->options->requirescinotation ==  self::SUPERSCRIPT_ALLOWED;
+    }
+
     public function recalculate_every_time() {
         return false;
     }
