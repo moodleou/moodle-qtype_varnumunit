@@ -26,7 +26,7 @@ $string['anyotherunit'] = 'Any other unit';
 $string['correctansweris'] = 'The correct numerical part of the question is: {$a}.';
 $string['notenoughunits'] = 'You have not entered any expressions to match units. You must enter at least one expression to match
  units';
-$string['notvalidnumberprepostfound'] = 'There should be no string prefixing your answer.';
+$string['notvalidnumberprepostfound'] = 'Your answer should start with a number.';
 $string['percentgradefornumandunit'] = 'Value : {$a->num}, Units : {$a->unit}';
 $string['pluginname'] = 'Variable numeric set with units';
 $string['pluginname_help'] = 'In response to a question the respondent types a number and appropriate units.
