@@ -49,6 +49,8 @@ $string['superscripts'] = 'In student response';
 $string['superscriptallowed'] = 'Allow, but not require, superscripts';
 $string['superscriptnone'] = 'No superscripts';
 $string['superscriptscinotationrequired'] = 'Require scientific notation';
+$string['unitduplicate'] = 'Same pmatch expression used more than once.';
+
 $string['unitmustbegiven'] = 'You have supplied a grade and / or feedback here but not specified an expression to match units with.
 Enter an expression or reset the grade to zero and remove feedback.';
 $string['unitno'] = 'Unit {$a}';

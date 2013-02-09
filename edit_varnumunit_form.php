@@ -268,12 +268,19 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $units = $data['units'];
         $unitcount = 0;
         $maxgrade = false;
+        $trimmedunits = array();
         foreach ($units as $key => $unit) {
             $trimmedunit = trim($unit);
             if ($trimmedunit !== '') {
                 $expression = new pmatch_expression($trimmedunit);
+                $existingunitmatchkey = array_search($trimmedunit, $trimmedunits);
                 if (!$expression->is_valid()) {
                     $errors["units[$key]"] = $expression->get_parse_error();
+                } else if (false !== $existingunitmatchkey) {
+                    $errors["units[$existingunitmatchkey]"] = get_string('unitduplicate', 'qtype_varnumunit');
+                    $errors["units[$key]"] = get_string('unitduplicate', 'qtype_varnumunit');
+                } else {
+                    $trimmedunits[$key] = $trimmedunit;
                 }
                 $unitcount++;
                 if ($data['unitsfraction'][$key] == 1) {
