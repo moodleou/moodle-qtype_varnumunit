@@ -213,16 +213,17 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $numericresponses = $parentresponses[$questiondata->id];
 
         $matchall = false;
+        $unitresponses = array();
         foreach ($questiondata->options->units as $unitid => $unit) {
             if ('*' === $unit->unit) {
                 $matchall = true;
             }
-            $responses[$unitid] = new question_possible_response($unit->unit, $unit->fraction);
+            $unitresponses[$unit->unit] = new question_possible_response($unit->unit, $unit->fraction);
         }
         if (!$matchall) {
-            $responses[null] = question_possible_response::no_response();
+            $unitresponses[null] = question_possible_response::no_response();
         }
-        return array("unitpart" => $responses,
+        return array("unitpart" => $unitresponses,
                      "numericpart" => $numericresponses);
     }
 

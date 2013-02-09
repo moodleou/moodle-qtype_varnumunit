@@ -200,7 +200,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         if ($unit === null) {
             $unitclassifiedresponse = question_classified_response::no_response();
         } else {
-            $unitclassifiedresponse = new question_classified_response($unit->id, $unitpart, $unit->fraction);
+            $unitclassifiedresponse = new question_classified_response($unit->unit, $unitpart, $unit->fraction);
         }
 
         return array("unitpart" => $unitclassifiedresponse,
