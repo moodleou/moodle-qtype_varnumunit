@@ -95,7 +95,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         global $DB;
         $context = $formdata->context;
         $table = $this->db_table_prefix().'_units';
-        $oldunits = $DB->get_records_menu($table, array('questionid' => $formdata->id), 'id ASC', 'id, unit');
+        $oldunits = $DB->get_records($table, array('questionid' => $formdata->id), 'id ASC');
         if (empty($oldunits)) {
             $oldunits = array();
         }
@@ -138,29 +138,28 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         }
         // Delete any remaining old units.
         $fs = get_file_storage();
-        foreach ($oldunits as $oldunitid => $oldunit) {
-            $fs->delete_area_files($context->id, $this->db_table_prefix(), 'unitsfeedback', $oldunitid);
-            $DB->delete_records($table, array('id' => $oldunitid));
+        foreach ($oldunits as $oldunit) {
+            $fs->delete_area_files($context->id, $this->db_table_prefix(), 'unitsfeedback', $oldunit->id);
+            $DB->delete_records($table, array('id' => $oldunit->id));
         }
     }
 
     public function save_unit($table, $context, $questionid, &$oldunits, $unit, $feedback, $fraction, $removespace, $replacedash) {
         global $DB;
         // Update an existing unit if possible.
-        $unitid = array_search($unit, $oldunits);
-        if ($unitid === false) {
+        $oldunit = array_shift($oldunits);
+        if ($oldunit === null) {
             $unitobj = new stdClass();
             $unitobj->questionid = $questionid;
             $unitobj->unit = '';
             $unitobj->feedback = '';
             $unitobj->id = $DB->insert_record($table, $unitobj);
         } else {
-            unset($oldunits[$unitid]);
             $unitobj = new stdClass();
             $unitobj->questionid = $questionid;
             $unitobj->unit = '';
             $unitobj->feedback = '';
-            $unitobj->id = $unitid;
+            $unitobj->id = $oldunit->id;
         }
 
         $unitobj->unit = $unit;
@@ -190,7 +189,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
 
     public function load_units($question) {
         global $DB;
-        $units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id));
+        $units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id), 'id ASC');
         if ($units) {
             foreach ($units as $unitid => $unit) {
                 $question->options->units[$unitid] = new qtype_varnumunit_unit(
