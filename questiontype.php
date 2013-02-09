@@ -268,7 +268,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
                 }
             }
             if (!isset($qo->otherunitfeedback)) {
-                $qo->otherunitfeedback = array();
+                $qo->otherunitfeedback = array('text' => '', 'format' => $qo->questiontextformat);
             }
         }
         return $qo;
