@@ -76,8 +76,8 @@ class qtype_varnumunit_test extends basic_testcase {
 
         $this->assertEquals(array(
             'unitpart' => array(
-                1 => new question_possible_response('match(frogs)', 1),
-                2 => new question_possible_response('*', 0.1)),
+                'match(frogs)' => new question_possible_response('match(frogs)', 1),
+                '*' => new question_possible_response('*', 0.1)),
             'numericpart' => array(
                 1 => new question_possible_response('1.5', 1),
                 2 => new question_possible_response('*', 0.1),
