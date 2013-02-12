@@ -131,7 +131,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     protected function split_response_into_num_and_unit($response) {
-        $num = new qtype_varnumericset_number_interpreter_number_with_optional_sci_notation($this->requirescinotation);
+        $num = new qtype_varnumericset_number_interpreter_number_with_optional_sci_notation($this->usesupeditor);
         $num->match($response);
         $numeric = $num->get_normalised();
         return array($numeric, $num->get_postfix());
