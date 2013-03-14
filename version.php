@@ -17,22 +17,22 @@
 /**
  * Short answer question type version information.
  *
- * @package    qtype_varnumunit
- * @copyright  2011 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_varnumunit
+ * @copyright 2011 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 
-$plugin->version   = 2012121300;
+$plugin->version   = 2013031400;
 $plugin->requires  = 2012062500;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_varnumunit';
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.5 for Moodle 2.3+';
+$plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = '1.0 for Moodle 2.3+';
 
 $plugin->dependencies = array(
-    'qtype_varnumericset' => 2012121300,
-    'qtype_pmatch'        => 2012062300
+    'qtype_varnumericset' => 2013031400,
+    'qtype_pmatch'        => 2013021200
 );
