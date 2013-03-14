@@ -17,10 +17,9 @@
 /**
  * Test helpers for the varnumunit question type.
  *
- * @package    qtype
- * @subpackage varnumunit
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_varnumunit
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,8 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Test helper class for the varnumunit question type.
  *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_varnumunit_test_helper extends question_test_helper {
     public function get_test_questions() {
