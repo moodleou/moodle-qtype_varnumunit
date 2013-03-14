@@ -17,16 +17,12 @@
 /**
  * Serve question type files
  *
- * @since      2.0
- * @package    qtype
- * @subpackage varnumunit
+ * @package    qtype_varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Checks file access for varnumunit questions.

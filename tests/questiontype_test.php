@@ -17,10 +17,9 @@
 /**
  * Unit tests for the varnumunit question type class.
  *
- * @package    qtype
- * @subpackage varnumunit
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_varnumunit
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
@@ -33,9 +32,9 @@ require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
 /**
  * Unit tests for the varnumunit question type class.
  *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group      qtype_varnumunit
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @group qtype_varnumunit
  */
 class qtype_varnumunit_test extends basic_testcase {
     public static $includecoverage = array(

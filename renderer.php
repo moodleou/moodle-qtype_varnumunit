@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * variable numeric question renderer class.
+ * Variable numeric question renderer class.
  *
  * @package    qtype
  * @subpackage varnumunit
@@ -23,19 +23,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/varnumericset/rendererbase.php');
 
+
 /**
- * Generates the output for variable numeric question type.
+ * Generates the output for variable numeric with units question type.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_varnumunit_renderer extends qtype_varnumeric_renderer_base {
-
 
     public function specific_feedback(question_attempt $qa) {
         $parentfeedback = parent::specific_feedback($qa);
@@ -61,5 +60,4 @@ class qtype_varnumunit_renderer extends qtype_varnumeric_renderer_base {
 
         return get_string('correctansweris', 'qtype_varnumunit', $answer->answer);
     }
-
 }

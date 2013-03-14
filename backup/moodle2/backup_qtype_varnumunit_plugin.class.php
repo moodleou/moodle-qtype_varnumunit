@@ -15,10 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    moodlecore
- * @subpackage backup-moodle2
- * @copyright  2011 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_varnumunit
+ * @copyright 2011 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
@@ -28,121 +27,122 @@ require_once($CFG->dirroot . '/question/type/varnumericset/backup/moodle2/backup
 
 
 /**
- * Provides the information to backup varnumunit questions
+ * Provides the information to backup varnumunit questions.
  *
- * @copyright  2011 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2011 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
     /**
-     * Returns the qtype information to attach to question element
+     * Returns the qtype information to attach to question element.
      */
     protected function define_question_plugin_structure() {
 
-        // Define the virtual plugin element with the condition to fulfill
+        // Define the virtual plugin element with the condition to fulfill.
         $plugin = $this->get_plugin_element(null, '../../qtype', 'varnumunit');
 
-        // Create one standard named plugin element (the visible container)
+        // Create one standard named plugin element (the visible container).
         $pluginwrapper = new backup_nested_element($this->get_recommended_name());
 
-        // connect the visible container ASAP
+        // Connect the visible container ASAP.
         $plugin->add_child($pluginwrapper);
 
         // This qtype uses standard question_answers, add them here
-        // to the tree before any other information that will use them
+        // to the tree before any other information that will use them.
         $this->add_question_question_answers($pluginwrapper);
 
-        //extra answer fields for varnumunit question type
+        // Extra answer fields for varnumunit question type.
         $this->add_question_qtype_varnumunit_answers($pluginwrapper);
 
         $this->add_question_qtype_varnumunit_vars($pluginwrapper);
 
         $this->add_question_qtype_varnumunit_units($pluginwrapper);
 
-        // Now create the qtype own structures
+        // Now create the qtype own structures.
         $varnumunit = new backup_nested_element('varnumunit', array('id'), array(
             'randomseed', 'recalculateeverytime', 'requirescinotation', 'unitfraction'));
 
-        // Now the own qtype tree
+        // Now the own qtype tree.
         $pluginwrapper->add_child($varnumunit);
 
-        // set source to populate the data
+        // Set source to populate the data.
         $varnumunit->set_source_table('qtype_varnumunit',
                 array('questionid' => backup::VAR_PARENTID));
 
-        // don't need to annotate ids nor files
+        // Don't need to annotate ids nor files.
 
         return $plugin;
     }
 
     protected function add_question_qtype_varnumunit_vars($element) {
-        // Check $element is one nested_backup_element
+        // Check $element is one nested_backup_element.
         if (! $element instanceof backup_nested_element) {
             throw new backup_step_exception('qtype_varnumunit_vars_bad_parent_element', $element);
         }
 
-        // Define the elements
+        // Define the elements.
         $vars = new backup_nested_element('vars');
         $var = new backup_nested_element('var', array('id'),
                                                 array('varno', 'nameorassignment'));
 
         $this->add_question_qtype_varnumunit_variants($var);
 
-        // Build the tree
+        // Build the tree.
         $element->add_child($vars);
         $vars->add_child($var);
 
-        // set source to populate the data
+        // Set source to populate the data.
         $var->set_source_table('qtype_varnumunit_vars',
                                                 array('questionid' => backup::VAR_PARENTID));
     }
 
     protected function add_question_qtype_varnumunit_variants($element) {
-        // Check $element is one nested_backup_element
+        // Check $element is one nested_backup_element.
         if (! $element instanceof backup_nested_element) {
             throw new backup_step_exception('qtype_varnumunit_variants_bad_parent_element',
                                                                                         $element);
         }
 
-        // Define the elements
+        // Define the elements.
         $variants = new backup_nested_element('variants');
         $variant = new backup_nested_element('variant', array('id'),
                                                 array('varid', 'variantno', 'value'));
 
-        // Build the tree
+        // Build the tree.
         $element->add_child($variants);
         $variants->add_child($variant);
 
-        // set source to populate the data
+        // Set source to populate the data.
         $variant->set_source_table('qtype_varnumunit_variants',
                                                 array('varid' => backup::VAR_PARENTID));
     }
+
     protected function add_question_qtype_varnumunit_answers($element) {
-        // Check $element is one nested_backup_element
+        // Check $element is one nested_backup_element.
         if (! $element instanceof backup_nested_element) {
             throw new backup_step_exception('question_varnumunit_answers_bad_parent_element',
                                                 $element);
         }
 
-        // Define the elements
+        // Define the elements.
         $answers = new backup_nested_element('varnumunit_answers');
         $answer = new backup_nested_element('varnumunit_answer', array('id'), array(
             'answerid', 'error', 'sigfigs', 'checknumerical', 'checkscinotation',
             'checkpowerof10', 'checkrounding', 'syserrorpenalty'));
 
-        // Build the tree
+        // Build the tree.
         $element->add_child($answers);
         $answers->add_child($answer);
 
-        // Set the sources
+        // Set the sources.
         $answer->set_source_sql('
                 SELECT vans.*
                 FROM {question_answers} AS ans, {qtype_varnumunit_answers} AS vans
                 WHERE ans.question = :question AND ans.id = vans.answerid
                 ORDER BY id',
                 array('question' => backup::VAR_PARENTID));
-        // don't need to annotate ids nor files
+        // Don't need to annotate ids nor files.
     }
 
     protected function add_question_qtype_varnumunit_units($element) {
@@ -165,7 +165,7 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
     }
 
     /**
-     * Returns one array with filearea => mappingname elements for the qtype
+     * Returns one array with filearea => mappingname elements for the qtype.
      *
      * Used by {@link get_components_and_fileareas} to know about all the qtype
      * files to be processed both in backup and restore.

@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains overall tests of numerical questions.
+ * This file contains overall tests of varnumunit questions.
  *
- * @package    qtype
- * @subpackage numerical
- * @copyright  2011 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_varnumunit
+ * @copyright 2011 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
@@ -34,8 +33,9 @@ require_once($CFG->dirroot . '/question/type/varnumunit/tests/helper.php');
 /**
  * Walk through Unit tests for varnumunit questions.
  *
- * @copyright  2011 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2011 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @group qtype_varnumunit
  */
 class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base {
     public function test_validation_and_interactive_with_m_unit_submission_with_no_unit() {
@@ -397,7 +397,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
             $this->get_does_not_contain_try_again_button_expectation(),
             $this->get_no_hint_visible_expectation());
 
-
         // Save with wrong unit and number.
         $this->process_submission(array('answer' => '4.000e3 g'));
 
@@ -445,7 +444,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
             $this->get_does_not_contain_try_again_button_expectation(),
             $this->get_no_hint_visible_expectation());
 
-
         // Save with wrong unit and number.
         $this->process_submission(array('answer' => '5.000e3 m/s'));
 
@@ -492,7 +490,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_does_not_contain_try_again_button_expectation(),
             $this->get_no_hint_visible_expectation());
-
 
         // Save with wrong unit and number.
         $this->process_submission(array('answer' => '4.000e3 ms<sup>-1</sup>'));

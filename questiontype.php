@@ -17,12 +17,10 @@
 /**
  * Question type class for the short answer question type.
  *
- * @package    qtype
- * @subpackage varnumunit
+ * @package    qtype_varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,8 +29,9 @@ require_once($CFG->dirroot . '/question/engine/lib.php');
 require_once($CFG->dirroot . '/question/type/varnumunit/calculator.php');
 require_once($CFG->dirroot . '/question/type/varnumericset/questiontypebase.php');
 
+
 /**
- * The variable numeric set question type.
+ * The variable numeric with units question type.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

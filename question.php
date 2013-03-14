@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * varnumunit question definition class.
+ * The varnumunit question definition class.
  *
  * @package    qtype
  * @subpackage varnumunit
@@ -142,7 +142,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     public function compute_final_grade($responses, $totaltries) {
-        //remove non numeric part of response to pass numeric part to parent class.
+        // Remove non numeric part of response to pass numeric part to parent class.
         $numericresponses = array();
         foreach ($responses as $responseno => $response) {
             list($numericpartofresponse, ) = $this->split_response_into_num_and_unit($response['answer']);
@@ -180,6 +180,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         }
         return $this->weight_grades_for_num_and_unit_part($numericpartfraction, $unitpartfraction);
     }
+
     public function classify_response(array $response) {
         if (empty($response['answer'])) {
             return array($this->id => question_classified_response::no_response());

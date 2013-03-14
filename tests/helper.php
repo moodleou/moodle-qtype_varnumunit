@@ -23,7 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 
@@ -56,31 +55,31 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->qtype = question_bank::get_qtype('varnumunit');
 
         $vu->answers = array(1 => new qtype_varnumericset_answer(
-                                                 '1', // id
-                                                 '12345',  // answer
-                                                 '1',  // fraction
-                                                 '<p>Your answer is correct.</p>', // feedback
-                                                 'html', // feedbackformat
-                                                 '3', // sigfigs
-                                                 '', // error
-                                                 '0.1', // syserrorpenalty
-                                                 '0', // checknumerical
-                                                 '0', // checkscinotation
-                                                 '4', // checkpowerof10
-                                                 '0'), // checkrounding
+                                                 '1',     // Id.
+                                                 '12345', // Answer.
+                                                 '1',     // Fraction.
+                                                 '<p>Your answer is correct.</p>', // Feedback.
+                                                 'html',  // Feedbackformat.
+                                                 '3',     // Sigfigs.
+                                                 '',      // Error.
+                                                 '0.1',   // Syserrorpenalty.
+                                                 '0',     // Checknumerical.
+                                                 '0',     // Checkscinotation.
+                                                 '4',     // Checkpowerof10.
+                                                 '0'),    // Checkrounding.
                             2 => new qtype_varnumericset_answer(
-                                                 '2',  // id
-                                                 '*',  // answer
-                                                 '0',  // fraction
-                                                 '<p>Your answer is incorrect.</p>', // feedback
-                                                 'html', // feedbackformat
-                                                 '0', // sigfigs
-                                                 '', // error
-                                                 '0.1000000', // syserrorpenalty
-                                                 '0', // checknumerical
-                                                 '0', // checkscinotation
-                                                 '0', // checkpowerof10
-                                                 '0')); // checkrounding);
+                                                 '2',     // Id.
+                                                 '*',     // Answer.
+                                                 '0',     // Fraction.
+                                                 '<p>Your answer is incorrect.</p>', // Feedback.
+                                                 'html',  // Feedbackformat.
+                                                 '0',     // Sigfigs.
+                                                 '',      // Error.
+                                                 '0.1000000', // Syserrorpenalty.
+                                                 '0',     // Checknumerical.
+                                                 '0',     // Checkscinotation.
+                                                 '0',     // Checkpowerof10.
+                                                 '0'));   // Checkrounding.
 
         $vu->options = new stdClass();
         $vu->options->units = array(
@@ -122,30 +121,32 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->usesupeditor = true;
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
-        $vu->answers = array(1 => new qtype_varnumericset_answer('1', // id
-                                '4000',  // answer
-                                '1',  // fraction
-                                '<p>Your answer is correct.</p>', // feedback
-                                'html', // feedbackformat
-                                '4', // sigfigs
-                                '', // error
-                                '0.1000000', // syserrorpenalty
-                                '0', // checknumerical
-                                '0', // checkscinotation
-                                '4', // checkpowerof10
-                                '0'), // checkrounding
-                             2 => new qtype_varnumericset_answer('2', // id
-                                 '*',  // answer
-                                 '0',  // fraction
-                                 '<p>Your answer is incorrect.</p>', // feedback
-                                 'html', // feedbackformat
-                                 '0', // sigfigs
-                                 '', // error
-                                 '0.1000000', // syserrorpenalty
-                                 '0', // checknumerical
-                                 '0', // checkscinotation
-                                 '0', // checkpowerof10
-                                 '0')); // checkrounding);
+        $vu->answers = array(1 => new qtype_varnumericset_answer(
+                                '1',     // Id.
+                                '4000',  // Answer.
+                                '1',     // Fraction.
+                                '<p>Your answer is correct.</p>', // Feedback.
+                                'html',  // Feedbackformat.
+                                '4',     // Sigfigs.
+                                '',      // Error.
+                                '0.1000000', // Syserrorpenalty.
+                                '0',     // Checknumerical.
+                                '0',     // Checkscinotation.
+                                '4',     // Checkpowerof10.
+                                '0'),    // Checkrounding.
+                             2 => new qtype_varnumericset_answer(
+                                 '2',    // Id.
+                                 '*',    // Answer.
+                                 '0',    // Fraction.
+                                 '<p>Your answer is incorrect.</p>', // Feedback.
+                                 'html', // Feedbackformat.
+                                 '0',    // Sigfigs.
+                                 '',     // Error.
+                                 '0.1000000', // Syserrorpenalty.
+                                 '0',    // Checknumerical.
+                                 '0',    // Checkscinotation.
+                                 '0',    // Checkpowerof10.
+                                 '0'));  // Checkrounding.
 
         $vu->options = new stdClass();
         $vu->options->units = array(
@@ -195,18 +196,19 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->usesupeditor = false;
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
-        $vu->answers = array(1 => new qtype_varnumericset_answer('1', // id
-            '1',  // answer
-            '1',  // fraction
-            '<p>Your answer is correct.</p>', // feedback
-            'html', // feedbackformat
-            '0', // sigfigs
-            '', // error
-            '0.1000000', // syserrorpenalty
-            '0', // checknumerical
-            '0', // checkscinotation
-            '0', // checkpowerof10
-            '0')); // checkrounding);
+        $vu->answers = array(1 => new qtype_varnumericset_answer(
+                '1',    // Id.
+                '1',    // Answer.
+                '1',    // Fraction.
+                '<p>Your answer is correct.</p>', // Feedback.
+                'html', // Feedbackformat.
+                '0',    // Sigfigs.
+                '',     // Error.
+                '0.1000000', // Syserrorpenalty.
+                '0',    // Checknumerical.
+                '0',    // Checkscinotation.
+                '0',    // Checkpowerof10.
+                '0'));  // Checkrounding.
 
         $vu->options = new stdClass();
         $vu->options->units = array(

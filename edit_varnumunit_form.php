@@ -15,10 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the editing form for the variable numeric question type.
+ * Defines the editing form for the variable numeric with units question type.
  *
- * @package    qtype
- * @subpackage varnumunit
+ * @package    qtype_varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,7 +29,7 @@ require_once($CFG->dirroot . '/question/type/varnumericset/edit_varnumericset_fo
 require_once($CFG->dirroot.'/question/type/pmatch/pmatchlib.php');
 
 /**
- * variable numeric question editing form definition.
+ * The variable numeric with units question editing form definition.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -222,11 +221,11 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
     }
 
     protected static function grade_weighting() {
-        // define basic array of grades. This list comprises all fractions of the form:
+        // Define basic array of grades. This list comprises all fractions of the form:
         // a. p/q for q <= 6, 0 <= p <= q
         // b. p/10 for 0 <= p <= 10
         // c. 1/q for 1 <= q <= 10
-        // d. 1/20
+        // d. 1/20.
         $rawfractions = array(
             1.0000000,
             0.9000000,

@@ -26,5 +26,4 @@ require_once($CFG->dirroot . '/question/type/varnumericset/calculatorbase.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_varnumunit_calculator extends qtype_varnumeric_calculator_base {
-
 }
