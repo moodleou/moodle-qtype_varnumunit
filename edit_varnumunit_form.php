@@ -167,7 +167,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
         $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions,
             'noanswers', 'addanswers', $addoptions,
-            get_string('addmorechoiceblanks', 'qtype_multichoice'));
+            get_string('addmoreunits', 'qtype_varnumunit'));
     }
 
     /**
