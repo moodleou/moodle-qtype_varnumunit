@@ -21,6 +21,7 @@
  * @copyright 2011 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+$string['addmoreunits'] = 'Blanks for {no} more units';
 $string['anyotherunit'] = 'Any other unit';
 $string['correctansweris'] = 'The correct numerical part of the question is: {$a}.';
 $string['notenoughunits'] = 'You have not entered any expressions to match units. You must enter at least one expression to match
