@@ -220,8 +220,10 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             $unitresponses[$unit->unit] = new question_possible_response($unit->unit, $unit->fraction);
         }
         if (!$matchall) {
-            $unitresponses[null] = question_possible_response::no_response();
+            $unitresponses[0] = new question_possible_response($unit->unit, $unit->fraction);
         }
+        $unitresponses[null] = question_possible_response::no_response();
+
         return array("unitpart" => $unitresponses,
                      "numericpart" => $numericresponses);
     }
