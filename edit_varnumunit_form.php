@@ -52,8 +52,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
      */
     protected function get_per_unit_fields($mform, $label, $gradeoptions) {
         $repeated = array();
-        $repeated[] = $mform->createElement('header', 'unithdr', $label);
-        $repeated[] = $mform->createElement('textarea', 'units', get_string('answer', 'question'),
+        $repeated[] = $mform->createElement('textarea', 'units', $label,
             array('rows' => '2', 'cols' => '60', 'class' => 'textareamonospace'));
         $repeated[] = $mform->createElement('selectyesno', 'removespace', get_string('removespace', 'qtype_varnumunit'));
         $repeated[] = $mform->createElement('selectyesno', 'replacedash', get_string('replacedash', 'qtype_varnumunit'));
@@ -166,8 +165,8 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $repeatedoptions['units']['type'] = PARAM_RAW_TRIMMED;
 
         $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions,
-            'noanswers', 'addanswers', $addoptions,
-            get_string('addmoreunits', 'qtype_varnumunit'));
+            'noanswers', 'addunits', $addoptions,
+            get_string('addmoreunits', 'qtype_varnumunit'), true);
     }
 
     /**
@@ -176,7 +175,14 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
      * @param MoodleQuickForm $mform the form being built.
      */
     protected function add_other_unit_fields($mform) {
-        $mform->addElement('header', 'otherunithdr',
+         /*
+         * Adding a field element so we can style other unit grade properly. Not what we want.
+         * Couldn't find a way to identify the other unit gradefield using css.
+         *
+         * Need an element with an id to work with. Hidden fields have no id and are inserted at
+         * the start of the form.
+         */
+        $mform->addElement('textarea', 'otherunitlabel',
             get_string('anyotherunit', 'qtype_varnumunit'));
         $mform->addElement('static', 'otherunitfraction', get_string('grade'), '0%');
         $mform->addElement('editor', 'otherunitfeedback', get_string('feedback', 'question'),
@@ -186,6 +192,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
     protected function add_answer_form_part($mform) {
         $this->add_per_answer_fields($mform, get_string('answerno', 'qtype_varnumericset', '{no}'),
                                                                     question_bank::fraction_options(), 2, 1);
+        $mform->addElement('header', 'unithdr', get_string('units', 'qtype_varnumunit'));
         $this->add_per_unit_fields($mform, get_string('unitno', 'qtype_varnumunit', '{no}'),
                                                                     question_bank::fraction_options(), 2, 1);
         $this->add_other_unit_fields($mform);
