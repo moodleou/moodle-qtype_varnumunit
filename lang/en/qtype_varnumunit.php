@@ -54,6 +54,7 @@ $string['unitduplicate'] = 'Same pmatch expression used more than once.';
 $string['unitmustbegiven'] = 'You have supplied a grade and / or feedback here but not specified an expression to match units with.
 Enter an expression or reset the grade to zero and remove feedback.';
 $string['unitno'] = 'Unit {$a}';
+$string['units'] = 'Units';
 $string['unitsfractionsnomax'] = 'One of the units should have a score of 100% so it is possible to get full marks for the unit
 part of the question.';
 $string['unitweighting'] = 'Relative weightings of answer parts';
