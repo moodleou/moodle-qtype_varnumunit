@@ -53,7 +53,7 @@ body#page-question-type-varnumunit div[id^=fitem_id_][id*=otherunitlabel] + .fit
     border-bottom: 0;
 }
 /* Bottom */
-body#page-question-type-varnumunit div[id^=fitem_id_][id*=syserrorpenalty_],
+body#page-question-type-varnumunit div[id^=fgroup_id_][id*=autofirerow3_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=unitsfeedback_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=id_otherunitfeedback] {
     background: #EEE;
@@ -89,12 +89,15 @@ body#page-question-type-varnumunit #fitem_id_addunits {
 body#page-question-type-varnumunit #fitem_id_answer_0 {
     margin-top: 1em;
 }
-body#page-question-type-varnumunit div[id^=fgroup_id_][id*=answeroptions_] label[for^='id_answer_'],
-body#page-question-type-varnumunit div[id^=fgroup_id_][id*=autofirerow1_] label[for^='id_checknumerical_'],
-body#page-question-type-varnumunit div[id^=fgroup_id_][id*=autofirerow2_] label[for^='id_checkpowerof10_'] {
+body#page-question-type-varnumunit div[id^=fgroup_id_][id*=answeroptions_] label[for^='id_answer_'] {
     position: absolute;
     left: -10000px;
     font-weight: normal;
     font-size: 1em;
+}
+body#page-question-type-varnumunit div[id^=fgroup_id_][id*=autofirerow1_] label[for^='id_checknumerical_'],
+body#page-question-type-varnumunit div[id^=fgroup_id_][id*=autofirerow2_] label[for^='id_checkpowerof10_'],
+body#page-question-type-varnumunit div[id^=fgroup_id_][id*=autofirerow3_] label[for^='id_syserrorpenalty_'] {
+    margin-left: 0; 
 }
 
