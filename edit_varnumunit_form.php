@@ -163,6 +163,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
         $repeatedoptions = array();
         $repeatedoptions['units']['type'] = PARAM_RAW_TRIMMED;
+        $repeatedoptions["units"]['helpbutton'] = array('units', 'qtype_varnumunit');
 
         $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions,
             'noanswers', 'addunits', $addoptions,
