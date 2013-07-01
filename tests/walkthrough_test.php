@@ -376,7 +376,7 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
             $this->get_no_hint_visible_expectation());
         $a = new stdClass();
         $a->numeric = '5e3';
-        $a->unit = ' ms ';
+        $a->unit = ' ms';
         $this->assertEquals(get_string('summarise_response', 'qtype_varnumunit', $a),
             $this->quba->get_response_summary($this->slot));
     }
