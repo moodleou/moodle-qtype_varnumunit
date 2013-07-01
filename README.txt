@@ -4,16 +4,17 @@ Variable Numeric Set Question Type With Units
 The question type was created by Jamie Pratt (http://jamiep.org/) for
 the Open University (http://www.open.ac.uk/).
 
-This question type is compatible with Moodle 2.3+.
+This version of this question type is compatible with Moodle 2.5+. There are
+other versions available for Moodle 2.3+.
 
-This question type requires the varnumericset question type to be installed. See:
+This question type requires the varnumericset and pmatch question types to be
+installed. See:
     https://github.com/moodleou/moodle-qtype_varnumericset/
+    https://github.com/moodleou/moodle-qtype_pmatch/
 
-To install using git for a 2.3+ Moodle installation, type this command in the root of your Moodle
+To install using git, type this command in the root of your Moodle
 install:
-
     git clone git://github.com/moodleou/moodle-qtype_varnumunit.git question/type/varnumunit
-
 Then add question/type/varnumunit to your git ignore.
 
 Alternatively, download the zip from
