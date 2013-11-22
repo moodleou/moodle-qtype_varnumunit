@@ -228,6 +228,16 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $mform->insertElementBefore($requirescinotationel, 'answersinstruct');
     }
 
+    protected function definition_inner($mform) {
+        parent::definition_inner($mform);
+
+        // Add a button to add more form fields for variants.
+        $mform->registerNoSubmitButton('addvariants');
+        $addvariantel = $mform->createElement('submit', 'addvariants',
+                                        get_string('addmorevariants', 'qtype_varnumericset', 2));
+        $mform->insertElementBefore($addvariantel, 'vartype[1]');
+    }
+
     protected static function grade_weighting() {
         // Define basic array of grades. This list comprises all fractions of the form:
         // a. p/q for q <= 6, 0 <= p <= q
