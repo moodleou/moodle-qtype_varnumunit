@@ -44,9 +44,9 @@ class qtype_varnumunit extends qtype_varnumeric_base {
 
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
-        $question->requirescinotation = ($questiondata->options->requirescinotation ==  self::SUPERSCRIPT_SCINOTATION_REQUIRED);
-        $question->usesupeditor = $questiondata->options->requirescinotation ==  self::SUPERSCRIPT_SCINOTATION_REQUIRED ||
-                        $questiondata->options->requirescinotation ==  self::SUPERSCRIPT_ALLOWED;
+        $question->requirescinotation = ($questiondata->options->requirescinotation == self::SUPERSCRIPT_SCINOTATION_REQUIRED);
+        $question->usesupeditor = $questiondata->options->requirescinotation == self::SUPERSCRIPT_SCINOTATION_REQUIRED ||
+                        $questiondata->options->requirescinotation == self::SUPERSCRIPT_ALLOWED;
     }
 
     public function recalculate_every_time() {
@@ -290,10 +290,12 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $units = $question->options->units;
         foreach ($units as $unit) {
             $expout .= "    <unit>\n";
-            $fields = array('units'=> 'unit',
-                            'unitsfraction' => 'fraction',
-                            'removespace'=>'removespace',
-                            'replacedash' =>'replacedash');
+            $fields = array(
+                'units'         => 'unit',
+                'unitsfraction' => 'fraction',
+                'removespace'   => 'removespace',
+                'replacedash'   => 'replacedash',
+            );
             foreach ($fields as $xmlfield => $dbfield) {
                 $exportedvalue = $format->xml_escape($unit->$dbfield);
                 $expout .= "      <$xmlfield>{$exportedvalue}</$xmlfield>\n";

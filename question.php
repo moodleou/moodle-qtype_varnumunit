@@ -151,7 +151,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
 
         $numerictotaltries = $totaltries;
         while ((count($numericresponses) >= 2) &&
-                    $numericresponses[count($numericresponses) -1] === $numericresponses[count($numericresponses) -2]) {
+                    $numericresponses[count($numericresponses) - 1] === $numericresponses[count($numericresponses) - 2]) {
             array_pop($numericresponses);
             $numerictotaltries--;
         }
@@ -173,7 +173,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         }
 
         if ($match !== null) {
-            $totalpenalty =  $matchsince * $this->penalty;
+            $totalpenalty = $matchsince * $this->penalty;
             $unitpartfraction = max(0, $match->fraction - $totalpenalty);
         } else {
             $unitpartfraction = 0;
