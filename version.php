@@ -35,3 +35,5 @@ $plugin->dependencies = array(
     'qtype_varnumericset' => 2014111200,
     'qtype_pmatch'        => 2014111200,
 );
+
+$plugin->outestssufficient = true;
