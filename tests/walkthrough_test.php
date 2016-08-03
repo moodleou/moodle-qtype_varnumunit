@@ -96,7 +96,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(null);
         $this->check_current_output(
             $this->get_contains_marked_out_of_summary(),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_contains_hint_expectation('This is the first hint.'));
         $a = new stdClass();
@@ -112,7 +111,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(75);
         $this->check_current_output(
             $this->get_contains_mark_summary(75),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_no_hint_visible_expectation());
         $a = new stdClass();
@@ -151,7 +149,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(null);
         $this->check_current_output(
             $this->get_contains_marked_out_of_summary(),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_contains_hint_expectation('This is the first hint.'));
         $a = new stdClass();
@@ -182,7 +179,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(91.6666675);
         $this->check_current_output(
             $this->get_contains_mark_summary(91.6666675),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_no_hint_visible_expectation());
         $a = new stdClass();
@@ -221,7 +217,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(null);
         $this->check_current_output(
             $this->get_contains_marked_out_of_summary(),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_no_hint_visible_expectation());
         $a = new stdClass();
@@ -252,7 +247,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(84.1666675);
         $this->check_current_output(
             $this->get_contains_mark_summary(84.1666675),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_no_hint_visible_expectation());
         $a = new stdClass();
@@ -291,7 +285,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(null);
         $this->check_current_output(
             $this->get_contains_marked_out_of_summary(),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_contains_hint_expectation('This is the first hint.'));
         $a = new stdClass();
@@ -323,7 +316,6 @@ class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base
         $this->check_current_mark(98);
         $this->check_current_output(
             $this->get_contains_mark_summary(98),
-            $this->get_contains_submit_button_expectation(false),
             $this->get_does_not_contain_validation_error_expectation(),
             $this->get_no_hint_visible_expectation());
         $a = new stdClass();
