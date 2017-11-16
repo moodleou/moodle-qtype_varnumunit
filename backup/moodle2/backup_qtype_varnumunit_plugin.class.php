@@ -162,7 +162,8 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
         $units->add_child($unit);
 
         // Set source to populate the data.
-        $unit->set_source_table('qtype_varnumunit_units', array('questionid' => backup::VAR_PARENTID));
+        $unit->set_source_table('qtype_varnumunit_units',
+                array('questionid' => backup::VAR_PARENTID), 'id ASC');
     }
 
     /**
