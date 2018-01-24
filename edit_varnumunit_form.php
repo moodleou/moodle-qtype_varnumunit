@@ -155,10 +155,10 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         } else {
             $countanswers = 0;
         }
-        if ($this->question->formoptions->repeatelements) {
-            $repeatsatstart = max($minoptions, $countanswers + $addoptions);
-        } else {
+        if ($countanswers) {
             $repeatsatstart = $countanswers;
+        } else {
+            $repeatsatstart = $minoptions;
         }
 
         $repeatedoptions = array();
