@@ -182,8 +182,8 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     public function classify_response(array $response) {
-        if (empty($response['answer'])) {
-            return array($this->id => question_classified_response::no_response());
+        if (!isset($response['answer'])) {
+            $response['answer'] = '';
         }
 
         list ($numpart, $unitpart) = $this->split_response_into_num_and_unit($response['answer']);
