@@ -80,10 +80,10 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     public function check_for_unit_in_response(array $response, qtype_varnumunit_unit $unit) {
-        if ($unit->unit == '*') {
-            return true;
-        }
         list(, $unitpartofresonse) = $this->split_response_into_num_and_unit($response['answer']);
+        if ($unit->unit == '*') {
+            return $unitpartofresonse !== null;
+        }
         $unitpartofresonse = $this->remove_unwanted_chars_from_unit($unitpartofresonse, $unit);
         return self::check_for_match_for_unit_pmatch_expression($unitpartofresonse, $unit->unit, $this->pmatch_options());
     }

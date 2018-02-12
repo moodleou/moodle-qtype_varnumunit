@@ -218,7 +218,16 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                 '1',
                 '1.0000000',
                 '<p>Good!</p>',
-                '1'));
+                '1'),
+            2 => new qtype_varnumunit_unit(
+                '2',
+                '*',
+                '0',
+                '0',
+                '0.0000000',
+                '<p>That is not the right unit.</p>',
+                '1'),
+        );
         $calculatorname = $vu->qtype->calculator_name();
         $vu->calculator = new $calculatorname();
         $vu->calculator->evaluate_variant(0);
