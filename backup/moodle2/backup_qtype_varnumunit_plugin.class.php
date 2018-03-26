@@ -154,8 +154,9 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         // Define the elements.
         $units = new backup_nested_element('units');
-        $unit = new backup_nested_element('unit', array('id'),
-            array('unit', 'removespace', 'replacedash', 'fraction', 'feedback', 'feedbackformat'));
+        $unit = new backup_nested_element('unit', ['id'],
+            ['unit', 'spaceinunit', 'spacingfeedback', 'spacingfeedbackformat', 'replacedash', 'fraction',
+                    'feedback', 'feedbackformat']);
 
         // Build the tree.
         $element->add_child($units);

@@ -133,6 +133,11 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
         $questioncreated = $this->get_mappingid('question_created', $oldquestionid) ? true : false;
         if ($questioncreated) {
             $data->questionid = $newquestionid;
+            // Check for value removespace if restore from legacy course.
+            if (isset($data->removespace)) {
+                $data->spaceinunit = $data->removespace;
+                $data->spacingfeedback = '';
+            }
             // Insert record.
             $newitemid = $DB->insert_record('qtype_varnumunit_units', $data);
             // Create mapping.

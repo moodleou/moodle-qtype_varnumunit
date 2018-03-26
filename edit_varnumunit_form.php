@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/varnumericset/edit_varnumericset_form_base.php');
 require_once($CFG->dirroot.'/question/type/pmatch/pmatchlib.php');
+require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
 
 /**
  * The variable numeric with units question editing form definition.
@@ -54,7 +55,13 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $repeated = array();
         $repeated[] = $mform->createElement('textarea', 'units', $label,
             array('rows' => '2', 'cols' => '60', 'class' => 'textareamonospace'));
-        $repeated[] = $mform->createElement('selectyesno', 'removespace', get_string('removespace', 'qtype_varnumunit'));
+
+        $spaceinunitoptions = qtype_varnumunit::spaceinunit_options();
+        $repeated[] = $mform->createElement('select', 'spaceinunit',
+            get_string('spaceinunit', 'qtype_varnumunit'), $spaceinunitoptions);
+        $repeated[] = $mform->createElement('editor', 'spacesfeedback',
+            get_string('spacingfeedback', 'qtype_varnumunit'),
+            ['rows' => 5], $this->editoroptions);
         $repeated[] = $mform->createElement('selectyesno', 'replacedash', get_string('replacedash', 'qtype_varnumunit'));
         $repeated[] = $mform->createElement('select', 'unitsfraction',
             get_string('grade'), $gradeoptions);
@@ -81,27 +88,38 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
         $question->units = array();
         $question->unitsfraction = array();
-        $question->removespace = array();
+        $question->spaceinunit = array();
+        $question->spacesfeedback = [];
         $question->replacedash = array();
 
         $key = 0;
         foreach ($question->options->units as $unitid => $unit) {
             if ($unit->unit != '*') {
                 $question->units[$key] = $unit->unit;
-                $question->removespace[$key] = $unit->removespace;
+                $question->spaceinunit[$key] = $unit->spaceinunit;
                 $question->replacedash[$key] = $unit->replacedash;
                 $question->unitsfraction[$key] = 0 + $unit->fraction;
 
                 $question->unitsfeedback[$key] = $this->unit_feedback_html_element_preprocess('unitsfeedback['.$key.']',
                                                                                 $unitid,
                                                                                 $unit->feedback,
-                                                                                $unit->feedbackformat);
+                                                                                $unit->feedbackformat,
+                                                                                'unitsfeedback');
+
+                $question->spacesfeedback[$key] = $this->unit_feedback_html_element_preprocess('spacesfeedback['.$key.']',
+                                                                                $unitid,
+                                                                                $unit->spacingfeedback,
+                                                                                $unit->spacingfeedbackformat,
+                                                                                'spacesfeedback');
+                // Unset default value spacesfeedback incase update question.
+                unset($this->_form->_defaultValues["spacesfeedback[$key]"]);
                 $key++;
             } else {
                 $question->otherunitfeedback = $this->unit_feedback_html_element_preprocess('otherunitfeedback',
                                                                                 $unitid,
                                                                                 $unit->feedback,
-                                                                                $unit->feedbackformat);
+                                                                                $unit->feedbackformat,
+                                                                                'unitsfeedback');
 
             }
         }
@@ -109,7 +127,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         return $question;
     }
 
-    protected function unit_feedback_html_element_preprocess($draftitemidkey, $unitid, $feedback, $feedbackformat) {
+    protected function unit_feedback_html_element_preprocess($draftitemidkey, $unitid, $feedback, $feedbackformat, $filearea) {
         // Feedback field and attached files.
         $formelementdata = array();
         $draftitemid = file_get_submitted_draft_itemid($draftitemidkey);
@@ -117,7 +135,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             $draftitemid,
             $this->context->id,
             $this->db_table_prefix(),
-            'unitsfeedback',
+            $filearea,
             (!empty($unitid) ? (int) $unitid : null),
             $this->fileoptions,
             $feedback
@@ -164,7 +182,13 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $repeatedoptions = array();
         $repeatedoptions['units']['type'] = PARAM_RAW_TRIMMED;
         $repeatedoptions["units"]['helpbutton'] = array('units', 'qtype_varnumunit');
-
+        $repeatedoptions["spacesfeedback"]['helpbutton'] = ['spacingfeedback', 'qtype_varnumunit'];
+        // Wating for #257559 Mform disableif does not work on editor element [MDL-29701]. Once this merged, this should work.
+        $repeatedoptions["spacesfeedback"]['disabledif'] = ['spaceinunit', 'neq',
+                qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE];
+        $repeatedoptions["spacesfeedback"]['default'] = [
+                'text' => get_string('spacingfeedback_default', 'qtype_varnumunit')
+        ];
         $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions,
             'noanswers', 'addunits', $addoptions,
             get_string('addmoreunits', 'qtype_varnumunit'), true);
@@ -306,6 +330,11 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             } else if ($data['unitsfraction'][$key] != 0 ||
                 !html_is_blank($data['unitsfeedback'][$key]['text'])) {
                 $errors["units[$key]"] = get_string('unitmustbegiven', 'qtype_varnumunit');
+                $unitcount++;
+            }
+            if ($data['spaceinunit'][$key] == qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE &&
+                html_is_blank($data['spacesfeedback'][$key]['text'])) {
+                $errors["spacesfeedback[$key]"] = get_string('spacesfeedbackmustbegiven', 'qtype_varnumunit');;
                 $unitcount++;
             }
         }

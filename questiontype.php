@@ -42,6 +42,10 @@ class qtype_varnumunit extends qtype_varnumeric_base {
     const SUPERSCRIPT_ALLOWED = 1;
     const SUPERSCRIPT_NONE = 0;
 
+    const SPACEINUNIT_REMOVE_ALL_SPACE = 1;
+    const SPACEINUNIT_PRESERVE_SPACE_NOT_REQUIRE = 0;
+    const SPACEINUNIT_PRESERVE_SPACE_REQUIRE = 2;
+
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $question->requirescinotation = ($questiondata->options->requirescinotation == self::SUPERSCRIPT_SCINOTATION_REQUIRED);
@@ -112,6 +116,9 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             if (html_is_blank($formdata->unitsfeedback[$i]['text'])) {
                 $formdata->unitsfeedback[$i]['text'] = '';
             }
+            if (html_is_blank($formdata->spacesfeedback[$i]['text'])) {
+                $formdata->spacesfeedback[$i]['text'] = '';
+            }
             $this->save_unit($table,
                             $context,
                             $formdata->id,
@@ -119,7 +126,8 @@ class qtype_varnumunit extends qtype_varnumeric_base {
                             $formdata->units[$i],
                             $formdata->unitsfeedback[$i],
                             $formdata->unitsfraction[$i],
-                            !empty($formdata->removespace[$i]),
+                            $formdata->spaceinunit[$i],
+                            $formdata->spacesfeedback[$i],
                             !empty($formdata->replacedash[$i]));
 
         }
@@ -133,17 +141,20 @@ class qtype_varnumunit extends qtype_varnumeric_base {
                             $formdata->otherunitfeedback,
                             0,
                             false,
+                            ['text' => '', 'format' => FORMAT_HTML],
                             false);
         }
         // Delete any remaining old units.
         $fs = get_file_storage();
         foreach ($oldunits as $oldunit) {
             $fs->delete_area_files($context->id, $this->db_table_prefix(), 'unitsfeedback', $oldunit->id);
+            $fs->delete_area_files($context->id, $this->db_table_prefix(), 'spacesfeedback', $oldunit->id);
             $DB->delete_records($table, array('id' => $oldunit->id));
         }
     }
 
-    public function save_unit($table, $context, $questionid, &$oldunits, $unit, $feedback, $fraction, $removespace, $replacedash) {
+    public function save_unit($table, $context, $questionid, &$oldunits, $unit, $feedback, $fraction, $spaceinunit,
+                              $spacingfeedback, $replacedash) {
         global $DB;
         // Update an existing unit if possible.
         $oldunit = array_shift($oldunits);
@@ -152,22 +163,28 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             $unitobj->questionid = $questionid;
             $unitobj->unit = '';
             $unitobj->feedback = '';
+            $unitobj->spacingfeedback = '';
             $unitobj->id = $DB->insert_record($table, $unitobj);
         } else {
             $unitobj = new stdClass();
             $unitobj->questionid = $questionid;
             $unitobj->unit = '';
             $unitobj->feedback = '';
+            $unitobj->spacingfeedback = '';
             $unitobj->id = $oldunit->id;
         }
 
         $unitobj->unit = $unit;
-        $unitobj->removespace = $removespace;
+        $unitobj->spaceinunit = $spaceinunit;
         $unitobj->replacedash = $replacedash;
         $unitobj->fraction = $fraction;
         $unitobj->feedback =
                         $this->import_or_save_files($feedback, $context, $this->db_table_prefix(), 'unitsfeedback', $unitobj->id);
         $unitobj->feedbackformat = $feedback['format'];
+        $unitobj->spacingfeedback = $this->import_or_save_files($spacingfeedback, $context, $this->db_table_prefix(),
+                'spacesfeedback', $unitobj->id);
+        $unitobj->spacingfeedbackformat = $spacingfeedback['format'];
+
         $DB->update_record($table, $unitobj);
     }
 
@@ -194,7 +211,9 @@ class qtype_varnumunit extends qtype_varnumeric_base {
                 $question->options->units[$unitid] = new qtype_varnumunit_unit(
                     $unit->id,
                     $unit->unit,
-                    $unit->removespace,
+                    $unit->spaceinunit,
+                    $unit->spacingfeedback,
+                    $unit->spacingfeedbackformat,
                     $unit->replacedash,
                     $unit->fraction,
                     $unit->feedback,
@@ -260,7 +279,17 @@ class qtype_varnumunit extends qtype_varnumeric_base {
                     $qo->units[$unitno] = $unitname;
                     $qo->unitsfeedback[$unitno] = $this->import_html($format, $unit['#']['unitsfeedback'][0],
                         $qo->questiontextformat);
-                    $qo->removespace[$unitno] = $format->getpath($unit, array('#', 'removespace', 0, '#'), false);
+                    // Check for removespace if import from version 2014111200.
+                    $removespace = $format->getpath($unit, array('#', 'removespace', 0, '#'), false);
+                    if ($removespace !== false) {
+                        $qo->spaceinunit[$unitno] = $removespace;
+                        $qo->spacesfeedback[$unitno] = $this->import_html($format, '',
+                                FORMAT_HTML);
+                    } else {
+                        $qo->spaceinunit[$unitno] = $format->getpath($unit, array('#', 'spaceinunit', 0, '#'), false);
+                        $qo->spacesfeedback[$unitno] = $this->import_html($format, $unit['#']['spacesfeedback'][0],
+                                $qo->questiontextformat);
+                    }
                     $qo->replacedash[$unitno] = $format->getpath($unit, array('#', 'replacedash', 0, '#'), false);
                     $qo->unitsfraction[$unitno] = $format->getpath($unit, array('#', 'unitsfraction', 0, '#'), 0, true);
                     $unitno++;
@@ -293,7 +322,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             $fields = array(
                 'units'         => 'unit',
                 'unitsfraction' => 'fraction',
-                'removespace'   => 'removespace',
+                'spaceinunit'   => 'spaceinunit',
                 'replacedash'   => 'replacedash',
             );
             foreach ($fields as $xmlfield => $dbfield) {
@@ -302,7 +331,8 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             }
             $expout .= $this->export_html($format, 'qtype_varnumunit', 'unitsfeedback', $question->contextid,
                                             $unit, 'feedback', 'unitsfeedback');
-
+            $expout .= $this->export_html($format, 'qtype_varnumunit', 'spacesfeedback', $question->contextid,
+                                            $unit, 'spacingfeedback', 'spacesfeedback');
             $expout .= "    </unit>\n";
         }
         return $expout;
@@ -319,6 +349,19 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $output .= $format->write_files($files);
         $output .= "    </{$xmlfield}>\n";
         return $output;
+    }
+
+    /**
+     * Get spaceinunit options.
+     *
+     * @return array
+     */
+    public static function spaceinunit_options() {
+        return [
+            self::SPACEINUNIT_REMOVE_ALL_SPACE => get_string('removeallspace', 'qtype_varnumunit'),
+            self::SPACEINUNIT_PRESERVE_SPACE_NOT_REQUIRE => get_string('preservespacenotrequire', 'qtype_varnumunit'),
+            self::SPACEINUNIT_PRESERVE_SPACE_REQUIRE => get_string('preservespacerequire', 'qtype_varnumunit'),
+        ];
     }
 }
 
@@ -337,16 +380,21 @@ class qtype_varnumunit_unit {
      * @var string pmatch expression
      */
     public $unit;
-    public $removespace;
+    public $spaceinunit;
+    public $spacingfeedback;
+    public $spacingfeedbackformat;
     public $replacedash;
     public $fraction;
     public $feedback;
     public $feedbackformat;
 
-    public function __construct($id, $unit, $removespace, $replacedash, $fraction, $feedback, $feedbackformat) {
+    public function __construct($id, $unit, $spaceinunit, $spacingfeedback, $spacingfeedbackformat, $replacedash,
+                                $fraction, $feedback, $feedbackformat) {
         $this->id = $id;
         $this->unit = $unit;
-        $this->removespace = $removespace;
+        $this->spaceinunit = $spaceinunit;
+        $this->spacingfeedback = $spacingfeedback;
+        $this->spacingfeedbackformat = $spacingfeedbackformat;
         $this->replacedash = $replacedash;
         $this->fraction = $fraction;
         $this->feedback = $feedback;

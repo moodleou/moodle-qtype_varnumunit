@@ -23,12 +23,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/varnumericset/questionbase.php');
 require_once($CFG->dirroot.'/question/type/pmatch/pmatchlib.php');
-
+require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
 
 /**
  * Represents a varnumunit question.
@@ -48,9 +47,15 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
             return '';
         }
     }
+
     public function get_matching_unit($response) {
         foreach ($this->get_units() as $uid => $unit) {
-            if ($this->check_for_unit_in_response($response, $unit)) {
+            // Clone unit variable because we're going to change the object property.
+            $unit = clone $unit;
+            $unitcorrect = $this->check_for_unit_in_response($response, $unit);
+            $requiresinglespace = $unit->spaceinunit == qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE;
+            $hasspacingfeedback = $unit->feedback == $unit->spacingfeedback;
+            if ($unitcorrect || ($requiresinglespace && $hasspacingfeedback)) {
                 return $unit;
             }
         }
@@ -66,9 +71,6 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     protected function remove_unwanted_chars_from_unit($unitpartofresponse, qtype_varnumunit_unit $unit) {
-        if ($unit->removespace) {
-            $unitpartofresponse = preg_replace('!\s!u', '', $unitpartofresponse);
-        }
         if ($unit->replacedash) {
             $unitpartofresponse = preg_replace('!\p{Pd}!u', '-', $unitpartofresponse);
         }
@@ -84,8 +86,25 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         if ($unit->unit == '*') {
             return $unitpartofresonse !== null;
         }
+
+        if ($unit->spaceinunit == qtype_varnumunit::SPACEINUNIT_REMOVE_ALL_SPACE) {
+            $unitpartofresonse = preg_replace('!\s!u', '', $unitpartofresonse);
+        }
+
         $unitpartofresonse = $this->remove_unwanted_chars_from_unit($unitpartofresonse, $unit);
-        return self::check_for_match_for_unit_pmatch_expression($unitpartofresonse, $unit->unit, $this->pmatch_options());
+        $rightunit = self::check_for_match_for_unit_pmatch_expression($unitpartofresonse, $unit->unit, $this->pmatch_options());
+
+        // Got the right unit, now we'll perform a final check for single space mode.
+        if ($rightunit && $unit->spaceinunit == qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE) {
+            $spacecount = strlen($unitpartofresonse) - strlen(ltrim($unitpartofresonse));
+            if ($spacecount != 1) {
+                $unit->feedback = $unit->spacingfeedback;
+                $unit->fraction = 0;
+                return false;
+            }
+        }
+
+        return $rightunit;
     }
 
     public static function check_for_match_for_unit_pmatch_expression($string, $expression, $options) {
@@ -201,6 +220,9 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         if ($unit === null) {
             $unitclassifiedresponse = question_classified_response::no_response();
         } else {
+            if ($unit->spaceinunit == qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE) {
+                $unitpart = trim($unitpart);
+            }
             $unitclassifiedresponse = new question_classified_response($unit->unit, $unitpart, $unit->fraction);
         }
 

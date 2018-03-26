@@ -102,20 +102,26 @@
     <unit>
       <units>match(m)</units>
       <unitsfraction>1.0000000</unitsfraction>
-      <removespace>0</removespace>
+      <spaceinunit>0</spaceinunit>
       <replacedash>0</replacedash>
-    <unitsfeedback format="html">
-      <text><![CDATA[<p>That is the right unit.<br></p>]]></text>
-    </unitsfeedback>
+      <unitsfeedback format="html">
+        <text><![CDATA[<p>That is the right unit.<br></p>]]></text>
+      </unitsfeedback>
+      <spacesfeedback format="html">
+        <text><![CDATA[<p>You are required to put a space between the number and the unit.<br></p>]]></text>
+      </spacesfeedback>
     </unit>
     <unit>
       <units>*</units>
       <unitsfraction>0.0000000</unitsfraction>
-      <removespace>0</removespace>
+      <spaceinunit>0</spaceinunit>
       <replacedash>0</replacedash>
-    <unitsfeedback format="html">
-      <text><![CDATA[<p>That is the wrong unit.<br></p>]]></text>
-    </unitsfeedback>
+      <unitsfeedback format="html">
+        <text><![CDATA[<p>That is the wrong unit.<br></p>]]></text>
+      </unitsfeedback>
+      <spacesfeedback format="html">
+        <text></text>
+      </spacesfeedback>
     </unit>
     <hint format="html">
       <text><![CDATA[<p>Please try again.<br></p>]]></text>

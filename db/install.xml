@@ -63,9 +63,11 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="unit"/>
-        <FIELD NAME="unit" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="pmatch expression to match unit" PREVIOUS="questionid" NEXT="removespace"/>
-        <FIELD NAME="removespace" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="unit" NEXT="replacedash"/>
-        <FIELD NAME="replacedash" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="removespace" NEXT="fraction"/>
+        <FIELD NAME="unit" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="pmatch expression to match unit" PREVIOUS="questionid" NEXT="spaceinunit"/>
+        <FIELD NAME="spaceinunit" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="unit" NEXT="spacingfeedback"/>
+        <FIELD NAME="spacingfeedback" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="preserve space feedback messages" PREVIOUS="spaceinunit" NEXT="replacedash"/>
+        <FIELD NAME="spacingfeedbackformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" PREVIOUS="spacingfeedback" NEXT="replacedash"/>
+        <FIELD NAME="replacedash" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="spacingfeedbackformat" NEXT="fraction"/>
         <FIELD NAME="fraction" TYPE="number" LENGTH="12" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="7" COMMENT="fraction of grade out of 1 for a unit that this matches." PREVIOUS="replacedash" NEXT="feedback"/>
         <FIELD NAME="feedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="feedback for this unit" PREVIOUS="fraction" NEXT="feedbackformat"/>
         <FIELD NAME="feedbackformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="feedback"/>

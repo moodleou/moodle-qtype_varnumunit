@@ -43,7 +43,12 @@ Feature: Test all the basic functionality of varnumunit question type
       | id_feedback_1        | Sorry, no.                               |
       | Unit 1               | match(m)                                 |
       | id_unitsfraction_0   | 100%                                     |
+      | id_spaceinunit_0     | Remove all spaces before grading         |
       | id_unitsfeedback_0   | That is the right unit.                  |
+      | Unit 2               | match(cm)                                |
+      | id_unitsfraction_1   | 100%                                     |
+      | id_spaceinunit_1     | Remove all spaces before grading         |
+      | id_unitsfeedback_1   | That is the right unit 2.                |
       | id_otherunitfeedback | That is the wrong unit.                  |
       | Hint 1               | Please try again.                        |
       | Hint 2               | You may use a calculator if necessary.   |
@@ -73,6 +78,27 @@ Feature: Test all the basic functionality of varnumunit question type
     Then I should see "That is the right unit."
     And the state of "What is 2 m + 8 m?" question is shown as "Correct"
     And I should see "Mark 2.90 out of 3.00"
+    And I switch to the main window
+
+    # Spacing feedback
+    When I click on "Edit" "link" in the "Variable numeric set with units question" "table_row"
+    And I expand all fieldsets
+    And I select "Remove all spaces before grading" from the "Spaces in units" singleselect
+    # Wating for #257559 Mform disableif does not work on editor element [MDL-29701]. Once this merged, this should be uncommented.
+    # And the "contenteditable" attribute of "div#id_spacesfeedback_0editable" "css_element" should contain "false"
+    And I select "Preserve spaces, but don't require them" from the "Spaces in units" singleselect
+    # Wating for #257559 Mform disableif does not work on editor element [MDL-29701]. Once this merged, this should be uncommented.
+    # And the "contenteditable" attribute of "div#id_spacesfeedback_0editable" "css_element" should contain "false"
+    And I select "Preserve spaces, and require a space between the number and the unit" from the "Spaces in units" singleselect
+    Then the "#id_spacesfeedback_0" "css_element" should be enabled
+    And the field "id_spacesfeedback_0" matches value "You are required to put a space between the number and the unit."
+    And I press "id_submitbutton"
+    And I click on "Preview" "link" in the "Variable numeric set with units question" "table_row"
+    And I switch to "questionpreview" window
+    And I press "Start again with these options"
+    And I set the field "Answer:" to "10m"
+    And I press "Check"
+    Then I should see "You are required to put a space between the number and the unit."
     And I switch to the main window
 
     # Backup the course and restore it.
@@ -111,6 +137,12 @@ Feature: Test all the basic functionality of varnumunit question type
       | Unit 1               | match(m)                                 |
       | id_unitsfraction_0   | 100%                                     |
       | id_unitsfeedback_0   | That is the right unit.                  |
+      | id_spaceinunit_0     | Preserve spaces, and require a space between the number and the unit |
+      | id_spacesfeedback_0  | You are required to put a space between the number and the unit.     |
+      | Unit 2               | match(cm)                                |
+      | id_unitsfraction_1   | 100%                                     |
+      | id_spaceinunit_1     | Remove all spaces before grading         |
+      | id_unitsfeedback_1   | That is the right unit 2.                |
       | id_otherunitfeedback | That is the wrong unit.                  |
       | Hint 1               | Please try again.                        |
       | Hint 2               | You may use a calculator if necessary.   |

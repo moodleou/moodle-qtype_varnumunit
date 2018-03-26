@@ -33,7 +33,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class qtype_varnumunit_test_helper extends question_test_helper {
     public function get_test_questions() {
-        return array('3_sig_figs_with_m_unit', '3_sig_figs_with_units_meters_per_second', 'simple_1_m');
+        return ['3_sig_figs_with_m_unit', '3_sig_figs_with_units_meters_per_second', 'simple_1_m',
+            'require_space_between_number_n_unit'];
     }
 
     /**
@@ -82,22 +83,26 @@ class qtype_varnumunit_test_helper extends question_test_helper {
 
         $vu->options = new stdClass();
         $vu->options->units = array(
-                            1 => new qtype_varnumunit_unit(
-                                                '1',
-                                                'match(m)',
-                                                '1',
-                                                '1',
-                                                '1.0000000',
-                                                '<p>Good!</p>',
-                                                '1'),
-                            2 => new qtype_varnumunit_unit(
-                                        '2',
-                                        '*',
-                                        '1',
-                                        '1',
-                                        '0.0000000',
-                                        '',
-                                        '1'));
+                                1 => new qtype_varnumunit_unit(
+                                    '1',
+                                    'match(m)',
+                                    '1',
+                                    '',
+                                    '1',
+                                    1,
+                                    '1.0000000',
+                                    '<p>Good!</p>',
+                                    '1'),
+                                2 => new qtype_varnumunit_unit(
+                                    '2',
+                                    '*',
+                                    '1',
+                                    '',
+                                    '1',
+                                    1,
+                                    '0.0000000',
+                                    '',
+                                    '1'));
         $calculatorname = $vu->qtype->calculator_name();
         $vu->calculator = new $calculatorname();
         $vu->calculator->evaluate_variant(0);
@@ -153,7 +158,9 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                 '1',
                 'match(ms<sup>-1</sup>)',
                 '1',
+                '',
                 '1',
+                1,
                 '1.0000000',
                 '<p>Good!</p>',
                 '1'),
@@ -161,7 +168,9 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                 '1',
                 'match(m/s)',
                 '1',
+                '',
                 '1',
+                1,
                 '1.0000000',
                 '<p>Good!</p>',
                 '1'),
@@ -169,7 +178,9 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                 '2',
                 '*',
                 '1',
+                '',
                 '1',
+                1,
                 '0.0000000',
                 '',
                 '1'));
@@ -196,24 +207,25 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
         $vu->answers = array(1 => new qtype_varnumericset_answer(
-                '1',    // Id.
-                '1',    // Answer.
-                '1',    // Fraction.
-                '<p>Your answer is correct.</p>', // Feedback.
-                'html', // Feedbackformat.
-                '0',    // Sigfigs.
-                '',     // Error.
-                '0.1000000', // Syserrorpenalty.
-                '0',    // Checknumerical.
-                '0',    // Checkscinotation.
-                '0',    // Checkpowerof10.
-                '0'));  // Checkrounding.
-
+            '1',    // Id.
+            '1',    // Answer.
+            '1',    // Fraction.
+            '<p>Your answer is correct.</p>', // Feedback.
+            'html', // Feedbackformat.
+            '0',    // Sigfigs.
+            '',     // Error.
+            '0.1000000', // Syserrorpenalty.
+            '0',    // Checknumerical.
+            '0',    // Checkscinotation.
+            '0',    // Checkpowerof10.
+            '0'));  // Checkrounding.
         $vu->options = new stdClass();
         $vu->options->units = array(
             1 => new qtype_varnumunit_unit(
                 '1',
                 'match(m)',
+                '1',
+                '',
                 '1',
                 '1',
                 '1.0000000',
@@ -222,6 +234,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
             2 => new qtype_varnumunit_unit(
                 '2',
                 '*',
+                '0',
+                '',
                 '0',
                 '0',
                 '0.0000000',
@@ -234,4 +248,29 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         return $vu;
     }
 
+    /**
+     * @return qtype_varnumunit_question
+     */
+    public function make_varnumunit_question_require_space_between_number_n_unit() {
+        question_bank::load_question_definition_classes('varnumunit');
+        $vu = new qtype_varnumunit_question();
+        test_question_maker::initialise_a_question($vu);
+        $vu->name = 'test question 2';
+        $vu->questiontext = 'The correct answer is 1 m';
+        $vu->generalfeedback = 'General feedback, blah blah.';
+        $vu->penalty = '0.2000000';
+        $vu->randomseed = '';
+        $vu->requirescinotation = false;
+        $vu->usesupeditor = false;
+        $vu->unitfraction = '0.1000000';
+        $vu->qtype = question_bank::get_qtype('varnumunit');
+        $vu->answers = []; // Data create by dataprovider.
+
+        $vu->options = new stdClass();
+        $vu->options->units = []; // Data create by dataprovider.
+        $calculatorname = $vu->qtype->calculator_name();
+        $vu->calculator = new $calculatorname();
+        $vu->calculator->evaluate_variant(0);
+        return $vu;
+    }
 }
