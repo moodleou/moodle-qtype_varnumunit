@@ -38,6 +38,12 @@ require_once($CFG->dirroot . '/question/type/varnumunit/tests/helper.php');
  * @group qtype_varnumunit
  */
 class qtype_varnumunit_walkthrough_test extends qbehaviour_walkthrough_test_base {
+    protected function setUp() {
+        global $PAGE;
+        parent::setUp();
+        $PAGE->set_url('/');
+    }
+
     public function test_validation_and_interactive_with_m_unit_submission_with_no_unit() {
 
         // Create a varnumunit question.
