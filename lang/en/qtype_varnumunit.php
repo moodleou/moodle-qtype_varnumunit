@@ -63,3 +63,4 @@ $string['value'] = 'Value';
 $string['value_help'] = 'Enter values for \'Predefined variables\' here or you will see calculated values displayed here for a
 \'Calculated variable\'.';
 
+$string['privacy:metadata'] = 'The Variable numeric set with units plugin does not store any personal data.';
