@@ -4,7 +4,7 @@
     display: inline;
 }
 .que.varnumunit span.answerwrap {
-    display : inline-block;
+    display: inline-block;
 }
 .que.varnumunit .answer input {
     width: 99%;
@@ -16,12 +16,12 @@ body#page-question-type-varnumunit #fitem_id_addanswers + .fitem,
 body#page-question-type-varnumunit div[id^=fgroup_id_][id*=answeroptions_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=units_],
 body#page-question-type-varnumunit #fitem_id_addunits + .fitem {
-    background: #EEE;
+    background: #eee;
     margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 5px;
     padding-top: 5px;
-    border: 1px solid #BBB;
+    border: 1px solid #bbb;
     border-bottom: 0;
 }
 
@@ -44,12 +44,12 @@ body#page-question-type-varnumunit div[id^=fitem_id_][id*=spacesfeedback_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=replacedash_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=unitsfraction_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=otherunitlabel] + .fitem {
-    background: #EEE;
+    background: #eee;
     margin-bottom: 0;
     margin-top: 0;
     padding-bottom: 5px;
     padding-top: 5px;
-    border: 1px solid #BBB;
+    border: 1px solid #bbb;
     border-top: 0;
     border-bottom: 0;
 }
@@ -57,33 +57,31 @@ body#page-question-type-varnumunit div[id^=fitem_id_][id*=otherunitlabel] + .fit
 body#page-question-type-varnumunit div[id^=fgroup_id_][id*=autofirerow3_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=unitsfeedback_],
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=id_otherunitfeedback] {
-    background: #EEE;
+    background: #eee;
     margin-bottom: 2em;
     margin-top: 0;
     padding-bottom: 5px;
     padding-top: 5px;
-    border: 1px solid #BBB;
+    border: 1px solid #bbb;
     border-top: 0;
 }
 /* Variant Bottom */
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=_variant_last] {
     margin-bottom: 1em;
     margin-top: 0;
-    padding-bottom: 5px;
-    padding-top: 2em;
-    border: 1px solid #BBB;
+    padding: 0;
+    border: 1px solid #bbb;
     border-bottom: 0;
     border-left: 0;
     border-right: 0;
     background: #fff;
-    padding: 0;
 }
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=_variant_last] div,
 body#page-question-type-varnumunit div[id^=fitem_id_][id*=otherunitlabel] textarea {
     display: none;
 }
 body#page-question-type-varnumunit #fitem_id_addvariants,
-body#page-question-type-varnumunit div[id^=fitem_id_][id*=requirescinotation]  + .fitem,
+body#page-question-type-varnumunit div[id^=fitem_id_][id*=requirescinotation] + .fitem,
 body#page-question-type-varnumunit #fitem_id_addunits {
     margin-bottom: 2em;
 }
