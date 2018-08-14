@@ -1,4 +1,9 @@
-# Change log for the Variable numeric question type
+# Change log for the Variable numeric with units question type
+
+
+## Changes in 1.5
+
+* Fix version dependency error with pmatch.
 
 
 ## Changes in 1.4
