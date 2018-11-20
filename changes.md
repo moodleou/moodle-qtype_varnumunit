@@ -1,6 +1,11 @@
 # Change log for the Variable numeric with units question type
 
 
+## Changes in 1.6
+
+* Fix Behat tests to work in Moodle 3.6.
+
+
 ## Changes in 1.5
 
 * Fix version dependency error with pmatch.
