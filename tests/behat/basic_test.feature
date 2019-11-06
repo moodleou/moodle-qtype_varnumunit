@@ -55,7 +55,7 @@ Feature: Test all the basic functionality of varnumunit question type
     Then I should see "Variable numeric set with units question"
 
     # Preview it.
-    When I click on "Preview" "link" in the "Variable numeric set with units question" "table_row"
+    When I choose "Preview" action for "Variable numeric set with units question" in the question bank
     And I switch to "questionpreview" window
     And I set the following fields to these values:
       | How questions behave | Interactive with multiple tries |
@@ -81,7 +81,7 @@ Feature: Test all the basic functionality of varnumunit question type
     And I switch to the main window
 
     # Spacing feedback
-    When I click on "Edit" "link" in the "Variable numeric set with units question" "table_row"
+    When I choose "Edit question" action for "Variable numeric set with units question" in the question bank
     And I expand all fieldsets
     And I select "Remove all spaces before grading" from the "Spaces in units" singleselect
     # Wating for #257559 Mform disableif does not work on editor element [MDL-29701]. Once this merged, this should be uncommented.
@@ -93,7 +93,7 @@ Feature: Test all the basic functionality of varnumunit question type
     Then the "#id_spacesfeedback_0" "css_element" should be enabled
     And the field "id_spacesfeedback_0" matches value "You are required to put a space between the number and the unit."
     And I press "id_submitbutton"
-    And I click on "Preview" "link" in the "Variable numeric set with units question" "table_row"
+    When I choose "Preview" action for "Variable numeric set with units question" in the question bank
     And I switch to "questionpreview" window
     And I press "Start again with these options"
     And I set the field "Answer:" to "10m"
@@ -113,7 +113,7 @@ Feature: Test all the basic functionality of varnumunit question type
     Then I should see "Variable numeric set with units question"
 
     # Edit the copy and verify the form field contents.
-    When I click on "Edit" "link" in the "Variable numeric set with units question" "table_row"
+    When I choose "Edit question" action for "Variable numeric set with units question" in the question bank
     Then the following fields match these values:
       | Question name        | Variable numeric set with units question |
       | Question text        | What is [[a]] m + [[b]] m?               |
