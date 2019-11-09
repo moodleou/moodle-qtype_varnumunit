@@ -1,6 +1,13 @@
 # Change log for the Variable numeric with units question type
 
 
+## Changes in 1.7
+
+* Support for Moodle mobile app for questions that don't use the superscripts/subscript editor.
+* Better grading when the allowed error is very small.
+* Update Behat tests to pass with Moodle 3.8.
+
+
 ## Changes in 1.6
 
 * Fix Behat tests to work in Moodle 3.6.

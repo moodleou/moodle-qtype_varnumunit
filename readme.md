@@ -19,8 +19,8 @@ the Open University (http://www.open.ac.uk/).
 
 ## Installation and set-up
 
-This plugin should be compatible with Moodle 3.4+. It requires that both
-Variable numeric set and Pattern-match question types are installed.
+This plugin requires that both Variable numeric set and
+Pattern-match question types are installed.
 
 ### Install from the plugins database
 
