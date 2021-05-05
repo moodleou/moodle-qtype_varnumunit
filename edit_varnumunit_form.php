@@ -234,7 +234,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
                                     $this->grade_weighting()),
             'generalfeedback'
         );
-        $mform->setDefault('unitfraction', '0.1000000');
+        $mform->setDefault('unitfraction', $this->get_default_value('unitfraction', '0.1000000'));
 
         $mform->removeElement('requirescinotation');
 

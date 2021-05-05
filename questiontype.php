@@ -188,6 +188,12 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $DB->update_record($table, $unitobj);
     }
 
+    public function save_defaults_for_new_questions(stdClass $fromform): void {
+        $grandparent = new question_type();
+        $grandparent->save_defaults_for_new_questions($fromform);
+        $this->set_default_value('unitfraction', $fromform->unitfraction);
+    }
+
     public function save_question_options($form) {
         $parentresult = parent::save_question_options($form);
         if ($parentresult !== null) {

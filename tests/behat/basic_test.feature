@@ -25,6 +25,7 @@ Feature: Test all the basic functionality of varnumunit question type
       | Question name        | Variable numeric set with units question |
       | Question text        | What is [[a]] m + [[b]] m?               |
       | id_vartype_0         | Predefined variable                      |
+      | id_unitfraction      | Value : 90%, Units : 10%                 |
       | Variable 1           | a                                        |
       | id_variant0_0        | 2                                        |
       | id_variant1_0        | 3                                        |
@@ -53,6 +54,13 @@ Feature: Test all the basic functionality of varnumunit question type
       | Hint 1               | Please try again.                        |
       | Hint 2               | You may use a calculator if necessary.   |
     Then I should see "Variable numeric set with units question"
+    # Checking that the next new question form displays user preferences settings.
+    When I press "Create a new question ..."
+    And I set the field "item_qtype_varnumunit" to "1"
+    And I click on "Add" "button" in the "Choose a question type to add" "dialogue"
+    Then the following fields match these values:
+      | id_unitfraction | Value : 90%, Units : 10% |
+    And I press "Cancel"
 
     # Preview it.
     When I choose "Preview" action for "Variable numeric set with units question" in the question bank
