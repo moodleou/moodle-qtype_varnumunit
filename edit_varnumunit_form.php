@@ -64,7 +64,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             ['rows' => 5], $this->editoroptions);
         $repeated[] = $mform->createElement('selectyesno', 'replacedash', get_string('replacedash', 'qtype_varnumunit'));
         $repeated[] = $mform->createElement('select', 'unitsfraction',
-            get_string('grade'), $gradeoptions);
+            get_string('gradeverb'), $gradeoptions);
         $repeated[] = $mform->createElement('editor', 'unitsfeedback',
             get_string('feedback', 'question'),
             array('rows' => 5), $this->editoroptions);
@@ -209,7 +209,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
          */
         $mform->addElement('textarea', 'otherunitlabel',
             get_string('anyotherunit', 'qtype_varnumunit'));
-        $mform->addElement('static', 'otherunitfraction', get_string('grade'), '0%');
+        $mform->addElement('static', 'otherunitfraction', get_string('gradeverb'), '0%');
         $mform->addElement('editor', 'otherunitfeedback', get_string('feedback', 'question'),
             array('rows' => 5), $this->editoroptions);
     }
