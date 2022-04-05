@@ -1,5 +1,12 @@
 # Change log for the Variable numeric with units question type
 
+## Changes in 1.8
+
+* This version works with Moodle 4.0.
+* Question default options are added.
+* Privacy declaration added.
+* Automated test failures are fixed.
+* Switch from Travis to Github actions.
 
 ## Changes in 1.7
 

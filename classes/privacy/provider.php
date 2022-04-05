@@ -27,7 +27,6 @@ use core_privacy\local\request\writer;
 use core_privacy\local\request\transform;
 use stdClass;
 
-defined('MOODLE_INTERNAL') || die();
 /**
  * Privacy Subsystem for qtype_varnumunit implementing user_preference_provider.
  *

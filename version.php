@@ -24,11 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2019110900;
-$plugin->requires  = 2018051700;
+$plugin->version   = 2022050300;
+$plugin->requires  = 2020061500;
 $plugin->component = 'qtype_varnumunit';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.7 for Moodle 3.5+';
+$plugin->release   = '1.8 for Moodle 3.11+';
 
 $plugin->dependencies = array(
     'qtype_varnumericset' => 2019110900,

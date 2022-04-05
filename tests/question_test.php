@@ -178,7 +178,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
     public function question_classify_providers() {
         $data = [];
 
-        $data ['correct_response'] = [
+        $data['correct_response'] = [
                 'qtype' => 'varnumunit',
                 'which' => 'simple_1_m',
                 'qdata' => [

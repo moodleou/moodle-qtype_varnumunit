@@ -22,9 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Test helper class for the varnumunit question type.
  *
@@ -34,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_varnumunit_test_helper extends question_test_helper {
     public function get_test_questions() {
         return ['3_sig_figs_with_m_unit', '3_sig_figs_with_units_meters_per_second', 'simple_1_m',
-            'require_space_between_number_n_unit'];
+            'require_space_between_number_n_unit', 'with_variables'];
     }
 
     /**
@@ -272,5 +269,79 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->calculator = new $calculatorname();
         $vu->calculator->evaluate_variant(0);
         return $vu;
+    }
+    public function make_varnumunit_question_with_variables() {
+        $vu = $this->make_varnumericset_question_no_accepted_error();
+
+        $vu->questiontext = '<p>What is [[a]] m + [[b]] m?</p>';
+        $vu->requirescinotation = 1;
+        $vu->answers[1]->answer = 'a + b';
+        $vu->answers[1]->sigfigs = 1;
+        $vu->answers[1]->checknumerical = 1;
+        $vu->answers[1]->checkscinotation = 1;
+        $vu->options = new stdClass();
+        $vu->options->units = [];
+        $vu->calculator->add_variable(0, 'a');
+        $vu->calculator->add_variable(1, 'b');
+        $vu->calculator->add_defined_variant(0, 0, 2);
+        $vu->calculator->add_defined_variant(1, 0, 3);
+        $vu->calculator->evaluate_variant(0);
+
+        return $vu;
+    }
+    public function get_varnumunit_question_form_data_with_variables() {
+        $form = new stdClass();
+        $form->name = 'Pi to two d.p.';
+        $form->questiontext = ['text' => '<p>What is [[a]] m + [[b]] m?</p>', 'format' => FORMAT_HTML];
+        $form->defaultmark = 1;
+        $form->requirescinotation = 0;
+        $form->randomseed = '';
+        $form->vartype = ['0' => 1, '1' => 1, '2' => 1]; // Set to 'Predefined variable'.
+        $form->novars = 3;
+        $form->noofvariants = 3;
+        $form->varname[0] = 'a';
+        $form->variant0[0] = 2;
+        $form->variant1[0] = 3;
+        $form->variant2[0] = 5;
+        $form->varname[1] = 'b';
+        $form->variant0[1] = 8;
+        $form->variant1[1] = 5;
+        $form->variant2[1] = 3;
+        $form->varname[2] = 'c = a + b';
+        $form->variant_last = ['0' => '', '1' => ''];
+        $form->requirescinotation = 0;
+        $form->answer = ['0' => 'c', '1' => '*'];
+        $form->sigfigs = ['0' => 0, '1' => 0];
+        $form->error = ['0' => '', '1' => ''];
+        $form->checknumerical = ['0' => 0, '1' => 0, '2' => 0];
+        $form->checkscinotation = ['0' => 0, '1' => 0, '2' => 0];
+        $form->checkpowerof10 = ['0' => 0, '1' => 0, '2' => 0];
+        $form->checkrounding = ['0' => 0, '1' => 0, '2' => 0];
+        $form->syserrorpenalty = ['0' => 0.0, '1' => 0.0, '2' => 0.0];
+        $form->fraction = ['0' => '1.0', '1' => '0.0', '2' => '0.0'];
+        $form->feedback = [
+                '0' => ['format' => FORMAT_HTML, 'text' => 'Well done!'],
+                '1' => ['format' => FORMAT_HTML, 'text' => 'Sorry, no.']
+        ];
+        $form->otherunitfeedback = ['text' => '', 'format' => FORMAT_HTML];
+        $form->unit[0] = 'match(m)';
+        $form->spaceinunit[0] = 1;
+        $form->replacedash[0] = true;
+        $form->unitsfraction[0] = '1.0';
+        $form->spacingfeedback[0] = ['text' => '', 'format' => FORMAT_MOODLE];
+        $form->unitsfeedback[0] = 'That is the right unit.';
+        $form->unit[1] = '';
+        $form->spaceinunit[1] = 1;
+        $form->replacedash[1] = true;
+        $form->unitsfraction[1] = '0.0';
+        $form->unitsfeedback[0] = ['text' => 'That is the right unit 2.', 'format' => FORMAT_HTML];
+        $form->spacingfeedback[1] = ['text' => '', 'format' => FORMAT_HTML];
+        $form->penalty = '0.3333333';
+        $form->hint = [
+                ['text' => 'Please try again.', 'format' => FORMAT_HTML],
+                ['text' => 'You may use a calculator if necessary.', 'format' => FORMAT_HTML]
+        ];
+
+        return $form;
     }
 }
