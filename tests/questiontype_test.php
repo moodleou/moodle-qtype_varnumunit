@@ -63,7 +63,7 @@ class qtype_varnumunit_test extends question_testcase {
 
     public function test_get_random_guess_score() {
         $q = $this->get_test_question_data();
-        $this->assertEquals(0.075, $this->qtype->get_random_guess_score($q));
+        $this->assertEqualsWithDelta(0.075, $this->qtype->get_random_guess_score($q), question_testcase::GRADE_DELTA);
     }
 
     public function test_get_possible_responses() {
