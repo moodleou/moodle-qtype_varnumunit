@@ -205,7 +205,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
             $response['answer'] = '';
         }
 
-        list ($numpart, $unitpart) = $this->split_response_into_num_and_unit($response['answer']);
+        [$numpart, $unitpart] = $this->split_response_into_num_and_unit($response['answer']);
         $calculatorname = $this->qtype->calculator_name();
         $numresponsehtmlized = $calculatorname::htmlize_exponent($numpart);
 

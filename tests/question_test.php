@@ -179,8 +179,6 @@ class qtype_varnumunit_question_test extends advanced_testcase {
         $data = [];
 
         $data['correct_response'] = [
-                'qtype' => 'varnumunit',
-                'which' => 'simple_1_m',
                 'qdata' => [
                         'units' => [
                                 1 => new qtype_varnumunit_unit(
@@ -220,8 +218,6 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                 ]
         ];
         $data['correct_response_require_space_between_number_n_unit'] = [
-                'qtype' => 'varnumunit',
-                'which' => 'simple_1_m',
                 'qdata' => [
                         'units' => [
                                 1 => new qtype_varnumunit_unit(
@@ -277,20 +273,20 @@ class qtype_varnumunit_question_test extends advanced_testcase {
      *
      * @dataProvider question_classify_providers
      *
-     * @param string $qtype Question type.
-     * @param string $which Question function name to create.
      * @param array $qdata Question's data.
      * @param array $expects Expected responses.
      * @throws coding_exception
      */
-    public function test_classify_response_correct_response($qtype, $which, $qdata, $expects) {
+    public function test_classify_response_correct_response($qdata, $expects) {
         // Create question.
         $units = $qdata['units'];
         $questionanswers = $qdata['answers'];
         // Loop, get grade response and check for expected.
         foreach ($expects as $answer => $expect) {
             // Add units and answers to question.
-            $question = test_question_maker::make_question($qtype, $which);
+            /** @var qtype_varnumunit_question $question */
+            $question = test_question_maker::make_question('varnumunit', 'simple_1_m');
+
             // We need to re-init here because it already init in simple_1_m helper.
             $question->options->units = [];
             foreach ($units as $unit) {
