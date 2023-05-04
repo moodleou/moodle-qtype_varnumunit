@@ -72,7 +72,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
 
     protected function remove_unwanted_chars_from_unit($unitpartofresponse, qtype_varnumunit_unit $unit) {
         if ($unit->replacedash) {
-            $unitpartofresponse = preg_replace('!\p{Pd}!u', '-', $unitpartofresponse);
+            $unitpartofresponse = preg_replace('!\p{Pd}!u', '-', $unitpartofresponse ?? '');
         }
         return $unitpartofresponse;
     }
@@ -88,7 +88,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         }
 
         if ($unit->spaceinunit == qtype_varnumunit::SPACEINUNIT_REMOVE_ALL_SPACE) {
-            $unitpartofresonse = preg_replace('!\s!u', '', $unitpartofresonse);
+            $unitpartofresonse = preg_replace('!\s!u', '', $unitpartofresonse ?? '');
         }
 
         $unitpartofresonse = $this->remove_unwanted_chars_from_unit($unitpartofresonse, $unit);
