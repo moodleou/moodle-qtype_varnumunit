@@ -152,7 +152,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
         $question = test_question_maker::make_question('varnumunit', 'require_space_between_number_n_unit');
 
         foreach ($answers as $answer) {
-            $questionanswers[] = new qtype_varnumericset_answer(1, $answer, '1', 'Correct', FORMAT_HTML, '0', '', 1, 0, 0, 0, 0, 3);
+            $questionanswers[] = new qtype_varnumericset_answer(1, $answer, '1', 'Correct', FORMAT_HTML, '0', '', 1, 0, 0, 0, 0);
         }
         foreach ($units as $pattern => $params) {
             $questionunits[] = new qtype_varnumunit_unit(1, $pattern, $params['type'], '', 1, 1,
