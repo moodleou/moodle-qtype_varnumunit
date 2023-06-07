@@ -59,6 +59,7 @@ jobs:
       - name: Install moodle-plugin-ci
         run: |
           moodle-plugin-ci add-plugin --branch CTP2106-phpunit-test-fixes dragos5436/moodle-qtype_varnumericset
+          moodle-plugin-ci add-plugin --branch main moodleou/moodle-qtype_pmatch
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
         env:
           DB: ${{ matrix.database }}
