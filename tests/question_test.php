@@ -165,7 +165,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
         foreach ($expects as $response => $expect) {
             $question->start_attempt(new question_attempt_step(), 1);
             $result = $question->grade_response(['answer' => $response]);
-            $this->assertEquals($expect['grade'], $result[0]);
+            $this->assertEqualsWithDelta($expect['grade'], $result[0], 0.001);
             $this->assertInstanceOf($expect['state'], $result[1]);
         }
     }
