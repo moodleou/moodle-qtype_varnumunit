@@ -190,7 +190,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
                 'text' => get_string('spacingfeedback_default', 'qtype_varnumunit')
         ];
         $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions,
-            'noanswers', 'addunits', $addoptions,
+            'nounits', 'addunits', $addoptions,
             get_string('addmoreunits', 'qtype_varnumunit'), true);
     }
 
