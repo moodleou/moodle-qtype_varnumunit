@@ -82,6 +82,9 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     public function check_for_unit_in_response(array $response, qtype_varnumunit_unit $unit) {
+        if (!isset($response['answer'])) {
+            return false;
+        }
         list(, $unitpartofresonse) = $this->split_response_into_num_and_unit($response['answer']);
         if ($unit->unit == '*') {
             return $unitpartofresonse !== null;
