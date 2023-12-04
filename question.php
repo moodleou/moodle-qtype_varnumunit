@@ -40,6 +40,9 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     /** @var $unitfraction float fraction of grade for this question that is for the correct unit. */
     public $unitfraction;
 
+    /** @var qtype_varnumunit_unit[] the units. */
+    public $units;
+
     protected function get_pre_post_validation_error($prefix, $postfix) {
         if (!empty($prefix)) {
             return get_string('notvalidnumberprepostfound', 'qtype_varnumunit');
@@ -63,11 +66,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     }
 
     protected function get_units() {
-        if (!isset($this->options)) {
-            $this->options = new stdClass();
-            $this->qtype->load_units($this);
-        }
-        return $this->options->units;
+        return $this->units;
     }
 
     protected function remove_unwanted_chars_from_unit($unitpartofresponse, qtype_varnumunit_unit $unit) {

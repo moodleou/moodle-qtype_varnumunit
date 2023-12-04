@@ -45,7 +45,6 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->questiontext = '<p>The correct answer is 12300.</p>';
         $vu->generalfeedback = '<p>General feedback 12300.</p>';
         $vu->penalty = 0.3333333;
-        $vu->randomseed = '';
         $vu->requirescinotation = false;
         $vu->usesupeditor = false;
         $vu->unitfraction = '0.2500000';
@@ -78,8 +77,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                                                  '0',     // Checkpowerof10.
                                                  '0'));   // Checkrounding.
 
-        $vu->options = new stdClass();
-        $vu->options->units = array(
+        $vu->units = array(
                                 1 => new qtype_varnumunit_unit(
                                     '1',
                                     'match(m)',
@@ -117,7 +115,6 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->questiontext = 'The correct answer is 4000 m/s or 4e3 ms<sup>-1</sup> etc..';
         $vu->generalfeedback = 'General feedback, blah blah.';
         $vu->penalty = '0.2000000';
-        $vu->randomseed = '';
         $vu->requirescinotation = true;
         $vu->usesupeditor = true;
         $vu->unitfraction = '0.1000000';
@@ -149,8 +146,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                                  '0',    // Checkpowerof10.
                                  '0'));  // Checkrounding.
 
-        $vu->options = new stdClass();
-        $vu->options->units = array(
+        $vu->units = array(
             1 => new qtype_varnumunit_unit(
                 '1',
                 'match(ms<sup>-1</sup>)',
@@ -198,7 +194,6 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->questiontext = 'The correct answer is 1 m';
         $vu->generalfeedback = 'General feedback, blah blah.';
         $vu->penalty = '0.2000000';
-        $vu->randomseed = '';
         $vu->requirescinotation = false;
         $vu->usesupeditor = false;
         $vu->unitfraction = '0.1000000';
@@ -216,8 +211,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
             '0',    // Checkscinotation.
             '0',    // Checkpowerof10.
             '0'));  // Checkrounding.
-        $vu->options = new stdClass();
-        $vu->options->units = array(
+        $vu->units = array(
             1 => new qtype_varnumunit_unit(
                 '1',
                 'match(m)',
@@ -256,15 +250,13 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->questiontext = 'The correct answer is 1 m';
         $vu->generalfeedback = 'General feedback, blah blah.';
         $vu->penalty = '0.2000000';
-        $vu->randomseed = '';
         $vu->requirescinotation = false;
         $vu->usesupeditor = false;
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
         $vu->answers = []; // Data create by dataprovider.
 
-        $vu->options = new stdClass();
-        $vu->options->units = []; // Data create by dataprovider.
+        $vu->units = []; // Data create by dataprovider.
         $calculatorname = $vu->qtype->calculator_name();
         $vu->calculator = new $calculatorname();
         $vu->calculator->evaluate_variant(0);
@@ -279,8 +271,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->answers[1]->sigfigs = 1;
         $vu->answers[1]->checknumerical = 1;
         $vu->answers[1]->checkscinotation = 1;
-        $vu->options = new stdClass();
-        $vu->options->units = [];
+        $vu->units = [];
         $vu->calculator->add_variable(0, 'a');
         $vu->calculator->add_variable(1, 'b');
         $vu->calculator->add_defined_variant(0, 0, 2);

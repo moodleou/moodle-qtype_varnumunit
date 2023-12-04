@@ -51,6 +51,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $question->requirescinotation = ($questiondata->options->requirescinotation == self::SUPERSCRIPT_SCINOTATION_REQUIRED);
         $question->usesupeditor = $questiondata->options->requirescinotation == self::SUPERSCRIPT_SCINOTATION_REQUIRED ||
                         $questiondata->options->requirescinotation == self::SUPERSCRIPT_ALLOWED;
+        $question->units = $questiondata->options->units;
     }
 
     public function recalculate_every_time() {
@@ -211,25 +212,20 @@ class qtype_varnumunit extends qtype_varnumeric_base {
 
     public function load_units($question) {
         global $DB;
-        $units = $DB->get_records($this->db_table_prefix().'_units', array('questionid' => $question->id), 'id ASC');
-        if ($units) {
-            foreach ($units as $unitid => $unit) {
-                $question->options->units[$unitid] = new qtype_varnumunit_unit(
-                    $unit->id,
-                    $unit->unit,
-                    $unit->spaceinunit,
-                    $unit->spacingfeedback,
-                    $unit->spacingfeedbackformat,
-                    $unit->replacedash,
-                    $unit->fraction,
-                    $unit->feedback,
-                    $unit->feedbackformat);
-            }
-
-        } else {
-            $question->options->units = array();
+        $question->options->units = [];
+        foreach ($DB->get_records($this->db_table_prefix() . '_units',
+                ['questionid' => $question->id], 'id ASC') as $unitid => $unit) {
+            $question->options->units[$unitid] = new qtype_varnumunit_unit(
+                $unit->id,
+                $unit->unit,
+                $unit->spaceinunit,
+                $unit->spacingfeedback,
+                $unit->spacingfeedbackformat,
+                $unit->replacedash,
+                $unit->fraction,
+                $unit->feedback,
+                $unit->feedbackformat);
         }
-
     }
 
     public function get_possible_responses($questiondata) {

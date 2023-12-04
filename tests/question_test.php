@@ -159,7 +159,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                     $params['fraction'], 'Right unit', 1);
         }
 
-        $question->options->units = $questionunits;
+        $question->units = $questionunits;
         $question->answers = $questionanswers;
 
         foreach ($expects as $response => $expect) {
@@ -288,9 +288,9 @@ class qtype_varnumunit_question_test extends advanced_testcase {
             $question = test_question_maker::make_question('varnumunit', 'simple_1_m');
 
             // We need to re-init here because it already init in simple_1_m helper.
-            $question->options->units = [];
+            $question->units = [];
             foreach ($units as $unit) {
-                $question->options->units[] = unserialize(serialize($unit));
+                $question->units[] = unserialize(serialize($unit));
             }
             $question->answers = $questionanswers;
 
