@@ -210,12 +210,17 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $this->load_units($question);
     }
 
-    public function load_units($question) {
+    /**
+     * Load the question units, as part of {@see get_question_options}.
+     *
+     * @param $questiondata
+     */
+    public function load_units($questiondata) {
         global $DB;
-        $question->options->units = [];
+        $questiondata->options->units = [];
         foreach ($DB->get_records($this->db_table_prefix() . '_units',
-                ['questionid' => $question->id], 'id ASC') as $unitid => $unit) {
-            $question->options->units[$unitid] = new qtype_varnumunit_unit(
+                ['questionid' => $questiondata->id], 'id ASC') as $unitid => $unit) {
+            $questiondata->options->units[$unitid] = new qtype_varnumunit_unit(
                 $unit->id,
                 $unit->unit,
                 $unit->spaceinunit,
