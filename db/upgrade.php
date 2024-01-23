@@ -51,5 +51,21 @@ function xmldb_qtype_varnumunit_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018050200, 'qtype', 'varnumunit');
     }
 
+    if ($oldversion < 2023120800) {
+
+        // Define field checkscinotationformat to be added to qtype_varnumunit_answers.
+        $table = new xmldb_table('qtype_varnumunit_answers');
+        $field = new xmldb_field('checkscinotationformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0',
+            'checkrounding');
+
+        // Conditionally launch add field checkscinotationformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Varnumunit savepoint reached.
+        upgrade_plugin_savepoint(true, 2023120800, 'qtype', 'varnumunit');
+    }
+
     return true;
 }
