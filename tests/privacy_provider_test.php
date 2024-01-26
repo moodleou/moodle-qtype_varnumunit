@@ -24,11 +24,8 @@
 
 namespace qtype_varnumunit\tests;
 
-use core_privacy\local\metadata\collection;
-use \core_privacy\local\request\user_preference_provider;
 use qtype_varnumunit\privacy\provider;
 use core_privacy\local\request\writer;
-use core_privacy\local\request\transform;
 
 defined('MOODLE_INTERNAL') || die();
 

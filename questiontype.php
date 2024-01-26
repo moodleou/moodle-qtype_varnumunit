@@ -22,13 +22,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use qtype_varnumunit\qtype_varnumunit_unit;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/engine/lib.php');
 require_once($CFG->dirroot . '/question/type/varnumunit/calculator.php');
 require_once($CFG->dirroot . '/question/type/varnumericset/questiontypebase.php');
-
 
 /**
  * The variable numeric with units question type.
@@ -369,42 +370,5 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             self::SPACEINUNIT_PRESERVE_SPACE_NOT_REQUIRE => get_string('preservespacenotrequire', 'qtype_varnumunit'),
             self::SPACEINUNIT_PRESERVE_SPACE_REQUIRE => get_string('preservespacerequire', 'qtype_varnumunit'),
         ];
-    }
-}
-
-
-/**
- * Class to represent a varnumunit question unit, loaded from the qtype_varnumunit_units table
- * in the database.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class qtype_varnumunit_unit {
-
-    public $id;
-    /**
-     * @var string pmatch expression
-     */
-    public $unit;
-    public $spaceinunit;
-    public $spacingfeedback;
-    public $spacingfeedbackformat;
-    public $replacedash;
-    public $fraction;
-    public $feedback;
-    public $feedbackformat;
-
-    public function __construct($id, $unit, $spaceinunit, $spacingfeedback, $spacingfeedbackformat, $replacedash,
-                                $fraction, $feedback, $feedbackformat) {
-        $this->id = $id;
-        $this->unit = $unit;
-        $this->spaceinunit = $spaceinunit;
-        $this->spacingfeedback = $spacingfeedback;
-        $this->spacingfeedbackformat = $spacingfeedbackformat;
-        $this->replacedash = $replacedash;
-        $this->fraction = $fraction;
-        $this->feedback = $feedback;
-        $this->feedbackformat = $feedbackformat;
     }
 }

@@ -14,13 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Test helpers for the varnumunit question type.
- *
- * @package   qtype_varnumunit
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+use qtype_varnumunit\qtype_varnumunit_unit;
 
 global $CFG;
 require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
