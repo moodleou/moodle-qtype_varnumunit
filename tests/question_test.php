@@ -280,21 +280,13 @@ class qtype_varnumunit_question_test extends advanced_testcase {
      * @throws coding_exception
      */
     public function test_classify_response_correct_response($qdata, $expects) {
-        // Create question.
-        $units = $qdata['units'];
-        $questionanswers = $qdata['answers'];
-        // Loop, get grade response and check for expected.
+
         foreach ($expects as $answer => $expect) {
             // Add units and answers to question.
             /** @var qtype_varnumunit_question $question */
             $question = test_question_maker::make_question('varnumunit', 'simple_1_m');
-
-            // We need to re-init here because it already init in simple_1_m helper.
-            $question->units = [];
-            foreach ($units as $unit) {
-                $question->units[] = unserialize(serialize($unit));
-            }
-            $question->answers = $questionanswers;
+            $question->units = $qdata['units'];
+            $question->answers = $qdata['answers'];
 
             $question->start_attempt(new question_attempt_step(), 1);
             $actual = $question->classify_response(['answer' => $answer]);
@@ -305,8 +297,6 @@ class qtype_varnumunit_question_test extends advanced_testcase {
             $this->assertEquals($expect['numericpart']->responseclassid, $actual['numericpart']->responseclassid);
             $this->assertEquals($expect['numericpart']->response, $actual['numericpart']->response);
             $this->assertEquals($expect['numericpart']->fraction, $actual['numericpart']->fraction);
-
-            $question = null;
         }
     }
 }
