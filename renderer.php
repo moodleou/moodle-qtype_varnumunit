@@ -41,7 +41,7 @@ class qtype_varnumunit_renderer extends qtype_varnumeric_renderer_base {
 
         $question = $qa->get_question();
 
-        $unit = $question->get_matching_unit(array('answer' => $qa->get_last_qt_var('answer')));
+        $unit = $question->get_matching_unit(['answer' => $qa->get_last_qt_var('answer')]);
         if (!$unit || !$unit->feedback) {
             return $parentfeedback.'';
         }

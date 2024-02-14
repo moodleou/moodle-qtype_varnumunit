@@ -121,7 +121,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         $gradenumerical = $this->grade_numeric_part_of_response($response);
         $gradeunit = $this->grade_unit_part_of_response($response);
         $overallgrade = $this->weight_grades_for_num_and_unit_part($gradenumerical, $gradeunit);
-        return array($overallgrade, question_state::graded_state_for_fraction($overallgrade));
+        return [$overallgrade, question_state::graded_state_for_fraction($overallgrade)];
     }
 
     protected function weight_grades_for_num_and_unit_part($gradenumerical, $gradeunit) {
@@ -157,7 +157,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         $num = new qtype_varnumericset_number_interpreter_number_with_optional_sci_notation($this->usesupeditor);
         $num->match($response);
         $numeric = $num->get_normalised();
-        return array($numeric, $num->get_postfix());
+        return [$numeric, $num->get_postfix()];
     }
 
     protected function feedback_for_post_prefix_parts($prefix, $postfix) {
@@ -166,10 +166,10 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
 
     public function compute_final_grade($responses, $totaltries) {
         // Remove non numeric part of response to pass numeric part to parent class.
-        $numericresponses = array();
+        $numericresponses = [];
         foreach ($responses as $responseno => $response) {
             list($numericpartofresponse, ) = $this->split_response_into_num_and_unit($response['answer']);
-            $numericresponses[] = array('answer' => $numericpartofresponse);
+            $numericresponses[] = ['answer' => $numericpartofresponse];
         }
 
         $numerictotaltries = $totaltries;
@@ -230,7 +230,7 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
             $unitclassifiedresponse = new question_classified_response($unit->unit, $unitpart, $unit->fraction);
         }
 
-        return array("unitpart" => $unitclassifiedresponse,
-                     "numericpart" => $numericclassifiedresponse);
+        return ["unitpart" => $unitclassifiedresponse,
+                     "numericpart" => $numericclassifiedresponse];
     }
 }

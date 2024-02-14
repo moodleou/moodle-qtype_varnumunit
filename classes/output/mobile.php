@@ -36,10 +36,10 @@ class mobile {
             'templates' => [
                 [
                     'id' => 'main',
-                    'html' => file_get_contents($CFG->dirroot . '/question/type/varnumunit/mobile/varnumunit.html')
+                    'html' => file_get_contents($CFG->dirroot . '/question/type/varnumunit/mobile/varnumunit.html'),
                 ],
             ],
-            'javascript' => file_get_contents($CFG->dirroot . '/question/type/varnumunit/mobile/varnumunit.js')
+            'javascript' => file_get_contents($CFG->dirroot . '/question/type/varnumunit/mobile/varnumunit.js'),
         ];
     }
 }

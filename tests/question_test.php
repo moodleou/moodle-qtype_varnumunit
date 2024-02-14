@@ -14,15 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Unit tests for the varnumunit question definition class.
- *
- * @package   qtype_varnumunit
- * @copyright 2018 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+namespace qtype_varnumunit;
 
-use qtype_varnumunit\qtype_varnumunit_unit;
+use advanced_testcase;
+use qtype_varnumericset_answer;
+use qtype_varnumunit;
+use qtype_varnumunit_question;
+use question_attempt_step;
+use question_classified_response;
+use question_testcase;
+use test_question_maker;
 
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
@@ -34,23 +35,26 @@ require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
 /**
  * Unit tests for the varnumunit question definition class.
  *
+ * @package   qtype_varnumunit
  * @copyright 2018 The Open University
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers    \qtype_varnumunit_question
+ * @covers    \qtype_varnumunit\qtype_varnumunit_unit
  */
-class qtype_varnumunit_question_test extends advanced_testcase {
+class question_test extends advanced_testcase {
 
     /**
      * Provide data for testing test_question_responses.
      *
      * @return array
      */
-    public function space_in_unit_question_providers() {
+    public static function space_in_unit_question_providers(): array {
 
         $data = [];
 
         $data[] = [
                 'units' => [
-                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_REMOVE_ALL_SPACE, 'fraction' => 1]
+                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_REMOVE_ALL_SPACE, 'fraction' => 1],
                 ],
                 'answers' => [1],
                 'expects' => [
@@ -60,12 +64,12 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                         '2 km' => ['grade' => 0.1, 'state' => 'question_state_gradedpartial'],
                         '1 cm' => ['grade' => 0.9, 'state' => 'question_state_gradedpartial'],
                         '2cm' => ['grade' => 0, 'state' => 'question_state_gradedwrong'],
-                        '1 k  m' => ['grade' => 1, 'state' => 'question_state_gradedright']
-                ]
+                        '1 k  m' => ['grade' => 1, 'state' => 'question_state_gradedright'],
+                ],
         ];
         $data[] = [
                 'units' => [
-                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE, 'fraction' => 1]
+                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE, 'fraction' => 1],
                 ],
                 'answers' => [1],
                 'expects' => [
@@ -79,13 +83,13 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                         '1  cm' => ['grade' => 0.9, 'state' => 'question_state_gradedpartial'],
                         '2cm' => ['grade' => 0, 'state' => 'question_state_gradedwrong'],
                         '1 k  m' => ['grade' => 0.9, 'state' => 'question_state_gradedpartial'],
-                        '2 k  m' => ['grade' => 0, 'state' => 'question_state_gradedwrong']
-                ]
+                        '2 k  m' => ['grade' => 0, 'state' => 'question_state_gradedwrong'],
+                ],
         ];
 
         $data[] = [
                 'units' => [
-                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_NOT_REQUIRE, 'fraction' => 1]
+                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_NOT_REQUIRE, 'fraction' => 1],
                 ],
                 'answers' => [1],
                 'expects' => [
@@ -96,15 +100,15 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                         '1 cm' => ['grade' => 0.9, 'state' => 'question_state_gradedpartial'],
                         '2cm' => ['grade' => 0, 'state' => 'question_state_gradedwrong'],
                         '1 k  m' => ['grade' => 0.9, 'state' => 'question_state_gradedpartial'],
-                        '2 k  m' => ['grade' => 0, 'state' => 'question_state_gradedwrong']
-                ]
+                        '2 k  m' => ['grade' => 0, 'state' => 'question_state_gradedwrong'],
+                ],
         ];
 
         $data[] = [
                 'units' => [
                         'match(cm)' => ['type' => qtype_varnumunit::SPACEINUNIT_REMOVE_ALL_SPACE, 'fraction' => 1],
                         'match(dm)' => ['type' => qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_NOT_REQUIRE, 'fraction' => 0.75],
-                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE, 'fraction' => 0.5]
+                        'match(km)' => ['type' => qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE, 'fraction' => 0.5],
                 ],
                 'answers' => [1],
                 'expects' => [
@@ -131,8 +135,8 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                         '10  cm' => ['grade' => 0.1, 'state' => 'question_state_gradedpartial'],
                         '10  dm' => ['grade' => 0.075, 'state' => 'question_state_gradedpartial'],
                         '10  m' => ['grade' => 0, 'state' => 'question_state_gradedwrong'],
-                        '10  km' => ['grade' => 0, 'state' => 'question_state_gradedwrong']
-                ]
+                        '10  km' => ['grade' => 0, 'state' => 'question_state_gradedwrong'],
+                ],
         ];
 
         return $data;
@@ -146,15 +150,15 @@ class qtype_varnumunit_question_test extends advanced_testcase {
      * @param $units
      * @param $answers
      * @param $expects
-     * @throws coding_exception
      */
-    public function test_question_responses($units, $answers, $expects) {
+    public function test_question_responses($units, $answers, $expects): void {
         $questionanswers = [];
         $questionunits = [];
+        /** @var qtype_varnumunit_question $question */
         $question = test_question_maker::make_question('varnumunit', 'require_space_between_number_n_unit');
 
         foreach ($answers as $answer) {
-            $questionanswers[] = new qtype_varnumericset_answer(1, $answer, '1', 'Correct', FORMAT_HTML, '0', '', 1, 0, 0, 0, 0, 0);
+            $questionanswers[] = new qtype_varnumericset_answer(1, $answer, 1, 'Correct', FORMAT_HTML, '0', '', 1, 0, 0, 0, 0, 0);
         }
         foreach ($units as $pattern => $params) {
             $questionunits[] = new qtype_varnumunit_unit(1, $pattern, $params['type'], '', 1, 1,
@@ -177,7 +181,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
      *
      * @return array
      */
-    public function question_classify_providers() {
+    public static function question_classify_providers(): array {
         $data = [];
 
         $data['correct_response'] = [
@@ -197,7 +201,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                                 1 => new qtype_varnumericset_answer(
                                         1,
                                         '1',
-                                        '1',
+                                        1,
                                         'Correct',
                                         FORMAT_HTML,
                                         '0', '',
@@ -207,7 +211,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                                         0,
                                         0,
                                         0),
-                        ]
+                        ],
                 ],
                 'expects' => [
                         '1m' => [
@@ -217,8 +221,8 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                         '' => [
                                 'unitpart' => question_classified_response::no_response(),
                                 'numericpart' => question_classified_response::no_response(),
-                        ]
-                ]
+                        ],
+                ],
         ];
         $data['correct_response_require_space_between_number_n_unit'] = [
                 'qdata' => [
@@ -237,7 +241,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                                 1 => new qtype_varnumericset_answer(
                                         1,
                                         '1',
-                                        '1',
+                                        1,
                                         'Correct',
                                         FORMAT_HTML,
                                         '0', '',
@@ -247,7 +251,7 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                                         0,
                                         0,
                                         0),
-                        ]
+                        ],
                 ],
                 'expects' => [
                         '1m' => [
@@ -265,8 +269,8 @@ class qtype_varnumunit_question_test extends advanced_testcase {
                         '' => [
                                 'unitpart' => question_classified_response::no_response(),
                                 'numericpart' => question_classified_response::no_response(),
-                        ]
-                ]
+                        ],
+                ],
         ];
 
         return $data;
@@ -279,9 +283,8 @@ class qtype_varnumunit_question_test extends advanced_testcase {
      *
      * @param array $qdata Question's data.
      * @param array $expects Expected responses.
-     * @throws coding_exception
      */
-    public function test_classify_response_correct_response($qdata, $expects) {
+    public function test_classify_response_correct_response($qdata, $expects): void {
 
         foreach ($expects as $answer => $expect) {
             // Add units and answers to question.

@@ -16,6 +16,8 @@
 
 use qtype_varnumunit\qtype_varnumunit_unit;
 
+defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
 
@@ -47,7 +49,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->unitfraction = '0.2500000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
 
-        $vu->answers = array(1 => new qtype_varnumericset_answer(
+        $vu->answers = [1 => new qtype_varnumericset_answer(
                                                  '1',     // Id.
                                                  '12345', // Answer.
                                                  '1',     // Fraction.
@@ -74,9 +76,9 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                                                  '0',     // Checkscinotation.
                                                  '0',     // Checkpowerof10.
                                                  '0',     // Checkrounding.
-                                                 '0'));   // Checkscinotationformat.
+                                                 '0')];   // Checkscinotationformat.
 
-        $vu->units = array(
+        $vu->units = [
                                 1 => new qtype_varnumunit_unit(
                                     '1',
                                     'match(m)',
@@ -96,7 +98,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                                     1,
                                     '0.0000000',
                                     '',
-                                    '1'));
+                                    '1')];
         $calculatorname = $vu->qtype->calculator_name();
         $vu->calculator = new $calculatorname();
         $vu->calculator->evaluate_variant(0);
@@ -118,7 +120,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->usesupeditor = true;
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
-        $vu->answers = array(1 => new qtype_varnumericset_answer(
+        $vu->answers = [1 => new qtype_varnumericset_answer(
                                 '1',     // Id.
                                 '4000',  // Answer.
                                 '1',     // Fraction.
@@ -145,9 +147,9 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                                  '0',    // Checkscinotation.
                                  '0',    // Checkpowerof10.
                                  '0',    // Checkrounding.
-                                 '0'));  // Checkscinotationformat.
+                                 '0')];  // Checkscinotationformat.
 
-        $vu->units = array(
+        $vu->units = [
             1 => new qtype_varnumunit_unit(
                 '1',
                 'match(ms<sup>-1</sup>)',
@@ -177,7 +179,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                 1,
                 '0.0000000',
                 '',
-                '1'));
+                '1')];
         $calculatorname = $vu->qtype->calculator_name();
         $vu->calculator = new $calculatorname();
         $vu->calculator->evaluate_variant(0);
@@ -199,7 +201,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->usesupeditor = false;
         $vu->unitfraction = '0.1000000';
         $vu->qtype = question_bank::get_qtype('varnumunit');
-        $vu->answers = array(1 => new qtype_varnumericset_answer(
+        $vu->answers = [1 => new qtype_varnumericset_answer(
             '1',    // Id.
             '1',    // Answer.
             '1',    // Fraction.
@@ -212,8 +214,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
             '0',    // Checkscinotation.
             '0',    // Checkpowerof10.
             '0',    // Checkrounding.
-            '0'));  // Checkscinotationformat.
-        $vu->units = array(
+            '0')];  // Checkscinotationformat.
+        $vu->units = [
             1 => new qtype_varnumunit_unit(
                 '1',
                 'match(m)',
@@ -234,7 +236,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
                 '0.0000000',
                 '<p>That is not the right unit.</p>',
                 '1'),
-        );
+        ];
         $calculatorname = $vu->qtype->calculator_name();
         $vu->calculator = new $calculatorname();
         $vu->calculator->evaluate_variant(0);
@@ -315,7 +317,7 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $form->fraction = ['0' => '1.0', '1' => '0.0', '2' => '0.0'];
         $form->feedback = [
                 '0' => ['format' => FORMAT_HTML, 'text' => 'Well done!'],
-                '1' => ['format' => FORMAT_HTML, 'text' => 'Sorry, no.']
+                '1' => ['format' => FORMAT_HTML, 'text' => 'Sorry, no.'],
         ];
         $form->otherunitfeedback = ['text' => '', 'format' => FORMAT_HTML];
         $form->unit[0] = 'match(m)';
@@ -328,12 +330,12 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $form->spaceinunit[1] = 1;
         $form->replacedash[1] = true;
         $form->unitsfraction[1] = '0.0';
-        $form->unitsfeedback[0] = ['text' => 'That is the right unit 2.', 'format' => FORMAT_HTML];
+        $form->unitsfeedback[1] = ['text' => 'That is the right unit 2.', 'format' => FORMAT_HTML];
         $form->spacingfeedback[1] = ['text' => '', 'format' => FORMAT_HTML];
         $form->penalty = '0.3333333';
         $form->hint = [
                 ['text' => 'Please try again.', 'format' => FORMAT_HTML],
-                ['text' => 'You may use a calculator if necessary.', 'format' => FORMAT_HTML]
+                ['text' => 'You may use a calculator if necessary.', 'format' => FORMAT_HTML],
         ];
 
         return $form;

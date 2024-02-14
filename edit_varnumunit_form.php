@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/varnumericset/edit_varnumericset_form_base.php');
@@ -43,18 +42,15 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
     /**
      * Get list of form elements to repeat for each 'units' block.
-     * @param object $mform the form being built.
-     * @param $label the label to use for the header.
-     * @param $gradeoptions the possible grades for each answer.
-     * @param $repeatedoptions reference to array of repeated options to fill
-     * @param $unitoption reference to return the name of $question->options
-     *                       field holding an array of units
+     * @param MoodleQuickForm $mform the form being built.
+     * @param string $label the label to use for the header.
+     * @param array $gradeoptions the possible grades for each answer.
      * @return array of form fields.
      */
     protected function get_per_unit_fields($mform, $label, $gradeoptions) {
-        $repeated = array();
+        $repeated = [];
         $repeated[] = $mform->createElement('textarea', 'units', $label,
-            array('rows' => '2', 'cols' => '60', 'class' => 'textareamonospace'));
+            ['rows' => '2', 'cols' => '60', 'class' => 'textareamonospace']);
 
         $spaceinunitoptions = qtype_varnumunit::spaceinunit_options();
         $repeated[] = $mform->createElement('select', 'spaceinunit',
@@ -67,7 +63,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             get_string('gradenoun'), $gradeoptions);
         $repeated[] = $mform->createElement('editor', 'unitsfeedback',
             get_string('feedback', 'question'),
-            array('rows' => 5), $this->editoroptions);
+            ['rows' => 5], $this->editoroptions);
         return $repeated;
     }
 
@@ -78,6 +74,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
     /**
      * Perform the necessary preprocessing for the unit fields.
+     *
      * @param object $question the data being passed to the form.
      * @return object $question the modified data.
      */
@@ -86,11 +83,11 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             return $question;
         }
 
-        $question->units = array();
-        $question->unitsfraction = array();
-        $question->spaceinunit = array();
+        $question->units = [];
+        $question->unitsfraction = [];
+        $question->spaceinunit = [];
         $question->spacesfeedback = [];
-        $question->replacedash = array();
+        $question->replacedash = [];
 
         $key = 0;
         foreach ($question->options->units as $unitid => $unit) {
@@ -129,7 +126,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
     protected function unit_feedback_html_element_preprocess($draftitemidkey, $unitid, $feedback, $feedbackformat, $filearea) {
         // Feedback field and attached files.
-        $formelementdata = array();
+        $formelementdata = [];
         $draftitemid = file_get_submitted_draft_itemid($draftitemidkey);
         $formelementdata['text'] = file_prepare_draft_area(
             $draftitemid,
@@ -149,17 +146,17 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
     /**
      * Add a set of form fields, obtained from get_per_answer_fields, to the form,
      * one for each existing answer, with some blanks for some new ones.
-     * @param object $mform the form being built.
-     * @param $label the label to use for each option.
-     * @param $gradeoptions the possible grades for each answer.
-     * @param int|\the $minoptions the minimum number of answer blanks to display.
+     * @param MoodleQuickForm $mform the form being built.
+     * @param string $label the label to use for each option.
+     * @param array $gradeoptions the possible grades for each answer.
+     * @param int $minoptions the minimum number of answer blanks to display.
      *      Default QUESTION_NUMANS_START.
-     * @param int|\the $addoptions the number of answer blanks to add. Default QUESTION_NUMANS_ADD.
+     * @param int $addoptions the number of answer blanks to add. Default QUESTION_NUMANS_ADD.
      * @return void
      */
-    protected function add_per_unit_fields(&$mform, $label, $gradeoptions,
-                                             $minoptions = QUESTION_NUMANS_START, $addoptions = QUESTION_NUMANS_ADD) {
-        global $DB;
+    protected function add_per_unit_fields($mform, $label, $gradeoptions,
+            $minoptions = QUESTION_NUMANS_START, $addoptions = QUESTION_NUMANS_ADD) {
+
         $repeated = $this->get_per_unit_fields($mform, $label, $gradeoptions);
 
         if (isset($this->question->options)) {
@@ -179,15 +176,15 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             $repeatsatstart = $minoptions;
         }
 
-        $repeatedoptions = array();
+        $repeatedoptions = [];
         $repeatedoptions['units']['type'] = PARAM_RAW_TRIMMED;
-        $repeatedoptions["units"]['helpbutton'] = array('units', 'qtype_varnumunit');
+        $repeatedoptions["units"]['helpbutton'] = ['units', 'qtype_varnumunit'];
         $repeatedoptions["spacesfeedback"]['helpbutton'] = ['spacingfeedback', 'qtype_varnumunit'];
         // Wating for #257559 Mform disableif does not work on editor element [MDL-29701]. Once this merged, this should work.
         $repeatedoptions["spacesfeedback"]['disabledif'] = ['spaceinunit', 'neq',
                 qtype_varnumunit::SPACEINUNIT_PRESERVE_SPACE_REQUIRE];
         $repeatedoptions["spacesfeedback"]['default'] = [
-                'text' => get_string('spacingfeedback_default', 'qtype_varnumunit')
+                'text' => get_string('spacingfeedback_default', 'qtype_varnumunit'),
         ];
         $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions,
             'nounits', 'addunits', $addoptions,
@@ -211,7 +208,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             get_string('anyotherunit', 'qtype_varnumunit'));
         $mform->addElement('static', 'otherunitfraction', get_string('gradenoun'), '0%');
         $mform->addElement('editor', 'otherunitfeedback', get_string('feedback', 'question'),
-            array('rows' => 5), $this->editoroptions);
+            ['rows' => 5], $this->editoroptions);
     }
 
     protected function add_answer_form_part($mform) {
@@ -238,16 +235,14 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
         $mform->removeElement('requirescinotation');
 
-        $requirescinotationoptions = array(
+        $requirescinotationoptions = [
            qtype_varnumunit::SUPERSCRIPT_SCINOTATION_REQUIRED => get_string('superscriptscinotationrequired',  'qtype_varnumunit'),
            qtype_varnumunit::SUPERSCRIPT_ALLOWED => get_string('superscriptallowed', 'qtype_varnumunit'),
-           qtype_varnumunit::SUPERSCRIPT_NONE => get_string('superscriptnone', 'qtype_varnumunit')
-        );
+           qtype_varnumunit::SUPERSCRIPT_NONE => get_string('superscriptnone', 'qtype_varnumunit'),
+        ];
 
         $requirescinotationel = $mform->createElement('select',
-                                                        'requirescinotation',
-                                                        get_string('superscripts', 'qtype_varnumunit'),
-                                                        $requirescinotationoptions);
+            'requirescinotation', get_string('superscripts', 'qtype_varnumunit'), $requirescinotationoptions);
 
         $mform->insertElementBefore($requirescinotationel, 'answersinstruct');
     }
@@ -263,7 +258,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         // b. p/10 for 0 <= p <= 10
         // c. 1/q for 1 <= q <= 10
         // d. 1/20.
-        $rawfractions = array(
+        $rawfractions = [
             1.0000000,
             0.9000000,
             0.8333333,
@@ -285,9 +280,9 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             0.1000000,
             0.0500000,
 
-        );
+        ];
 
-        $fractionoptions = array();
+        $fractionoptions = [];
 
         foreach ($rawfractions as $fraction) {
             $a = new stdClass();
@@ -304,7 +299,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $units = $data['units'];
         $unitcount = 0;
         $maxgrade = false;
-        $trimmedunits = array();
+        $trimmedunits = [];
         foreach ($units as $key => $unit) {
             $trimmedunit = trim($unit);
             if ($trimmedunit !== '') {

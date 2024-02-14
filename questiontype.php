@@ -64,7 +64,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
     }
 
     public function extra_question_fields() {
-        return array($this->db_table_prefix(), 'randomseed', 'requirescinotation', 'unitfraction');
+        return [$this->db_table_prefix(), 'randomseed', 'requirescinotation', 'unitfraction'];
     }
 
     protected function delete_files_in_units($questionid, $contextid) {
@@ -72,7 +72,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $fs = get_file_storage();
 
         $tablename = $this->db_table_prefix().'_units';
-        $unitids = $DB->get_records_menu($tablename, array('questionid' => $questionid), 'id', 'id,1');
+        $unitids = $DB->get_records_menu($tablename, ['questionid' => $questionid], 'id', 'id,1');
         foreach ($unitids as $unitid => $notused) {
             $fs->delete_area_files($contextid, $this->db_table_prefix(), 'unitsfeedback', $unitid);
         }
@@ -82,7 +82,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         global $DB;
         $fs = get_file_storage();
         $tablename = $this->db_table_prefix().'_units';
-        $unitids = $DB->get_records_menu($tablename, array('questionid' => $questionid), 'id', 'id,1');
+        $unitids = $DB->get_records_menu($tablename, ['questionid' => $questionid], 'id', 'id,1');
         foreach ($unitids as $unitid => $notused) {
             $fs->move_area_files_to_new_context($oldcontextid,
                 $newcontextid, $this->db_table_prefix(), 'unitsfeedback', $unitid);
@@ -92,7 +92,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
     public function delete_question($questionid, $contextid) {
         global $DB;
         $tablename = $this->db_table_prefix().'_units';
-        $DB->delete_records($tablename, array('questionid' => $questionid));
+        $DB->delete_records($tablename, ['questionid' => $questionid]);
         parent::delete_question($questionid, $contextid);
     }
 
@@ -100,9 +100,9 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         global $DB;
         $context = $formdata->context;
         $table = $this->db_table_prefix().'_units';
-        $oldunits = $DB->get_records($table, array('questionid' => $formdata->id), 'id ASC');
+        $oldunits = $DB->get_records($table, ['questionid' => $formdata->id], 'id ASC');
         if (empty($oldunits)) {
-            $oldunits = array();
+            $oldunits = [];
         }
 
         if (!empty($formdata->units)) {
@@ -151,7 +151,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         foreach ($oldunits as $oldunit) {
             $fs->delete_area_files($context->id, $this->db_table_prefix(), 'unitsfeedback', $oldunit->id);
             $fs->delete_area_files($context->id, $this->db_table_prefix(), 'spacesfeedback', $oldunit->id);
-            $DB->delete_records($table, array('id' => $oldunit->id));
+            $DB->delete_records($table, ['id' => $oldunit->id]);
         }
     }
 
@@ -239,7 +239,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $numericresponses = $parentresponses[$questiondata->id];
 
         $matchall = false;
-        $unitresponses = array();
+        $unitresponses = [];
         foreach ($questiondata->options->units as $unitid => $unit) {
             if ('*' === $unit->unit) {
                 $matchall = true;
@@ -251,8 +251,8 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         }
         $unitresponses[null] = question_possible_response::no_response();
 
-        return array("unitpart" => $unitresponses,
-                     "numericpart" => $numericresponses);
+        return ["unitpart" => $unitresponses,
+                     "numericpart" => $numericresponses];
     }
 
     public function get_random_guess_score($questiondata) {
@@ -282,42 +282,42 @@ class qtype_varnumunit extends qtype_varnumeric_base {
             $units = $data['#']['unit'];
             $unitno = 0;
             foreach ($units as $unit) {
-                $unitname = $format->getpath($unit, array('#', 'units', 0, '#'), '', true);
+                $unitname = $format->getpath($unit, ['#', 'units', 0, '#'], '', true);
                 if ('*' !== $unitname) {
                     $qo->units[$unitno] = $unitname;
                     $qo->unitsfeedback[$unitno] = $this->import_html($format, $unit['#']['unitsfeedback'][0],
                         $qo->questiontextformat);
                     // Check for removespace if import from version 2014111200.
-                    $removespace = $format->getpath($unit, array('#', 'removespace', 0, '#'), false);
+                    $removespace = $format->getpath($unit, ['#', 'removespace', 0, '#'], false);
                     if ($removespace !== false) {
                         $qo->spaceinunit[$unitno] = $removespace;
                         $qo->spacesfeedback[$unitno] = $this->import_html($format, '',
                                 FORMAT_HTML);
                     } else {
-                        $qo->spaceinunit[$unitno] = $format->getpath($unit, array('#', 'spaceinunit', 0, '#'), false);
+                        $qo->spaceinunit[$unitno] = $format->getpath($unit, ['#', 'spaceinunit', 0, '#'], false);
                         $qo->spacesfeedback[$unitno] = $this->import_html($format, $unit['#']['spacesfeedback'][0],
                                 $qo->questiontextformat);
                     }
-                    $qo->replacedash[$unitno] = $format->getpath($unit, array('#', 'replacedash', 0, '#'), false);
-                    $qo->unitsfraction[$unitno] = $format->getpath($unit, array('#', 'unitsfraction', 0, '#'), 0, true);
+                    $qo->replacedash[$unitno] = $format->getpath($unit, ['#', 'replacedash', 0, '#'], false);
+                    $qo->unitsfraction[$unitno] = $format->getpath($unit, ['#', 'unitsfraction', 0, '#'], 0, true);
                     $unitno++;
                 } else {
                     $qo->otherunitfeedback = $this->import_html($format, $unit['#']['unitsfeedback'][0], $qo->questiontextformat);
                 }
             }
             if (!isset($qo->otherunitfeedback)) {
-                $qo->otherunitfeedback = array('text' => '', 'format' => $qo->questiontextformat);
+                $qo->otherunitfeedback = ['text' => '', 'format' => $qo->questiontextformat];
             }
         }
         return $qo;
     }
 
     protected function import_html(qformat_xml $format, $data, $defaultformat) {
-        $text = array();
-        $text['text'] = $format->getpath($data, array('#', 'text', 0, '#'), '', true);
-        $text['format'] = $format->trans_format($format->getpath($data, array('@', 'format'),
+        $text = [];
+        $text['text'] = $format->getpath($data, ['#', 'text', 0, '#'], '', true);
+        $text['format'] = $format->trans_format($format->getpath($data, ['@', 'format'],
                                                 $format->get_format($defaultformat)));
-        $text['files'] = $format->import_files($format->getpath($data, array('#', 'file'), array(), false));
+        $text['files'] = $format->import_files($format->getpath($data, ['#', 'file'], [], false));
 
         return $text;
     }
@@ -327,12 +327,12 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $units = $question->options->units;
         foreach ($units as $unit) {
             $expout .= "    <unit>\n";
-            $fields = array(
+            $fields = [
                 'units'         => 'unit',
                 'unitsfraction' => 'fraction',
                 'spaceinunit'   => 'spaceinunit',
                 'replacedash'   => 'replacedash',
-            );
+            ];
             foreach ($fields as $xmlfield => $dbfield) {
                 $exportedvalue = $format->xml_escape($unit->$dbfield);
                 $expout .= "      <$xmlfield>{$exportedvalue}</$xmlfield>\n";

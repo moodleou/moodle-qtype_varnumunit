@@ -29,7 +29,7 @@ Feature: Preview a Variable numeric set with units question
       | Marked out of        | 3                               |
       | Question variant     | 1                               |
       | Marks                | Show mark and max               |
-    And I press "Start again with these options"
+    And I press "id_saverestart"
     Then I should see "What is 2 m + 8 m?"
     And the state of "What is 2 m + 8 m?" question is shown as "Tries remaining: 3"
     When I set the field "Answer:" to "2"

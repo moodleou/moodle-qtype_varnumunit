@@ -34,16 +34,16 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
      */
     protected function define_question_plugin_structure() {
 
-        $paths = array();
+        $paths = [];
 
         // This qtype uses question_answers, add them.
         $this->add_question_question_answers($paths);
 
-        $elements = array('qtype_varnumunit' => '/varnumunit',
+        $elements = ['qtype_varnumunit' => '/varnumunit',
                             'qtype_varnumunit_answer' => '/varnumunit_answers/varnumunit_answer',
                             'qtype_varnumunit_var' => '/vars/var',
                             'qtype_varnumunit_variant' => '/vars/var/variants/variant',
-                            'qtype_varnumunit_unit' => '/units/unit');
+                            'qtype_varnumunit_unit' => '/units/unit'];
         foreach ($elements as $elename => $path) {
             $elepath = $this->get_pathfor($path);
             $paths[] = new restore_path_element($elename, $elepath);

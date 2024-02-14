@@ -22,10 +22,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace qtype_varnumunit\tests;
+namespace qtype_varnumunit;
 
-use qtype_varnumunit\privacy\provider;
 use core_privacy\local\request\writer;
+use qtype_varnumunit\privacy\provider;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -35,20 +35,21 @@ require_once($CFG->dirroot . '/question/type/varnumunit/classes/privacy/provider
 /**
  * Privacy provider tests class.
  *
- * @package    qtype_varnumunit
- * @copyright  2021 The Open university
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_varnumunit
+ * @copyright 2021 The Open university
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers    \qtype_varnumunit\privacy\provider
  */
-class qtype_varnumunit_privacy_provider_testcase extends \core_privacy\tests\provider_testcase {
+class privacy_provider_test extends \core_privacy\tests\provider_testcase {
     // Include the privacy helper which has assertions on it.
 
-    public function test_get_metadata() {
+    public function test_get_metadata(): void {
         $collection = new \core_privacy\local\metadata\collection('qtype_varnumunit');
-        $actual = \qtype_varnumunit\privacy\provider::get_metadata($collection);
+        $actual = provider::get_metadata($collection);
         $this->assertEquals($collection, $actual);
     }
 
-    public function test_export_user_preferences_no_pref() {
+    public function test_export_user_preferences_no_pref(): void {
         $this->resetAfterTest();
 
         $user = $this->getDataGenerator()->create_user();
@@ -65,7 +66,7 @@ class qtype_varnumunit_privacy_provider_testcase extends \core_privacy\tests\pro
      * @param string $value The value stored in the database
      * @param string $expected The expected transformed value
      */
-    public function test_export_user_preferences($name, $value, $expected) {
+    public function test_export_user_preferences($name, $value, $expected): void {
         $this->resetAfterTest();
         $user = $this->getDataGenerator()->create_user();
         set_user_preference("qtype_varnumunit_$name", $value, $user);
@@ -89,7 +90,7 @@ class qtype_varnumunit_privacy_provider_testcase extends \core_privacy\tests\pro
      *
      * @return array Array of valid user preferences.
      */
-    public function user_preference_provider() {
+    public static function user_preference_provider(): array {
         return [
                 'default mark 1' => ['defaultmark', 1, 1],
                 'penalty 33.33333%' => ['penalty', 0.3333333, '33.33333%'],
@@ -98,7 +99,7 @@ class qtype_varnumunit_privacy_provider_testcase extends \core_privacy\tests\pro
                 'unitfraction 0.1111111' => ['unitfraction', 0.1111111, 'Value : 88.88889%, Units : 11.11111%'],
                 'unitfraction 0.1250000' => ['unitfraction', 0.1250000, 'Value : 87.5%, Units : 12.5%'],
                 'unitfraction 0.1666667' => ['unitfraction', 0.1666667, 'Value : 83.33333%, Units : 16.66667%'],
-                'unitfraction 0.2000000' => ['unitfraction', 0.2000000, 'Value : 80%, Units : 20%']
+                'unitfraction 0.2000000' => ['unitfraction', 0.2000000, 'Value : 80%, Units : 20%'],
         ];
     }
 }

@@ -30,9 +30,9 @@ $plugin->component = 'qtype_varnumunit';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->release   = '1.8 for Moodle 3.11+';
 
-$plugin->dependencies = array(
+$plugin->dependencies = [
     'qtype_varnumericset' => 2019110900,
     'qtype_pmatch'        => 2019091000,
-);
+];
 
 $plugin->outestssufficient = true;

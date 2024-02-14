@@ -60,15 +60,15 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
         $this->add_question_qtype_varnumunit_units($pluginwrapper);
 
         // Now create the qtype own structures.
-        $varnumunit = new backup_nested_element('varnumunit', array('id'), array(
-            'randomseed', 'recalculateeverytime', 'requirescinotation', 'unitfraction'));
+        $varnumunit = new backup_nested_element('varnumunit', ['id'], [
+            'randomseed', 'recalculateeverytime', 'requirescinotation', 'unitfraction']);
 
         // Now the own qtype tree.
         $pluginwrapper->add_child($varnumunit);
 
         // Set source to populate the data.
         $varnumunit->set_source_table('qtype_varnumunit',
-                array('questionid' => backup::VAR_PARENTID));
+                ['questionid' => backup::VAR_PARENTID]);
 
         // Don't need to annotate ids nor files.
 
@@ -83,8 +83,8 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         // Define the elements.
         $vars = new backup_nested_element('vars');
-        $var = new backup_nested_element('var', array('id'),
-                                                array('varno', 'nameorassignment'));
+        $var = new backup_nested_element('var', ['id'],
+                                                ['varno', 'nameorassignment']);
 
         $this->add_question_qtype_varnumunit_variants($var);
 
@@ -94,7 +94,7 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         // Set source to populate the data.
         $var->set_source_table('qtype_varnumunit_vars',
-                                                array('questionid' => backup::VAR_PARENTID));
+                                                ['questionid' => backup::VAR_PARENTID]);
     }
 
     protected function add_question_qtype_varnumunit_variants($element) {
@@ -106,8 +106,8 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         // Define the elements.
         $variants = new backup_nested_element('variants');
-        $variant = new backup_nested_element('variant', array('id'),
-                                                array('varid', 'variantno', 'value'));
+        $variant = new backup_nested_element('variant', ['id'],
+                                                ['varid', 'variantno', 'value']);
 
         // Build the tree.
         $element->add_child($variants);
@@ -115,7 +115,7 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         // Set source to populate the data.
         $variant->set_source_table('qtype_varnumunit_variants',
-                                                array('varid' => backup::VAR_PARENTID));
+                                                ['varid' => backup::VAR_PARENTID]);
     }
 
     protected function add_question_qtype_varnumunit_answers($element) {
@@ -127,9 +127,9 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         // Define the elements.
         $answers = new backup_nested_element('varnumunit_answers');
-        $answer = new backup_nested_element('varnumunit_answer', array('id'), array(
+        $answer = new backup_nested_element('varnumunit_answer', ['id'], [
             'answerid', 'error', 'sigfigs', 'checknumerical', 'checkscinotation',
-            'checkpowerof10', 'checkrounding', 'syserrorpenalty', 'checkscinotationformat'));
+            'checkpowerof10', 'checkrounding', 'syserrorpenalty', 'checkscinotationformat']);
 
         // Build the tree.
         $element->add_child($answers);
@@ -142,7 +142,7 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
                   JOIN {question_answers} ans ON ans.id = vans.answerid
                  WHERE ans.question = :question
               ORDER BY id',
-                array('question' => backup::VAR_PARENTID));
+                ['question' => backup::VAR_PARENTID]);
         // Don't need to annotate ids or files.
     }
 
@@ -164,7 +164,7 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
 
         // Set source to populate the data.
         $unit->set_source_table('qtype_varnumunit_units',
-                array('questionid' => backup::VAR_PARENTID), 'id ASC');
+                ['questionid' => backup::VAR_PARENTID], 'id ASC');
     }
 
     /**
@@ -174,6 +174,6 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {
-        return array('unitsfeedback' => 'qtype_varnumunit_unit');
+        return ['unitsfeedback' => 'qtype_varnumunit_unit'];
     }
 }
