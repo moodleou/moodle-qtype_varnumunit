@@ -36,6 +36,7 @@ require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
  */
 class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
 
+    #[\Override]
     public function qtype() {
         return 'varnumunit';
     }
@@ -67,6 +68,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         return $repeated;
     }
 
+    #[\Override]
     protected function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
         return $this->data_preprocessing_units($question);
@@ -124,6 +126,15 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         return $question;
     }
 
+    /**
+     * Prepares the data for the unit feedback HTML element.
+     *
+     * @param string $draftitemidkey the draft item id key.
+     * @param int $unitid the unit id.
+     * @param string $feedback the feedback text.
+     * @param int $feedbackformat the format of the feedback text.
+     * @param string $filearea the file area for the feedback.
+     */
     protected function unit_feedback_html_element_preprocess($draftitemidkey, $unitid, $feedback, $feedbackformat, $filearea) {
         // Feedback field and attached files.
         $formelementdata = [];
@@ -211,6 +222,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
             ['rows' => 5], $this->editoroptions);
     }
 
+    #[\Override]
     protected function add_answer_form_part($mform) {
         $this->add_per_answer_fields($mform, get_string('answerno', 'qtype_varnumericset', '{no}'),
                                                                     question_bank::fraction_options(), 2, 1);
@@ -220,6 +232,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $this->add_other_unit_fields($mform);
     }
 
+    #[\Override]
     protected function definition() {
         parent::definition();
         $mform = $this->_form;
@@ -247,11 +260,17 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         $mform->insertElementBefore($requirescinotationel, 'answersinstruct');
     }
 
+    #[\Override]
     protected function definition_inner($mform) {
         parent::definition_inner($mform);
         $this->add_add_more_variant_button($mform);
     }
 
+    /**
+     * Returns an array of grade weightings for the unit fractions.
+     *
+     * @return array
+     */
     protected static function grade_weighting() {
         // Define basic array of grades. This list comprises all fractions of the form:
         // a. p/q for q <= 6, 0 <= p <= q
@@ -294,6 +313,7 @@ class qtype_varnumunit_edit_form extends qtype_varnumeric_edit_form_base {
         return $fractionoptions;
     }
 
+    #[\Override]
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
         $units = $data['units'];

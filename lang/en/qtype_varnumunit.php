@@ -42,19 +42,23 @@ $string['pluginnameadding'] = 'Adding a Variable numeric set question with units
 $string['pluginnameediting'] = 'Editing a Variable numeric set question with units';
 $string['pluginnamesummary'] = 'Allows a numeric response with units, question can have several \'variants\',
 expressions are pre evaluated for each question variant';
-$string['spaceinunit'] = 'Spaces in units';
-$string['spacingfeedback'] = 'Spacing feedback';
-$string['spacingfeedback_help'] = 'Messages to display when "Space and units" is "Preserve spaces, and require a space between the number and the unit"';
-$string['spacingfeedback_default'] = 'You are required to put a space between the number and the unit.';
-$string['spacesfeedbackmustbegiven'] = 'You have select option "Preserve spaces, and require a space between the number and the unit" but not specified feedback for this option. Please enter a feedback.';
-$string['removeallspace'] = 'Remove all spaces before grading';
 $string['preservespacenotrequire'] = 'Preserve spaces, but don\'t require them';
 $string['preservespacerequire'] = 'Preserve spaces, and require a space between the number and the unit';
+$string['privacy:metadata'] = 'Variable numeric set with units question type plugin allows question authors to set default options as user preferences.';
+$string['privacy:preference:defaultmark'] = 'The default mark set for a given question.';
+$string['privacy:preference:penalty'] = 'The penalty for each Variable numeric set with units try when questions are run using the \'Interactive with multiple tries\' or \'Adaptive mode\' behaviour.';
+$string['privacy:preference:unitfraction'] = 'How the distribution of \'Relative weightings of answer parts\' (value and unit in persentage) is set.';
+$string['removeallspace'] = 'Remove all spaces before grading';
 $string['replacedash'] = 'Replace dashes';
+$string['spaceinunit'] = 'Spaces in units';
+$string['spacesfeedbackmustbegiven'] = 'You have select option "Preserve spaces, and require a space between the number and the unit" but not specified feedback for this option. Please enter a feedback.';
+$string['spacingfeedback'] = 'Spacing feedback';
+$string['spacingfeedback_default'] = 'You are required to put a space between the number and the unit.';
+$string['spacingfeedback_help'] = 'Messages to display when "Space and units" is "Preserve spaces, and require a space between the number and the unit"';
 $string['summarise_response'] = 'Number : "{$a->numeric}", Unit : "{$a->unit}"';
-$string['superscripts'] = 'In student response';
 $string['superscriptallowed'] = 'Allow, but not require, superscripts';
 $string['superscriptnone'] = 'No superscripts';
+$string['superscripts'] = 'In student response';
 $string['superscriptscinotationrequired'] = 'Require scientific notation';
 $string['unitduplicate'] = 'Same pmatch expression used more than once.';
 
@@ -70,7 +74,3 @@ $string['value'] = 'Value';
 $string['value_help'] = 'Enter values for \'Predefined variables\' here or you will see calculated values displayed here for a
 \'Calculated variable\'.';
 
-$string['privacy:metadata'] = 'Variable numeric set with units question type plugin allows question authors to set default options as user preferences.';
-$string['privacy:preference:defaultmark'] = 'The default mark set for a given question.';
-$string['privacy:preference:penalty'] = 'The penalty for each Variable numeric set with units try when questions are run using the \'Interactive with multiple tries\' or \'Adaptive mode\' behaviour.';
-$string['privacy:preference:unitfraction'] = 'How the distribution of \'Relative weightings of answer parts\' (value and unit in persentage) is set.';

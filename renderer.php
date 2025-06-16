@@ -17,8 +17,7 @@
 /**
  * Variable numeric question renderer class.
  *
- * @package    qtype
- * @subpackage varnumunit
+ * @package    qtype_varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -36,6 +35,7 @@ require_once($CFG->dirroot . '/question/type/varnumericset/rendererbase.php');
  */
 class qtype_varnumunit_renderer extends qtype_varnumeric_renderer_base {
 
+    #[\Override]
     public function specific_feedback(question_attempt $qa) {
         $parentfeedback = parent::specific_feedback($qa);
 
@@ -50,6 +50,7 @@ class qtype_varnumunit_renderer extends qtype_varnumeric_renderer_base {
             $qa, 'question', 'answerfeedback', $unit->id);
     }
 
+    #[\Override]
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
 

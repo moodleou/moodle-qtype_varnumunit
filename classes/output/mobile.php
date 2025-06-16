@@ -25,6 +25,11 @@ namespace qtype_varnumunit\output;
  */
 class mobile {
 
+    /**
+     * Returns the mobile view for the variable numeric with units question type.
+     *
+     * @return array
+     */
     public static function varnumunit_view() {
         global $CFG;
         // General notes:

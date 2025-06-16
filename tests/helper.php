@@ -24,16 +24,21 @@ require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
 /**
  * Test helper class for the varnumunit question type.
  *
+ * @package   qtype_varnumunit
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_varnumunit_test_helper extends question_test_helper {
+
+    #[\Override]
     public function get_test_questions() {
         return ['3_sig_figs_with_m_unit', '3_sig_figs_with_units_meters_per_second', 'simple_1_m',
             'require_space_between_number_n_unit', 'with_variables'];
     }
 
     /**
+     * Creates a varnumunit question with 3 significant figures and a unit of meters.
+     *
      * @return qtype_varnumunit_question
      */
     public function make_varnumunit_question_3_sig_figs_with_m_unit() {
@@ -106,6 +111,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
     }
 
     /**
+     * Creates a varnumunit question with 3 significant figures and units of meters per second.
+     *
      * @return qtype_varnumunit_question
      */
     public function make_varnumunit_question_3_sig_figs_with_units_meters_per_second() {
@@ -187,6 +194,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
     }
 
     /**
+     * Creates a varnumunit question with a simple answer of 1 m.
+     *
      * @return qtype_varnumunit_question
      */
     public function make_varnumunit_question_simple_1_m() {
@@ -244,6 +253,8 @@ class qtype_varnumunit_test_helper extends question_test_helper {
     }
 
     /**
+     * Creates a varnumunit question that requires a space between the number and the unit.
+     *
      * @return qtype_varnumunit_question
      */
     public function make_varnumunit_question_require_space_between_number_n_unit() {
@@ -266,6 +277,12 @@ class qtype_varnumunit_test_helper extends question_test_helper {
         $vu->calculator->evaluate_variant(0);
         return $vu;
     }
+
+    /**
+     * Creates a varnumunit question with no accepted error.
+     *
+     * @return qtype_varnumunit_question
+     */
     public function make_varnumunit_question_with_variables() {
         $vu = $this->make_varnumericset_question_no_accepted_error();
 
@@ -284,6 +301,12 @@ class qtype_varnumunit_test_helper extends question_test_helper {
 
         return $vu;
     }
+
+    /**
+     * Returns the form data for a varnumunit question with variables.
+     *
+     * @return stdClass
+     */
     public function get_varnumunit_question_form_data_with_variables() {
         $form = new stdClass();
         $form->name = 'Pi to two d.p.';

@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Backup plugin class that provides the necessary information
+ *
  * @package   qtype_varnumunit
  * @copyright 2011 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -75,6 +77,11 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
         return $plugin;
     }
 
+    /**
+     * Adds the vars element to the question structure.
+     *
+     * @param backup_nested_element $element The parent element to which the vars will be added.
+     */
     protected function add_question_qtype_varnumunit_vars($element) {
         // Check $element is one nested_backup_element.
         if (! $element instanceof backup_nested_element) {
@@ -97,6 +104,11 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
                                                 ['questionid' => backup::VAR_PARENTID]);
     }
 
+    /**
+     * Adds the variants element to the question structure.
+     *
+     * @param backup_nested_element $element The parent element to which the variants will be added.
+     */
     protected function add_question_qtype_varnumunit_variants($element) {
         // Check $element is one nested_backup_element.
         if (! $element instanceof backup_nested_element) {
@@ -118,6 +130,11 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
                                                 ['varid' => backup::VAR_PARENTID]);
     }
 
+    /**
+     * Adds the answers element to the question structure.
+     *
+     * @param backup_nested_element $element The parent element to which the answers will be added.
+     */
     protected function add_question_qtype_varnumunit_answers($element) {
         // Check $element is one nested_backup_element.
         if (! $element instanceof backup_nested_element) {
@@ -146,6 +163,11 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
         // Don't need to annotate ids or files.
     }
 
+    /**
+     * Adds the units element to the question structure.
+     *
+     * @param backup_nested_element $element The parent element to which the units will be added.
+     */
     protected function add_question_qtype_varnumunit_units($element) {
         // Check $element is one nested_backup_element.
         if (! $element instanceof backup_nested_element) {
@@ -170,7 +192,7 @@ class backup_qtype_varnumunit_plugin extends backup_qtype_plugin {
     /**
      * Returns one array with filearea => mappingname elements for the qtype.
      *
-     * Used by {@link get_components_and_fileareas} to know about all the qtype
+     * Used by {@see get_components_and_fileareas} to know about all the qtype
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {
