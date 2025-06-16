@@ -39,14 +39,49 @@ require_once($CFG->dirroot . '/question/type/varnumericset/questiontypebase.php'
  */
 class qtype_varnumunit extends qtype_varnumeric_base {
 
+    /**
+     * The calculator for this question type.
+     *
+     * @var int
+     */
     const SUPERSCRIPT_SCINOTATION_REQUIRED = 2;
+
+    /**
+     * Superscript notation options.
+     *
+     * @var int
+     */
     const SUPERSCRIPT_ALLOWED = 1;
+
+    /**
+     * Superscript notation options.
+     *
+     * @var int
+     */
     const SUPERSCRIPT_NONE = 0;
 
+    /**
+     * Space in unit options.
+     *
+     * @var int
+     */
     const SPACEINUNIT_REMOVE_ALL_SPACE = 1;
+
+    /**
+     * Space in unit options.
+     *
+     * @var int
+     */
     const SPACEINUNIT_PRESERVE_SPACE_NOT_REQUIRE = 0;
+
+    /**
+     * Space in unit options.
+     *
+     * @var int
+     */
     const SPACEINUNIT_PRESERVE_SPACE_REQUIRE = 2;
 
+    #[\Override]
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $question->requirescinotation = ($questiondata->options->requirescinotation == self::SUPERSCRIPT_SCINOTATION_REQUIRED);
@@ -55,18 +90,27 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $question->units = $questiondata->options->units;
     }
 
+    #[\Override]
     public function recalculate_every_time() {
         return false;
     }
 
+    #[\Override]
     public function db_table_prefix() {
         return 'qtype_varnumunit';
     }
 
+    #[\Override]
     public function extra_question_fields() {
         return [$this->db_table_prefix(), 'randomseed', 'requirescinotation', 'unitfraction'];
     }
 
+    /**
+     * Delete files in units for a question.
+     *
+     * @param int $questionid The question ID.
+     * @param int $contextid The context ID.
+     */
     protected function delete_files_in_units($questionid, $contextid) {
         global $DB;
         $fs = get_file_storage();
@@ -78,6 +122,13 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         }
     }
 
+    /**
+     * Move files in units from old context to new context.
+     *
+     * @param int $questionid The question ID.
+     * @param int $oldcontextid The old context ID.
+     * @param int $newcontextid The new context ID.
+     */
     protected function move_files_in_units($questionid, $oldcontextid, $newcontextid) {
         global $DB;
         $fs = get_file_storage();
@@ -89,6 +140,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         }
     }
 
+    #[\Override]
     public function delete_question($questionid, $contextid) {
         global $DB;
         $tablename = $this->db_table_prefix().'_units';
@@ -96,6 +148,11 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         parent::delete_question($questionid, $contextid);
     }
 
+    /**
+     * Save the units for a question.
+     *
+     * @param stdClass $formdata The form data containing the units and their feedback.
+     */
     public function save_units($formdata) {
         global $DB;
         $context = $formdata->context;
@@ -155,6 +212,20 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         }
     }
 
+    /**
+     * Save a unit to the database.
+     *
+     * @param string $table The database table name.
+     * @param context $context The context for the question.
+     * @param int $questionid The question ID.
+     * @param array $oldunits The old units to be replaced.
+     * @param string $unit The unit text.
+     * @param array $feedback The feedback for the unit.
+     * @param float $fraction The fraction for the unit.
+     * @param int $spaceinunit The space in unit option.
+     * @param array $spacingfeedback The spacing feedback for the unit.
+     * @param bool $replacedash Whether to replace dashes in the unit.
+     */
     public function save_unit($table, $context, $questionid, &$oldunits, $unit, $feedback, $fraction, $spaceinunit,
                               $spacingfeedback, $replacedash) {
         global $DB;
@@ -190,12 +261,14 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         $DB->update_record($table, $unitobj);
     }
 
+    #[\Override]
     public function save_defaults_for_new_questions(stdClass $fromform): void {
         $grandparent = new question_type();
         $grandparent->save_defaults_for_new_questions($fromform);
         $this->set_default_value('unitfraction', $fromform->unitfraction);
     }
 
+    #[\Override]
     public function save_question_options($form) {
         $parentresult = parent::save_question_options($form);
         if ($parentresult !== null) {
@@ -206,6 +279,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return null;
     }
 
+    #[\Override]
     public function get_question_options($question) {
         parent::get_question_options($question);
         $this->load_units($question);
@@ -214,7 +288,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
     /**
      * Load the question units, as part of {@see get_question_options}.
      *
-     * @param $questiondata
+     * @param question_definition $questiondata The question data object to populate with units.
      */
     public function load_units($questiondata) {
         global $DB;
@@ -234,6 +308,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         }
     }
 
+    #[\Override]
     public function get_possible_responses($questiondata) {
         $parentresponses = parent::get_possible_responses($questiondata);
         $numericresponses = $parentresponses[$questiondata->id];
@@ -255,6 +330,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
                      "numericpart" => $numericresponses];
     }
 
+    #[\Override]
     public function get_random_guess_score($questiondata) {
         foreach ($questiondata->options->answers as $aid => $answer) {
             if ('*' == trim($answer->answer)) {
@@ -264,13 +340,16 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return 0;
     }
 
-    // IMPORT/EXPORT FUNCTIONS.
-
-    /*
+    /**
      * Imports question from the Moodle XML format
      *
      * Imports question using information from extra_question_fields function
      * If some of you fields contains id's you'll need to reimplement this
+     *
+     * @param array $data The question data in XML format.
+     * @param question_definition $question The question object to populate.
+     * @param qformat_xml $format The format to use for importing.
+     * @param mixed $extra Additional data that may be needed for the import.
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
         $qo = parent::import_from_xml($data, $question, $format, $extra);
@@ -312,6 +391,13 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return $qo;
     }
 
+    /**
+     * Import HTML content from the XML format.
+     *
+     * @param qformat_xml $format The format to use for importing.
+     * @param array $data The data to import.
+     * @param string $defaultformat The default format to use if not specified.
+     */
     protected function import_html(qformat_xml $format, $data, $defaultformat) {
         $text = [];
         $text['text'] = $format->getpath($data, ['#', 'text', 0, '#'], '', true);
@@ -322,6 +408,7 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return $text;
     }
 
+    #[\Override]
     public function export_to_xml($question, qformat_xml $format, $extra=null) {
         $expout = parent::export_to_xml($question, $format, $extra);
         $units = $question->options->units;
@@ -346,6 +433,17 @@ class qtype_varnumunit extends qtype_varnumeric_base {
         return $expout;
     }
 
+    /**
+     * Export a field to XML format.
+     *
+     * @param qformat_xml $format The format to use for exporting.
+     * @param string $component The component name.
+     * @param string $filearea The file area name.
+     * @param int $contextid The context ID.
+     * @param stdClass $rec The record containing the data to export.
+     * @param string $dbfield The database field name.
+     * @param string $xmlfield The XML field name.
+     */
     public function export_html($format, $component, $filearea, $contextid, $rec, $dbfield, $xmlfield) {
         $fs = get_file_storage();
         $files = $fs->get_area_files($contextid, $component, $filearea, $rec->id);

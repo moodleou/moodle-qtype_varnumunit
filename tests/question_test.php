@@ -41,7 +41,7 @@ require_once($CFG->dirroot . '/question/type/varnumunit/questiontype.php');
  * @covers    \qtype_varnumunit_question
  * @covers    \qtype_varnumunit\qtype_varnumunit_unit
  */
-class question_test extends advanced_testcase {
+final class question_test extends advanced_testcase {
 
     /**
      * Provide data for testing test_question_responses.
@@ -147,9 +147,9 @@ class question_test extends advanced_testcase {
      *
      * @dataProvider space_in_unit_question_providers
      *
-     * @param $units
-     * @param $answers
-     * @param $expects
+     * @param array $units Array of units with their patterns and parameters.
+     * @param array $answers Array of answers.
+     * @param array $expects Array of expected responses with their grades and states.
      */
     public function test_question_responses($units, $answers, $expects): void {
         $questionanswers = [];

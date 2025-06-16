@@ -17,8 +17,7 @@
 /**
  * The varnumunit question definition class.
  *
- * @package    qtype
- * @subpackage varnumunit
+ * @package    qtype_varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -45,6 +44,12 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
     /** @var qtype_varnumunit_unit[] the units. */
     public $units;
 
+    /**
+     * Gets the validation error message for pre and post validation.
+     *
+     * @param string $prefix The prefix of the response.
+     * @param string $postfix The postfix of the response.
+     */
     protected function get_pre_post_validation_error($prefix, $postfix) {
         if (!empty($prefix)) {
             return get_string('notvalidnumberprepostfound', 'qtype_varnumunit');
@@ -53,6 +58,11 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         }
     }
 
+    /**
+     * Returns the matching answer for the response.
+     *
+     * @param array $response The response to check.
+     */
     public function get_matching_unit($response) {
         foreach ($this->get_units() as $uid => $unit) {
             // Clone unit variable because we're going to change the object property.
@@ -67,10 +77,22 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return null;
     }
 
+    /**
+     * Returns the matching answer for the response.
+     */
     protected function get_units() {
         return $this->units;
     }
 
+    /**
+     * Removes unwanted characters from the unit part of the response.
+     *
+     * This method is used to ensure that the unit part of the response
+     * conforms to the expected format, such as replacing dashes with spaces.
+     *
+     * @param string $unitpartofresponse The unit part of the response.
+     * @param qtype_varnumunit_unit $unit The unit object containing formatting rules.
+     */
     protected function remove_unwanted_chars_from_unit($unitpartofresponse, qtype_varnumunit_unit $unit) {
         if ($unit->replacedash) {
             $unitpartofresponse = preg_replace('!\p{Pd}!u', '-', $unitpartofresponse ?? '');
@@ -78,10 +100,23 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return $unitpartofresponse;
     }
 
+    /**
+     * Returns the pmatch options for this question type.
+     *
+     * Override this method in subclasses to provide specific pmatch options.
+     *
+     * @return array|null The pmatch options or null if not applicable.
+     */
     protected function pmatch_options() {
         return null;
     }
 
+    /**
+     * Checks if the unit part of the response matches the expected unit.
+     *
+     * @param array $response The response to check.
+     * @param qtype_varnumunit_unit $unit The unit to check against.
+     */
     public function check_for_unit_in_response(array $response, qtype_varnumunit_unit $unit) {
         if (!isset($response['answer'])) {
             return false;
@@ -111,12 +146,20 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return $rightunit;
     }
 
+    /**
+     * Checks if a string matches a pmatch expression.
+     *
+     * @param string $string The string to check.
+     * @param string $expression The pmatch expression to match against.
+     * @param array $options Options for the pmatch library.
+     */
     public static function check_for_match_for_unit_pmatch_expression($string, $expression, $options) {
         $string = new pmatch_parsed_string($string, $options);
         $expression = new pmatch_expression($expression, $options);
         return $expression->matches($string);
     }
 
+    #[\Override]
     public function grade_response(array $response) {
         $gradenumerical = $this->grade_numeric_part_of_response($response);
         $gradeunit = $this->grade_unit_part_of_response($response);
@@ -124,11 +167,22 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return [$overallgrade, question_state::graded_state_for_fraction($overallgrade)];
     }
 
+    /**
+     * Weights the grades for the numeric and unit parts of the response.
+     *
+     * @param float $gradenumerical The grade for the numeric part.
+     * @param float $gradeunit The grade for the unit part.
+     */
     protected function weight_grades_for_num_and_unit_part($gradenumerical, $gradeunit) {
         $unitfraction = $this->unitfraction;
         return ((1 - $unitfraction) * $gradenumerical) + (($unitfraction) * $gradeunit);
     }
 
+    /**
+     * Grades the unit part of the response.
+     *
+     * @param array $response The response to grade.
+     */
     protected function grade_unit_part_of_response($response) {
         $unit = $this->get_matching_unit($response);
         if (!is_null($unit)) {
@@ -138,11 +192,17 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         }
     }
 
+    /**
+     * Grades the numeric part of the response.
+     *
+     * @param array $response The response to grade.
+     */
     protected function grade_numeric_part_of_response($response) {
         list($gradenumerical, ) = parent::grade_response($response);
         return $gradenumerical;
     }
 
+    #[\Override]
     public function summarise_response(array $response) {
         if (isset($response['answer'])) {
             $a = new stdClass();
@@ -153,6 +213,12 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         }
     }
 
+    /**
+     * Split the response into numeric and unit parts.
+     *
+     * @param string $response The response to split.
+     * @return array An array containing the numeric part and the unit part.
+     */
     protected function split_response_into_num_and_unit($response) {
         $num = new qtype_varnumericset_number_interpreter_number_with_optional_sci_notation($this->usesupeditor);
         $num->match($response);
@@ -160,10 +226,12 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return [$numeric, $num->get_postfix()];
     }
 
+    #[\Override]
     protected function feedback_for_post_prefix_parts($prefix, $postfix) {
         return '';
     }
 
+    #[\Override]
     public function compute_final_grade($responses, $totaltries) {
         // Remove non numeric part of response to pass numeric part to parent class.
         $numericresponses = [];
@@ -204,6 +272,12 @@ class qtype_varnumunit_question extends qtype_varnumeric_question_base {
         return $this->weight_grades_for_num_and_unit_part($numericpartfraction, $unitpartfraction);
     }
 
+    /**
+     * Classify the response into numeric and unit parts.
+     *
+     * @param array $response The response to classify.
+     * @return array An associative array with 'unitpart' and 'numericpart' classified responses.
+     */
     public function classify_response(array $response) {
         if (!isset($response['answer'])) {
             $response['answer'] = '';

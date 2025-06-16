@@ -17,12 +17,16 @@
 /**
  * The varnumunit question type upgrade code.
  *
- * @package    qtype
- * @subpackage varnumunitt
+ * @package    qtype_varnumunit
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * Upgrade code for the varnumericset question type.
+ *
+ * @param int $oldversion the version we are upgrading from.
+ */
 function xmldb_qtype_varnumunit_upgrade($oldversion) {
     global $CFG, $DB;
     $dbman = $DB->get_manager();

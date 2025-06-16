@@ -24,6 +24,14 @@
 
 /**
  * Checks file access for varnumunit questions.
+ *
+ * @param stdClass $course The course the question belongs to.
+ * @param stdClass $cm The course module.
+ * @param context $context The context of the question.
+ * @param string $filearea The file area being accessed.
+ * @param array $args The arguments for the file.
+ * @param bool $forcedownload Whether to force download the file.
+ * @param array $options Additional options for file serving.
  */
 function qtype_varnumunit_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options= []) {
     global $DB, $CFG;

@@ -37,14 +37,26 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers    \qtype_varnumunit
  */
-class questiontype_test extends question_testcase {
+final class questiontype_test extends question_testcase {
 
+    /**
+     * The question type being tested.
+     *
+     * @var qtype_varnumunit
+     */
     protected $qtype;
 
+    #[\Override]
     protected function setUp(): void {
+        parent::setUp();
         $this->qtype = new qtype_varnumunit();
     }
 
+    /**
+     * Returns a test question data object.
+     *
+     * @return stdClass
+     */
     protected function get_test_question_data(): stdClass {
         $q = new stdClass();
         $q->id = 1;

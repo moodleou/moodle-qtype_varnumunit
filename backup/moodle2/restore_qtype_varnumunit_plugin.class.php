@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Restore plugin class that provides the necessary information.
+ *
  * @package    qtype_varnumunit
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -64,8 +66,8 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
         }
 
         if (isset($backupdata["plugin_qtype_{$qtype}_question"]['varnumunit_answers']['varnumunit_answer'])) {
-            foreach ($backupdata["plugin_qtype_{$qtype}_question"]['varnumunit_answers']['varnumunit_answer']
-                as $varnumunitanswer) {
+            $dataanswers = $backupdata["plugin_qtype_{$qtype}_question"]['varnumunit_answers']['varnumunit_answer'];
+            foreach ($dataanswers as $varnumunitanswer) {
                 foreach ($questiondata->options->answers as &$answer) {
                     if ($answer->id == $varnumunitanswer['answerid']) {
                         $answer->sigfigs = $varnumunitanswer['sigfigs'];
@@ -100,6 +102,8 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
 
     /**
      * Process the qtype/varnumunit element.
+     *
+     * @param array $data The data to process.
      */
     public function process_qtype_varnumunit($data) {
         global $DB;
@@ -127,6 +131,8 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
 
     /**
      * Process the qtype/varnumunit_answer element.
+     *
+     * @param array $data The data to process.
      */
     public function process_qtype_varnumunit_answer($data) {
         global $DB;
@@ -145,6 +151,12 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
             $this->set_mapping('qtype_varnumunit_answer', $data->id, $newitemid);
         }
     }
+
+    /**
+     * Process the qtype/varnumunit_var element.
+     *
+     * @param array $data The data to process.
+     */
     public function process_qtype_varnumunit_var($data) {
         global $DB;
 
@@ -163,6 +175,11 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
         }
     }
 
+    /**
+     * Process the qtype/varnumunit_unit element.
+     *
+     * @param array $data The data to process.
+     */
     public function process_qtype_varnumunit_unit($data) {
         global $DB;
 
@@ -186,6 +203,11 @@ class restore_qtype_varnumunit_plugin extends restore_qtype_plugin {
         }
     }
 
+    /**
+     * Process the qtype/varnumunit_variant element.
+     *
+     * @param array $data The data to process.
+     */
     public function process_qtype_varnumunit_variant($data) {
         global $DB;
 

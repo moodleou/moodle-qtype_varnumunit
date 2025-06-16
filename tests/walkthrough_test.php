@@ -39,7 +39,7 @@ require_once($CFG->dirroot . '/question/type/varnumunit/tests/helper.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers    \qtype_varnumunit_question
  */
-class walkthrough_test extends qbehaviour_walkthrough_test_base {
+final class walkthrough_test extends qbehaviour_walkthrough_test_base {
     protected function setUp(): void {
         global $PAGE;
         parent::setUp();
