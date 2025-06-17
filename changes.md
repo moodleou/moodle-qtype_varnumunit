@@ -1,5 +1,22 @@
 # Change log for the Variable numeric with units question type
 
+## Changes in 1.9
+
+* This version is compatible with Moodle 5.0.
+* Fixed coding style issues.
+* Defined excluded hash fields and implemented conversion of legacy backup data
+  to align with new question data format (per MDL-83541).
+* Resolved warning: undefined array key text in spacesfeedback.
+* Fix backup and restore tests to run synchronously in Moodle 4.4.
+* Fix test question configurations.
+* Changed the unit class to be autoloaded, to prevent issues during question data unserialization.
+* Added a new option to the question editing form: “If scientific notation is not formatted correctly”,
+  allowing users to choose whether to accept a space between the number and unit as a valid response.
+* Fix a bug where editing question with multiple answers, caused some of the answers being lost.
+* Improved handling of number formatting on the question editing form.
+* Added checks for empty variables to prevent save errors on the edit form.
+* Automation test failures are fixed.
+
 ## Changes in 1.8
 
 * This version works with Moodle 4.0.
