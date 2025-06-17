@@ -1,5 +1,15 @@
 # Change log for the Variable numeric with units question type
 
+## Changes in 1.9
+* This version works with Moodle 5.0.
+* Automation test failures are fixed.
+* Cherry-picked commits since february 2024 till now:
+  * Fix text question config
+  * Fix backup and restore tests to run synchronously M4.4
+  * Fix undefined array key text in spacesfeedback
+  * Define excluded hash fields and convert legacy backup data to new question data
+* Upgrade the CI to support Moodle 5.0 (PHP 8.3), and update the branch to support branch MOODLE_405_STABLE, and MOODLE_500_STABLE.
+
 ## Changes in 1.8
 
 * This version works with Moodle 4.0.
