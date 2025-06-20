@@ -23,7 +23,7 @@
  */
 
 /**
- * Upgrade code for the varnumericset question type.
+ * Upgrade code for the varnumunit question type.
  *
  * @param int $oldversion the version we are upgrading from.
  */
